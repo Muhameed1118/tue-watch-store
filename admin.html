@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Inventory</title>
+    <title>TUE Admin | Stock Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-zinc-50 min-h-screen flex items-center justify-center p-6">
-    <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-xl border border-zinc-100">
-        <h2 class="text-4xl font-black mb-10 text-zinc-900 tracking-tighter">Post New Watch</h2>
+<body class="bg-zinc-100 min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-2xl border border-zinc-200">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-black text-zinc-900 tracking-tighter">TUE Admin</h2>
+            <p class="text-zinc-400 text-xs font-bold uppercase mt-2 tracking-widest">Add New Inventory</p>
+        </div>
         
-        <div class="space-y-5">
-            <div>
-                <label class="text-xs font-bold text-zinc-400 uppercase ml-2">Model Name</label>
-                <input id="name" type="text" placeholder="e.g. Rolex Submariner" class="w-full bg-zinc-100 p-4 rounded-2xl outline-none focus:ring-2 ring-yellow-500">
-            </div>
-            <div>
-                <label class="text-xs font-bold text-zinc-400 uppercase ml-2">Price (PKR)</label>
-                <input id="price" type="number" placeholder="55000" class="w-full bg-zinc-100 p-4 rounded-2xl outline-none focus:ring-2 ring-yellow-500">
-            </div>
-            <div>
-                <label class="text-xs font-bold text-zinc-400 uppercase ml-2">Image Direct Link</label>
-                <input id="url" type="text" placeholder="https://i.postimg.cc/..." class="w-full bg-zinc-100 p-4 rounded-2xl outline-none focus:ring-2 ring-yellow-500">
+        <div class="space-y-6">
+            <input id="name" type="text" placeholder="Watch Name (e.g. Rolex)" class="w-full bg-zinc-50 p-5 rounded-2xl outline-none border-2 border-transparent focus:border-yellow-500 transition-all font-medium">
+            <input id="price" type="number" placeholder="Price (PKR)" class="w-full bg-zinc-50 p-5 rounded-2xl outline-none border-2 border-transparent focus:border-yellow-500 transition-all font-medium">
+            
+            <div class="relative group">
+                <label class="flex flex-col items-center p-6 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200 cursor-pointer hover:border-yellow-500 transition-all">
+                    <span class="text-zinc-500 font-bold uppercase text-[10px] tracking-widest mb-2">Select Photo From Gallery</span>
+                    <input id="imageFile" type="file" accept="image/*" class="text-xs text-zinc-400">
+                </label>
             </div>
             
-            <button onclick="uploadWatch()" id="btn" class="w-full bg-black text-white p-5 rounded-2xl font-black text-xl mt-4 hover:scale-[1.02] transition-transform">
-                POST TO STORE
+            <button onclick="uploadEverything()" id="btn" class="w-full bg-black text-white p-6 rounded-2xl font-black text-xl shadow-lg hover:shadow-yellow-500/20 active:scale-95 transition-all">
+                UPLOAD TO STORE
             </button>
         </div>
     </div>
@@ -33,40 +33,50 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         const firebaseConfig = {
-            apiKey: "PASTE_YOUR_API_KEY_HERE",
+            apiKey: "APNI_API_KEY_YAHAN_PASTE_KAREIN",
             authDomain: "watchstore-f0d57.firebaseapp.com",
             projectId: "watchstore-f0d57",
             storageBucket: "watchstore-f0d57.appspot.com",
             messagingSenderId: "3491239",
-            appId: "PASTE_YOUR_APP_ID_HERE"
+            appId: "APNI_APP_ID_YAHAN_PASTE_KAREIN"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
-        window.uploadWatch = async () => {
+        window.uploadEverything = async () => {
             const btn = document.getElementById('btn');
+            const fileInput = document.getElementById('imageFile');
+            const file = fileInput.files[0];
             const name = document.getElementById('name').value;
             const price = document.getElementById('price').value;
-            const url = document.getElementById('url').value;
 
-            if(!name || !price || !url) return alert("Bhai, saari details bharein!");
+            if(!file || !name || !price) return alert("Bhai, sari details aur photo lazmi hai!");
 
-            btn.innerText = "Processing...";
+            btn.innerText = "Processing... Wait Karo";
             btn.disabled = true;
 
             try {
+                // Photo Uploading
+                const storageRef = ref(storage, 'watches/' + Date.now() + "_" + file.name);
+                await uploadBytes(storageRef, file);
+                const photoURL = await getDownloadURL(storageRef);
+
+                // Data Saving
                 await addDoc(collection(db, "watches"), {
-                    name, price, url,
+                    name, price, url: photoURL,
                     createdAt: Date.now()
                 });
-                alert("Mubarak ho! Watch add ho gayi.");
+
+                alert("Mubarak ho! Watch website par lag gayi.");
                 location.reload();
             } catch (e) {
-                alert("Error: " + e.message);
-                btn.innerText = "POST TO STORE";
+                alert("Masla: " + e.message);
+                btn.innerText = "UPLOAD TO STORE";
                 btn.disabled = false;
             }
         }
