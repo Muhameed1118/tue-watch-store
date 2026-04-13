@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE WATCH GALLERY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: white; }
+        .premium-border { border: 1px solid #aa771c; shadow: 0 0 15px rgba(170,119,28,0.3); }
+        .gold-text { color: #aa771c; }
+        .btn-gold { background: linear-gradient(135deg, #bf953f, #aa771c); color: #000; }
+    </style>
+</head>
+<body>
+    <header class="p-6 border-b border-zinc-800 text-center">
+        <h1 class="text-4xl font-bold tracking-widest">THE WATCH GALLERY</h1>
+    </header>
+
+    <div class="container mx-auto p-6">
+        <div id="watch-container" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            projectId: "watchstore-f0d57",
+            storageBucket: "watchstore-f0d57.appspot.com",
+            // Note: Baki keys aap General settings se paste kar sakte hain
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Database se watches loading
+        onSnapshot(collection(db, "watches"), (snapshot) => {
+            const container = document.getElementById('watch-container');
+            container.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const watch = doc.data();
+                container.innerHTML += `
+                    <div class="bg-zinc-900 p-5 rounded-2xl border border-zinc-800 relative">
+                        ${watch.status === 'sold' ? '<div class="absolute inset-0 bg-black/70 flex items-center justify-center z-10 rounded-2xl"><span class="text-red-500 font-bold text-3xl border-4 border-red-500 p-2 rotate-12">SOLD</span></div>' : ''}
+                        <img src="${watch.url}" class="w-full h-64 object-cover rounded-xl mb-4">
+                        <h3 class="text-xl font-bold">${watch.name}</h3>
+                        <p class="gold-text font-bold text-lg">${watch.price} PKR</p>
+                        <button class="w-full mt-4 btn-gold py-2 rounded-lg font-bold">Buy Now</button>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
