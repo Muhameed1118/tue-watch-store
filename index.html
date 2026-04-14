@@ -7,55 +7,85 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: white; }
-        .gold-text { color: #aa771c; }
-        .btn-gold { background: linear-gradient(135deg, #bf953f, #aa771c); color: #000; }
-        .watch-card { border: 1px solid #1a1a1a; transition: 0.3s; }
-        .watch-card:hover { border-color: #aa771c; box-shadow: 0 0 20px rgba(170,119,28,0.2); }
+        body { font-family: 'Poppins', sans-serif; background: #050505; color: white; }
+        .gold-text { color: #d4af37; }
+        .announcement-bar { background: linear-gradient(90deg, #d4af37, #aa771c); color: black; font-weight: bold; }
+        .watch-card { border: 1px solid #1a1a1a; transition: 0.3s; background: #0a0a0a; }
+        .watch-card:hover { border-color: #d4af37; }
+        .stock-badge { background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37; }
     </style>
 </head>
 <body>
-    <header class="p-10 border-b border-zinc-800 text-center bg-black">
-        <h1 style="font-family: 'Playfair Display';" class="text-5xl font-bold tracking-[0.2em] gold-text">TUE WATCHES</h1>
-        <p class="text-zinc-500 mt-3 tracking-[0.4em] text-xs uppercase">Since 2026</p>
+
+    <div id="ad-section" class="announcement-bar p-3 text-center text-sm tracking-widest uppercase hidden">
+        <span id="ad-text">Loading Announcements...</span>
+    </div>
+
+    <header class="p-10 border-b border-zinc-900 text-center">
+        <h1 style="font-family: 'Playfair Display';" class="text-4xl md:text-6xl font-bold tracking-tighter gold-text uppercase">TUE Watches</h1>
+        <p class="text-zinc-500 mt-2 tracking-[0.4em] text-[10px] uppercase">Premium Inventory Control</p>
     </header>
 
-    <div class="container mx-auto p-6 min-h-screen">
-        <div id="watch-container" class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
-            </div>
-    </div>
+    <main class="container mx-auto p-6">
+        <div id="store-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <p class="text-center col-span-full text-zinc-600 animate-pulse">Checking Inventory...</p>
+        </div>
+    </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "PASTE_YOUR_API_KEY_HERE",
-            authDomain: "watchstore-f0d57.firebaseapp.com",
-            projectId: "watchstore-f0d57",
-            storageBucket: "watchstore-f0d57.appspot.com",
-            messagingSenderId: "3491239",
-            appId: "PASTE_YOUR_APP_ID_HERE"
+            apiKey: "AIzaSyBHY50XowSBhS8_4boUOjf8WmKbOs0YUdY",
+            authDomain: "watchbyme-1fd4f.firebaseapp.com",
+            projectId: "watchbyme-1fd4f",
+            appId: "1:982689793085:web:eb92ea1952692b083a5654"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // 1. Get Announcement from Admin
+        onSnapshot(doc(db, "settings", "announcement"), (doc) => {
+            const adBar = document.getElementById('ad-section');
+            const adText = document.getElementById('ad-text');
+            if (doc.exists() && doc.data().text) {
+                adBar.classList.remove('hidden');
+                adText.innerText = doc.data().text;
+            }
+        });
+
+        // 2. Get Watches & Stock Info
         onSnapshot(collection(db, "watches"), (snapshot) => {
-            const container = document.getElementById('watch-container');
+            const container = document.getElementById('store-container');
             container.innerHTML = "";
+
             snapshot.forEach((doc) => {
-                const watch = doc.data();
+                const w = doc.data();
+                const available = (w.stock || 0) - (w.sales || 0);
+
                 container.innerHTML += `
-                    <div class="bg-zinc-900 p-6 rounded-[2rem] watch-card">
-                        <img src="${watch.url}" class="w-full h-80 object-cover rounded-2xl mb-6">
-                        <h3 class="text-2xl font-bold mb-1">${watch.name}</h3>
-                        <p class="gold-text font-bold text-xl mb-6">${Number(watch.price).toLocaleString()} PKR</p>
-                        <div class="bg-black/50 p-4 rounded-xl border border-zinc-800">
-                            <p class="text-[10px] text-zinc-500 uppercase tracking-widest">JazzCash Payment</p>
-                            <p class="text-sm font-medium">Account Title: Euhammad Essa</p>
+                    <div class="watch-card rounded-[2rem] overflow-hidden p-5 flex flex-col">
+                        <img src="${w.url}" class="w-full h-72 object-cover rounded-2xl mb-4 shadow-2xl">
+                        
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">${w.name}</h3>
+                            <span class="stock-badge px-3 py-1 rounded-full text-[10px] font-bold">
+                                STOCK: ${available > 0 ? available : 'OUT OF STOCK'}
+                            </span>
                         </div>
-                        <button class="w-full mt-5 btn-gold py-4 rounded-xl font-black uppercase tracking-tighter">Order on WhatsApp</button>
+
+                        <p class="gold-text font-bold text-2xl mb-4">Rs. ${Number(w.price).toLocaleString()}</p>
+                        
+                        <div class="bg-zinc-900/50 p-4 rounded-xl mb-6 text-[11px] text-zinc-400 space-y-1">
+                            <div class="flex justify-between"><span>Total Sales:</span> <span class="text-white">${w.sales || 0}</span></div>
+                            <div class="flex justify-between"><span>Original Stock:</span> <span class="text-white">${w.stock || 0}</span></div>
+                        </div>
+
+                        <button class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-xs hover:bg-[#d4af37] transition-all">
+                            Order via WhatsApp
+                        </button>
                     </div>
                 `;
             });

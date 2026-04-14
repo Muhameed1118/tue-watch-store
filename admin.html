@@ -2,84 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Stock Manager</title>
+    <title>TUE Master Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-zinc-100 min-h-screen flex items-center justify-center p-6">
-    <div class="max-w-md w-full bg-white p-10 rounded-[3rem] shadow-2xl border border-zinc-200">
-        <div class="text-center mb-10">
-            <h2 class="text-4xl font-black text-zinc-900 tracking-tighter">TUE Admin</h2>
-            <p class="text-zinc-400 text-xs font-bold uppercase mt-2 tracking-widest">Add New Inventory</p>
-        </div>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-2xl mx-auto space-y-8">
         
-        <div class="space-y-6">
-            <input id="name" type="text" placeholder="Watch Name (e.g. Rolex)" class="w-full bg-zinc-50 p-5 rounded-2xl outline-none border-2 border-transparent focus:border-yellow-500 transition-all font-medium">
-            <input id="price" type="number" placeholder="Price (PKR)" class="w-full bg-zinc-50 p-5 rounded-2xl outline-none border-2 border-transparent focus:border-yellow-500 transition-all font-medium">
-            
-            <div class="relative group">
-                <label class="flex flex-col items-center p-6 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200 cursor-pointer hover:border-yellow-500 transition-all">
-                    <span class="text-zinc-500 font-bold uppercase text-[10px] tracking-widest mb-2">Select Photo From Gallery</span>
-                    <input id="imageFile" type="file" accept="image/*" class="text-xs text-zinc-400">
-                </label>
-            </div>
-            
-            <button onclick="uploadEverything()" id="btn" class="w-full bg-black text-white p-6 rounded-2xl font-black text-xl shadow-lg hover:shadow-yellow-500/20 active:scale-95 transition-all">
-                UPLOAD TO STORE
-            </button>
+        <div class="bg-black text-white p-8 rounded-3xl shadow-xl">
+            <h2 class="text-xl font-bold mb-4 gold-text">📢 Website Announcement / Ads</h2>
+            <textarea id="alertMsg" placeholder="Website par kya chalana hai? (e.g. 50% Off on Eid)" class="w-full p-4 bg-zinc-800 rounded-xl mb-4"></textarea>
+            <button onclick="updateAlert()" class="w-full bg-yellow-600 p-3 rounded-xl font-bold">Update Announcement</button>
         </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-xl border">
+            <h2 class="text-xl font-bold mb-6">⌚ Add New Watch & Stock</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <input id="wName" type="text" placeholder="Watch Name" class="p-4 bg-gray-50 border rounded-xl col-span-2">
+                <input id="wPrice" type="number" placeholder="Price (PKR)" class="p-4 bg-gray-50 border rounded-xl">
+                <input id="wStock" type="number" placeholder="Total Stock" class="p-4 bg-gray-50 border rounded-xl">
+                <input id="wUrl" type="text" placeholder="Photo Link (Postimages.org)" class="p-4 bg-gray-50 border rounded-xl col-span-2">
+            </div>
+            <button onclick="addWatch()" class="w-full mt-6 bg-black text-white p-4 rounded-xl font-bold">Add to Inventory</button>
+        </div>
+
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+        import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "APNI_API_KEY_YAHAN_PASTE_KAREIN",
-            authDomain: "watchstore-f0d57.firebaseapp.com",
-            projectId: "watchstore-f0d57",
-            storageBucket: "watchstore-f0d57.appspot.com",
-            messagingSenderId: "3491239",
-            appId: "APNI_APP_ID_YAHAN_PASTE_KAREIN"
+            apiKey: "AIzaSyBHY50XowSBhS8_4boUOjf8WmKbOs0YUdY",
+            authDomain: "watchbyme-1fd4f.firebaseapp.com",
+            projectId: "watchbyme-1fd4f",
+            appId: "1:982689793085:web:eb92ea1952692b083a5654"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
-        window.uploadEverything = async () => {
-            const btn = document.getElementById('btn');
-            const fileInput = document.getElementById('imageFile');
-            const file = fileInput.files[0];
-            const name = document.getElementById('name').value;
-            const price = document.getElementById('price').value;
+        // Announcement Update Function
+        window.updateAlert = async () => {
+            const msg = document.getElementById('alertMsg').value;
+            await setDoc(doc(db, "settings", "announcement"), { text: msg });
+            alert("Announcement Update Ho Gayi!");
+        };
 
-            if(!file || !name || !price) return alert("Bhai, sari details aur photo lazmi hai!");
+        // Watch Add Function
+        window.addWatch = async () => {
+            const name = document.getElementById('wName').value;
+            const price = document.getElementById('wPrice').value;
+            const stock = document.getElementById('wStock').value;
+            const url = document.getElementById('wUrl').value;
 
-            btn.innerText = "Processing... Wait Karo";
-            btn.disabled = true;
-
-            try {
-                // Photo Uploading
-                const storageRef = ref(storage, 'watches/' + Date.now() + "_" + file.name);
-                await uploadBytes(storageRef, file);
-                const photoURL = await getDownloadURL(storageRef);
-
-                // Data Saving
-                await addDoc(collection(db, "watches"), {
-                    name, price, url: photoURL,
-                    createdAt: Date.now()
-                });
-
-                alert("Mubarak ho! Watch website par lag gayi.");
-                location.reload();
-            } catch (e) {
-                alert("Masla: " + e.message);
-                btn.innerText = "UPLOAD TO STORE";
-                btn.disabled = false;
-            }
-        }
+            await addDoc(collection(db, "watches"), {
+                name, price, stock, url, sales: 0, createdAt: Date.now()
+            });
+            alert("Watch aur Stock add ho gaya!");
+            location.reload();
+        };
     </script>
 </body>
 </html>
