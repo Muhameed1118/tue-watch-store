@@ -3,89 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE WATCHES | Official Store</title>
+    <title>TUE WATCHES | Premium Inventory</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #050505; color: white; }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
         .gold-text { color: #d4af37; }
-        .announcement-bar { background: linear-gradient(90deg, #d4af37, #aa771c); color: black; font-weight: bold; }
-        .watch-card { border: 1px solid #1a1a1a; transition: 0.3s; background: #0a0a0a; }
-        .watch-card:hover { border-color: #d4af37; }
-        .stock-badge { background: rgba(212, 175, 55, 0.1); border: 1px solid #d4af37; color: #d4af37; }
+        .announcement-bar { 
+            background: linear-gradient(90deg, #d4af37, #f2d06b, #d4af37); 
+            color: #000; 
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+        }
+        .watch-card {
+            background: linear-gradient(145deg, #0a0a0a, #111);
+            transition: all 0.4s ease;
+        }
+        .watch-card:hover { transform: translateY(-10px); border-color: #d4af37; }
     </style>
 </head>
 <body>
 
-    <div id="ad-section" class="announcement-bar p-3 text-center text-sm tracking-widest uppercase hidden">
-        <span id="ad-text">Loading Announcements...</span>
-    </div>
+    <div id="announcement-section" class="announcement-bar text-center p-3 font-black text-xs hidden uppercase tracking-[0.3em] sticky top-0 z-50 shadow-2xl">
+        </div>
 
-    <header class="p-10 border-b border-zinc-900 text-center">
-        <h1 style="font-family: 'Playfair Display';" class="text-4xl md:text-6xl font-bold tracking-tighter gold-text uppercase">TUE Watches</h1>
-        <p class="text-zinc-500 mt-2 tracking-[0.4em] text-[10px] uppercase">Premium Inventory Control</p>
+    <header class="py-16 px-6 text-center border-b border-zinc-900">
+        <h1 class="text-6xl font-black tracking-tighter gold-text uppercase italic">TUE Watches</h1>
+        <p class="text-zinc-500 text-[10px] tracking-[0.8em] mt-4 uppercase font-light">The Ultimate Experience in Time</p>
     </header>
 
-    <main class="container mx-auto p-6">
-        <div id="store-container" class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-            <p class="text-center col-span-full text-zinc-600 animate-pulse">Checking Inventory...</p>
+    <main class="container mx-auto px-6 py-12">
+        <div id="watch-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="animate-pulse text-zinc-800 text-center col-span-full py-20">
+                <p class="tracking-widest uppercase">Fetching Premium Stock...</p>
+            </div>
         </div>
     </main>
+
+    <footer class="p-10 text-center border-t border-zinc-900 text-zinc-600">
+        <p class="text-[10px] tracking-widest uppercase">&copy; 2026 TUE Watches - Baldia 4 Market</p>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // Aapki Nayi Project Configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyBHY50XowSBhS8_4boUOjf8WmKbOs0YUdY",
-            authDomain: "watchbyme-1fd4f.firebaseapp.com",
-            projectId: "watchbyme-1fd4f",
+            apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
+            authDomain: "tuewatchstore.firebaseapp.com",
+            projectId: "tuewatchstore",
             appId: "1:982689793085:web:eb92ea1952692b083a5654"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. Get Announcement from Admin
+        // --- Logic 1: Announcement Load Karna ---
         onSnapshot(doc(db, "settings", "announcement"), (doc) => {
-            const adBar = document.getElementById('ad-section');
-            const adText = document.getElementById('ad-text');
+            const bar = document.getElementById('announcement-section');
             if (doc.exists() && doc.data().text) {
-                adBar.classList.remove('hidden');
-                adText.innerText = doc.data().text;
+                bar.innerText = doc.data().text;
+                bar.classList.remove('hidden');
+            } else {
+                bar.classList.add('hidden');
             }
         });
 
-        // 2. Get Watches & Stock Info
+        // --- Logic 2: Watches & Stock Load Karna ---
         onSnapshot(collection(db, "watches"), (snapshot) => {
-            const container = document.getElementById('store-container');
-            container.innerHTML = "";
+            const list = document.getElementById('watch-list');
+            list.innerHTML = ""; // Purana data saaf karein
+
+            if (snapshot.empty) {
+                list.innerHTML = "<p class='col-span-full text-center text-zinc-500'>No watches found in inventory.</p>";
+                return;
+            }
 
             snapshot.forEach((doc) => {
                 const w = doc.data();
-                const available = (w.stock || 0) - (w.sales || 0);
-
-                container.innerHTML += `
-                    <div class="watch-card rounded-[2rem] overflow-hidden p-5 flex flex-col">
-                        <img src="${w.url}" class="w-full h-72 object-cover rounded-2xl mb-4 shadow-2xl">
-                        
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-bold">${w.name}</h3>
-                            <span class="stock-badge px-3 py-1 rounded-full text-[10px] font-bold">
-                                STOCK: ${available > 0 ? available : 'OUT OF STOCK'}
-                            </span>
+                
+                // Stock Calculation: Total Stock - Sold
+                const currentStock = (w.stock || 0) - (w.sales || 0);
+                const isOutOfStock = currentStock <= 0;
+                
+                list.innerHTML += `
+                    <div class="watch-card p-4 rounded-[2.5rem] border border-zinc-900 group">
+                        <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-2xl">
+                            <img src="${w.url}" class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" 
+                                 onerror="this.src='https://via.placeholder.com/400x500?text=TUE+Watches'">
+                            ${isOutOfStock ? '<div class="absolute inset-0 bg-black/70 flex items-center justify-center font-black uppercase tracking-tighter text-3xl">Sold Out</div>' : ''}
                         </div>
-
-                        <p class="gold-text font-bold text-2xl mb-4">Rs. ${Number(w.price).toLocaleString()}</p>
                         
-                        <div class="bg-zinc-900/50 p-4 rounded-xl mb-6 text-[11px] text-zinc-400 space-y-1">
-                            <div class="flex justify-between"><span>Total Sales:</span> <span class="text-white">${w.sales || 0}</span></div>
-                            <div class="flex justify-between"><span>Original Stock:</span> <span class="text-white">${w.stock || 0}</span></div>
-                        </div>
+                        <div class="px-2">
+                            <h3 class="text-xl font-bold mb-1 tracking-tight">${w.name}</h3>
+                            <div class="flex justify-between items-end mb-6">
+                                <div>
+                                    <p class="gold-text font-black text-2xl">Rs. ${Number(w.price).toLocaleString()}</p>
+                                    <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-green-500'} font-bold mt-1">
+                                        ${isOutOfStock ? 'Out of Stock' : `Available Stock: ${currentStock}`}
+                                    </p>
+                                </div>
+                            </div>
 
-                        <button class="w-full bg-white text-black py-4 rounded-xl font-black uppercase text-xs hover:bg-[#d4af37] transition-all">
-                            Order via WhatsApp
-                        </button>
+                            <button onclick="window.location.href='https://wa.me/YOUR_PHONE_NUMBER?text=Salam, I want to order ${w.name}'" 
+                                    class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed' : 'bg-white hover:bg-[#d4af37]'} text-black py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all"
+                                    ${isOutOfStock ? 'disabled' : ''}>
+                                ${isOutOfStock ? 'Wait for Restock' : 'Order via WhatsApp'}
+                            </button>
+                        </div>
                     </div>
                 `;
             });
