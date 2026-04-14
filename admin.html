@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TUE Master Admin</title>
+    <meta charset="UTF-8"><title>TUE Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 p-6">
-    <div class="max-w-2xl mx-auto space-y-8">
-        
-        <div class="bg-black text-white p-8 rounded-3xl shadow-xl">
-            <h2 class="text-xl font-bold mb-4 gold-text">📢 Website Announcement / Ads</h2>
-            <textarea id="alertMsg" placeholder="Website par kya chalana hai? (e.g. 50% Off on Eid)" class="w-full p-4 bg-zinc-800 rounded-xl mb-4"></textarea>
-            <button onclick="updateAlert()" class="w-full bg-yellow-600 p-3 rounded-xl font-bold">Update Announcement</button>
+    <div class="max-w-xl mx-auto space-y-6">
+        <div class="bg-black text-white p-6 rounded-3xl shadow-lg">
+            <h2 class="text-lg font-bold mb-3">📢 Update Website News</h2>
+            <input id="alertMsg" type="text" placeholder="Eid Sale or New Arrival Message" class="w-full p-3 bg-zinc-800 rounded-lg mb-3">
+            <button onclick="updateAlert()" class="w-full bg-yellow-600 p-3 rounded-lg font-bold">Update News</button>
         </div>
 
-        <div class="bg-white p-8 rounded-3xl shadow-xl border">
-            <h2 class="text-xl font-bold mb-6">⌚ Add New Watch & Stock</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <input id="wName" type="text" placeholder="Watch Name" class="p-4 bg-gray-50 border rounded-xl col-span-2">
-                <input id="wPrice" type="number" placeholder="Price (PKR)" class="p-4 bg-gray-50 border rounded-xl">
-                <input id="wStock" type="number" placeholder="Total Stock" class="p-4 bg-gray-50 border rounded-xl">
-                <input id="wUrl" type="text" placeholder="Photo Link (Postimages.org)" class="p-4 bg-gray-50 border rounded-xl col-span-2">
+        <div class="bg-white p-6 rounded-3xl shadow-lg border">
+            <h2 class="text-lg font-bold mb-4">⌚ Add Watch to Stock</h2>
+            <input id="wName" type="text" placeholder="Watch Name" class="w-full p-3 mb-3 border rounded-lg">
+            <div class="flex gap-3 mb-3">
+                <input id="wPrice" type="number" placeholder="Price" class="w-1/2 p-3 border rounded-lg">
+                <input id="wStock" type="number" placeholder="Stock Qty" class="w-1/2 p-3 border rounded-lg">
             </div>
-            <button onclick="addWatch()" class="w-full mt-6 bg-black text-white p-4 rounded-xl font-bold">Add to Inventory</button>
+            <input id="wUrl" type="text" placeholder="Image Link (from Postimages)" class="w-full p-3 mb-4 border rounded-lg">
+            <button onclick="addWatch()" id="btn" class="w-full bg-black text-white p-4 rounded-lg font-bold">ADD TO WEBSITE</button>
         </div>
-
     </div>
 
     <script type="module">
@@ -32,33 +29,31 @@
         import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBHY50XowSBhS8_4boUOjf8WmKbOs0YUdY",
-            authDomain: "watchbyme-1fd4f.firebaseapp.com",
-            projectId: "watchbyme-1fd4f",
+            apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
+            authDomain: "tuewatchstore.firebaseapp.com",
+            projectId: "tuewatchstore",
             appId: "1:982689793085:web:eb92ea1952692b083a5654"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Announcement Update Function
         window.updateAlert = async () => {
             const msg = document.getElementById('alertMsg').value;
             await setDoc(doc(db, "settings", "announcement"), { text: msg });
-            alert("Announcement Update Ho Gayi!");
+            alert("News Updated!");
         };
 
-        // Watch Add Function
         window.addWatch = async () => {
             const name = document.getElementById('wName').value;
             const price = document.getElementById('wPrice').value;
             const stock = document.getElementById('wStock').value;
             const url = document.getElementById('wUrl').value;
-
+            
             await addDoc(collection(db, "watches"), {
-                name, price, stock, url, sales: 0, createdAt: Date.now()
+                name, price, stock: Number(stock), url, sales: 0
             });
-            alert("Watch aur Stock add ho gaya!");
+            alert("Watch Added Successfully!");
             location.reload();
         };
     </script>
