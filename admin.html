@@ -3,103 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Full Control Panel</title>
+    <title>TUE Admin | Olive Cream Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #080808; color: #fff; font-family: 'Inter', sans-serif; }
-        .gold-border { border-color: #d4af37; }
-        .gold-btn { background: #d4af37; color: #000; font-weight: 800; }
+        body { background: #fbf9f5; color: #1f2921; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .olive-btn { background: #2b3a29; color: #fcfaf7; font-weight: 700; }
+        .olive-btn:hover { background: #1e2a1c; }
+        .font-serif-title { font-family: 'Playfair Display', serif; }
     </style>
 </head>
-<body class="p-4 max-w-xl mx-auto space-y-6 pb-20">
+<body class="p-4 sm:p-6 max-w-xl mx-auto space-y-6 pb-20 antialiased">
 
     <!-- ANNOUNCEMENT CONTROL BOX -->
-    <div class="bg-zinc-900/90 p-5 rounded-2xl border border-zinc-800 shadow-2xl">
-        <h3 class="text-sm font-black text-[#d4af37] uppercase tracking-wider mb-3">📢 Top Announcement Bar</h3>
+    <div class="bg-white p-5 rounded-2xl border border-[#e2dacb] shadow-sm">
+        <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest mb-3">📢 Top Announcement Banner</h3>
         <div class="space-y-3">
-            <input type="text" id="announcement-text" placeholder="e.g. Free Delivery All Over Pakistan!" 
-                   class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-xs focus:border-[#d4af37] outline-none">
+            <input type="text" id="announcement-text" placeholder="e.g. Special Discount - Free Delivery Nationwide!" 
+                   class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
             <div class="flex gap-2">
-                <button id="btn-save-banner" type="button" class="flex-1 py-2.5 gold-btn rounded-xl text-xs uppercase tracking-wider">Save Banner</button>
-                <button id="btn-clear-banner" type="button" class="py-2.5 px-4 bg-red-950 text-red-400 border border-red-800 rounded-xl text-xs font-bold uppercase">Clear</button>
+                <button id="btn-save-banner" type="button" class="flex-1 py-2.5 olive-btn rounded-xl text-xs uppercase tracking-wider shadow-sm">Save Banner</button>
+                <button id="btn-clear-banner" type="button" class="py-2.5 px-4 bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-bold uppercase">Clear</button>
             </div>
         </div>
         <p id="anc-status" class="text-[10px] mt-2 font-bold text-center"></p>
     </div>
 
     <!-- WATCH UPLOAD FORM -->
-    <div class="bg-zinc-900/90 p-6 rounded-2xl border border-zinc-800 shadow-2xl">
-        <h2 class="text-2xl font-black text-[#d4af37] tracking-tight mb-2 uppercase italic text-center">TUE Watch Admin</h2>
-        <p class="text-xs text-zinc-500 text-center mb-6">Add New Watch with Custom Tag & Direct Upload</p>
+    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
+        <h2 class="text-2xl font-black text-[#2b3a29] font-serif-title tracking-tight mb-1 text-center">TUE Watch Store</h2>
+        <p class="text-xs text-[#5a6f56] text-center mb-6 font-semibold">Admin Panel - Add Products & Manage Catalog</p>
 
         <form id="upload-form" class="space-y-4">
             <div>
-                <label class="text-xs font-bold text-zinc-400 block mb-1">WATCH NAME</label>
-                <input type="text" id="watch-name" placeholder="e.g. Cartier" required
-                    class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">WATCH NAME</label>
+                <input type="text" id="watch-name" placeholder="e.g. Rolex Datejust Olive Dial" required
+                    class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="text-xs font-bold text-zinc-400 block mb-1">PRICE (PKR)</label>
-                    <input type="number" id="watch-price" placeholder="2500" required
-                        class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">PRICE (PKR)</label>
+                    <input type="number" id="watch-price" placeholder="3500" required
+                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-zinc-400 block mb-1">INITIAL STOCK</label>
+                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">INITIAL STOCK</label>
                     <input type="number" id="watch-stock" placeholder="10" required
-                        class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="text-xs font-bold text-zinc-400 block mb-1">COLOR NAMES (Comma Separated)</label>
-                    <input type="text" id="watch-colors" placeholder="e.g. Green, Silver, Blue" required
-                        class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">COLOR NAMES</label>
+                    <input type="text" id="watch-colors" placeholder="Silver, Black, Gold" required
+                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-zinc-400 block mb-1">CARD BADGE / TAG</label>
-                    <select id="watch-tag" class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none text-zinc-300">
-                        <option value="">No Tag</option>
+                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">BADGE / TAG</label>
+                    <select id="watch-tag" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
+                        <option value="">No Badge</option>
                         <option value="Top Selling">🔥 Top Selling</option>
                         <option value="Hot Item">⚡ Hot Item</option>
                         <option value="New Arrival">✨ New Arrival</option>
                         <option value="Limited Edition">💎 Limited Edition</option>
-                        <option value="Sale">🏷️ Special Sale</option>
+                        <option value="Special Sale">🏷️ Special Sale</option>
                     </select>
                 </div>
             </div>
 
-            <div class="p-4 bg-black border border-dashed border-zinc-700 rounded-xl text-center">
-                <label class="text-xs font-bold text-[#d4af37] block mb-2 cursor-pointer">
-                    📱 TAP TO SELECT PHOTOS FROM GALLERY
+            <div class="p-4 bg-[#f4efe6] border border-dashed border-[#c2b69d] rounded-xl text-center">
+                <label class="text-xs font-bold text-[#2b3a29] block mb-2">
+                    📱 CHOOSE PHOTOS FROM GALLERY
                 </label>
                 <input type="file" id="watch-images" multiple accept="image/*" class="hidden">
-                <button type="button" id="btn-choose-photos" class="py-2 px-4 bg-zinc-800 hover:bg-zinc-700 text-xs rounded-lg font-semibold">
-                    Choose Watch Photos
+                <button type="button" id="btn-choose-photos" class="py-2 px-4 bg-white border border-[#c2b69d] hover:bg-[#eae2d0] text-[#2b3a29] text-xs rounded-lg font-bold">
+                    Select Watch Photos
                 </button>
-                <p id="file-count" class="text-[11px] text-emerald-400 mt-2 font-mono"></p>
+                <p id="file-count" class="text-[11px] text-[#2b3a29] mt-2 font-semibold"></p>
             </div>
 
             <button type="submit" id="submit-btn" 
-                class="w-full py-4 gold-btn rounded-xl uppercase text-xs tracking-wider transition-all">
-                Upload Watch & Save
+                class="w-full py-3.5 olive-btn rounded-xl uppercase text-xs tracking-wider transition-all">
+                Upload & Publish Watch
             </button>
         </form>
 
         <div id="status-msg" class="mt-4 text-center text-xs font-bold"></div>
     </div>
 
-    <!-- MANAGE & DELETE WATCHES SECTION -->
-    <div class="bg-zinc-900/90 p-6 rounded-2xl border border-zinc-800 shadow-2xl">
+    <!-- MANAGE INVENTORY SECTION -->
+    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-base font-black text-[#d4af37] uppercase tracking-wider">📦 Manage Inventory & Badges</h3>
-            <button id="btn-refresh-list" type="button" class="text-xs text-zinc-400 hover:text-white underline">Refresh List</button>
+            <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest">📦 Manage Stock & Details</h3>
+            <button id="btn-refresh-list" type="button" class="text-xs text-[#5a6f56] hover:underline font-bold">Reload</button>
         </div>
 
-        <div id="watches-list" class="space-y-4">
-            <p class="text-xs text-zinc-500 text-center">Loading inventory...</p>
+        <div id="watches-list" class="space-y-3">
+            <p class="text-xs text-[#5a6f56] text-center">Fetching items...</p>
         </div>
     </div>
 
@@ -117,21 +121,15 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Photo Choose Trigger
         document.getElementById('btn-choose-photos').addEventListener('click', () => {
             document.getElementById('watch-images').click();
         });
 
         document.getElementById('watch-images').addEventListener('change', (e) => {
             const countEl = document.getElementById('file-count');
-            if (e.target.files.length > 0) {
-                countEl.innerText = `Selected ${e.target.files.length} Photo(s)`;
-            } else {
-                countEl.innerText = "";
-            }
+            countEl.innerText = e.target.files.length > 0 ? `Selected ${e.target.files.length} Photo(s)` : "";
         });
 
-        // Banner Management
         const fetchAnnouncement = async () => {
             try {
                 const docSnap = await getDoc(doc(db, "settings", "announcement"));
@@ -147,20 +145,17 @@
             const ancStatus = document.getElementById('anc-status');
             try {
                 await setDoc(doc(db, "settings", "announcement"), { text: txt });
-                ancStatus.innerText = "✅ Announcement Updated Successfully!";
-                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-400";
-            } catch (err) {
-                alert("Error: " + err.message);
-            }
+                ancStatus.innerText = "✅ Banner Saved!";
+                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-700";
+            } catch (err) { alert(err.message); }
         });
 
         document.getElementById('btn-clear-banner').addEventListener('click', async () => {
             document.getElementById('announcement-text').value = "";
             await setDoc(doc(db, "settings", "announcement"), { text: "" });
-            document.getElementById('anc-status').innerText = "Cleared!";
+            document.getElementById('anc-status').innerText = "Banner Cleared!";
         });
 
-        // Image Canvas Compression
         const compressImage = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -191,7 +186,6 @@
             });
         };
 
-        // Form Submission
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const status = document.getElementById('status-msg');
@@ -199,14 +193,14 @@
             const files = document.getElementById('watch-images').files;
 
             if (files.length === 0) {
-                alert("Please select at least 1 image from gallery!");
+                alert("Please select watch photos from gallery!");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "Processing & Saving Photos...";
-            status.innerText = "⏳ Uploading...";
-            status.className = "text-yellow-400 text-center text-xs mt-4 font-bold";
+            btn.innerText = "Uploading Photos...";
+            status.innerText = "⏳ Saving watch to store...";
+            status.className = "text-[#2b3a29] text-center text-xs mt-4 font-bold";
 
             try {
                 const processedUrls = [];
@@ -225,27 +219,26 @@
                     colors: document.getElementById('watch-colors').value
                 });
 
-                alert("✅ Watch Uploaded Successfully!");
+                alert("✅ Watch Published Successfully!");
                 document.getElementById('upload-form').reset();
                 document.getElementById('file-count').innerText = "";
                 status.innerText = "";
             } catch (err) {
                 alert("Upload Error: " + err.message);
                 status.innerText = "❌ Upload Failed!";
-                status.className = "text-red-500 text-center text-xs mt-4 font-bold";
+                status.className = "text-red-600 text-center text-xs mt-4 font-bold";
             } finally {
                 btn.disabled = false;
-                btn.innerText = "Upload Watch & Save";
+                btn.innerText = "Upload & Publish Watch";
             }
         });
 
-        // Real-time Inventory Listener
         onSnapshot(collection(db, "watches"), (snapshot) => {
             const container = document.getElementById('watches-list');
             container.innerHTML = "";
 
             if (snapshot.empty) {
-                container.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">No watches in inventory.</p>`;
+                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center py-4">No watches found in inventory.</p>`;
                 return;
             }
 
@@ -255,84 +248,71 @@
                 const firstImg = w.url ? w.url.split(',')[0] : '';
 
                 const itemCard = document.createElement('div');
-                itemCard.className = "bg-black/60 border border-zinc-800 rounded-xl p-3 flex flex-col gap-3";
+                itemCard.className = "bg-[#fbf9f5] border border-[#e2dacb] rounded-xl p-3 flex flex-col gap-3";
                 itemCard.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <img src="${firstImg}" class="w-12 h-12 object-cover rounded-lg border border-zinc-700">
+                        <img src="${firstImg}" class="w-12 h-12 object-cover rounded-lg border border-[#dcd4c3]">
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-xs font-bold text-white truncate">${w.name}</h4>
-                            <p class="text-[10px] text-zinc-400">Colors: ${w.colors || 'N/A'}</p>
+                            <h4 class="text-xs font-bold text-[#2b3a29] truncate">${w.name}</h4>
+                            <p class="text-[10px] text-[#5a6f56]">Colors: ${w.colors || 'N/A'}</p>
                         </div>
-                        <button id="del-${id}" type="button" class="bg-red-950/80 hover:bg-red-900 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                        <button id="del-${id}" type="button" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                             🗑️ Delete
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-2 bg-zinc-950 p-2 rounded-lg border border-zinc-800/80">
+                    <div class="grid grid-cols-3 gap-2 bg-white p-2 rounded-lg border border-[#e2dacb]">
                         <div>
-                            <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">PRICE (PKR)</label>
-                            <input type="number" id="price-${id}" value="${w.price || 0}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
+                            <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">PRICE</label>
+                            <input type="number" id="price-${id}" value="${w.price || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
                         </div>
                         <div>
-                            <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">STOCK</label>
-                            <input type="number" id="stock-${id}" value="${w.stock || 0}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
+                            <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">STOCK</label>
+                            <input type="number" id="stock-${id}" value="${w.stock || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
                         </div>
                         <div>
-                            <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">TAG/BADGE</label>
-                            <select id="tag-${id}" class="w-full bg-black border border-zinc-800 rounded p-1 text-[10px] text-zinc-200">
+                            <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">TAG</label>
+                            <select id="tag-${id}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-[10px] text-[#1f2921]">
                                 <option value="" ${!w.tag ? 'selected' : ''}>None</option>
                                 <option value="Top Selling" ${w.tag === 'Top Selling' ? 'selected' : ''}>Top Selling</option>
                                 <option value="Hot Item" ${w.tag === 'Hot Item' ? 'selected' : ''}>Hot Item</option>
                                 <option value="New Arrival" ${w.tag === 'New Arrival' ? 'selected' : ''}>New Arrival</option>
                                 <option value="Limited Edition" ${w.tag === 'Limited Edition' ? 'selected' : ''}>Limited Edition</option>
-                                <option value="Sale" ${w.tag === 'Sale' ? 'selected' : ''}>Special Sale</option>
+                                <option value="Special Sale" ${w.tag === 'Special Sale' ? 'selected' : ''}>Special Sale</option>
                             </select>
                         </div>
                     </div>
 
-                    <button id="update-${id}" type="button" class="w-full py-2 bg-zinc-800 hover:bg-zinc-700 text-[#d4af37] border border-zinc-700 rounded-lg text-[10px] font-bold uppercase tracking-wider">
-                        Save Changes
+                    <button id="update-${id}" type="button" class="w-full py-2 bg-white border border-[#2b3a29] text-[#2b3a29] hover:bg-[#2b3a29] hover:text-white rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all">
+                        Save Updates
                     </button>
                 `;
 
                 container.appendChild(itemCard);
 
-                // Attach Handlers
                 document.getElementById(`update-${id}`).addEventListener('click', async () => {
-                    const newPrice = Number(document.getElementById(`price-${id}`).value);
-                    const newStock = Number(document.getElementById(`stock-${id}`).value);
-                    const newTag = document.getElementById(`tag-${id}`).value;
-
                     try {
                         await updateDoc(doc(db, "watches", id), {
-                            price: newPrice,
-                            stock: newStock,
-                            tag: newTag
+                            price: Number(document.getElementById(`price-${id}`).value),
+                            stock: Number(document.getElementById(`stock-${id}`).value),
+                            tag: document.getElementById(`tag-${id}`).value
                         });
-                        alert("✅ Saved Changes for " + w.name);
-                    } catch (err) {
-                        alert("❌ Update Failed: " + err.message);
-                    }
+                        alert("✅ Updated " + w.name);
+                    } catch (err) { alert(err.message); }
                 });
 
                 document.getElementById(`del-${id}`).addEventListener('click', async () => {
-                    if (confirm(`Are you sure you want to delete "${w.name}"?`)) {
+                    if (confirm(`Delete "${w.name}"?`)) {
                         try {
                             await deleteDoc(doc(db, "watches", id));
                             alert("🗑️ Item Deleted!");
-                        } catch (err) {
-                            alert("❌ Delete Failed: " + err.message);
-                        }
+                        } catch (err) { alert(err.message); }
                     }
                 });
             });
-        }, (err) => {
-            alert("Database Connection Error: " + err.message);
         });
 
-        document.getElementById('btn-refresh-list').addEventListener('click', () => {
-            location.reload();
-        });
+        document.getElementById('btn-refresh-list').addEventListener('click', () => location.reload());
     </script>
 </body>
 </html>

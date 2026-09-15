@@ -3,53 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE WATCHES | Store</title>
+    <title>Timelab watch</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
-        .gold-text { color: #d4af37; }
+        body { 
+            background-color: #fbf9f5; 
+            color: #1f2921; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+        }
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .olive-bg {
+            background-color: #2b3a29;
+        }
+        .olive-btn {
+            background: linear-gradient(135deg, #2b3a29 0%, #3d523a 100%);
+            color: #fcfaf7;
+        }
+        .olive-btn:hover {
+            background: linear-gradient(135deg, #202b1f 0%, #2e3e2c 100%);
+        }
+        .cream-card {
+            background: #ffffff;
+            border: 1px solid #e8e2d5;
+            box-shadow: 0 4px 20px -2px rgba(43, 58, 41, 0.05);
+            transition: all 0.35s ease;
+        }
+        .cream-card:hover {
+            transform: translateY(-6px);
+            border-color: #c5a059;
+            box-shadow: 0 16px 30px -10px rgba(43, 58, 41, 0.12);
+        }
         .announcement-bar { 
-            background: linear-gradient(90deg, #d4af37, #f2d06b, #d4af37); 
-            color: #000; 
-            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+            background-color: #2b3a29; 
+            border-bottom: 1px solid #c5a059;
+            color: #f4efe6; 
         }
-        .watch-card {
-            background: linear-gradient(145deg, #0a0a0a, #111);
-            transition: all 0.4s ease;
-        }
-        .watch-card:hover { transform: translateY(-6px); border-color: #d4af37; }
     </style>
 </head>
-<body>
+<body class="antialiased min-h-screen flex flex-col justify-between">
 
-    <div id="announcement-section" class="announcement-bar text-center p-3 font-black text-xs hidden uppercase tracking-[0.3em] sticky top-0 z-50 shadow-2xl"></div>
+    <!-- Top Announcement Bar -->
+    <div id="announcement-section" class="announcement-bar text-center py-2.5 px-4 font-medium text-xs hidden tracking-widest uppercase sticky top-0 z-50 shadow-sm"></div>
 
-    <header class="py-12 px-6 text-center border-b border-zinc-900">
-        <h1 class="text-5xl font-black tracking-tighter gold-text uppercase italic">TUE Watches</h1>
-        <p class="text-zinc-500 text-[10px] tracking-[0.8em] mt-3 uppercase font-light">The Ultimate Experience in Time</p>
+    <!-- Store Header -->
+    <header class="py-14 px-6 text-center bg-[#f4efe6] border-b border-[#e5decb] relative">
+        <div class="max-w-2xl mx-auto">
+            <span class="text-[10px] font-bold tracking-[0.3em] text-[#3a4d38] uppercase bg-[#e3dbc8] px-3.5 py-1 rounded-full border border-[#d2c7ae]">Official Showroom</span>
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight font-serif-title text-[#2b3a29] italic mt-4 mb-2">Timelab Watch</h1>
+            <p class="text-[#5a6f56] text-xs sm:text-sm tracking-[0.25em] font-semibold uppercase">Timeless Elegance & Pure Style</p>
+        </div>
     </header>
 
-    <main class="container mx-auto px-6 py-12">
+    <!-- Main Inventory Grid -->
+    <main class="container mx-auto px-4 sm:px-6 py-12 flex-grow">
         <div id="watch-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="animate-pulse text-zinc-800 text-center col-span-full py-20">
-                <p class="tracking-widest uppercase">Fetching Premium Stock...</p>
+            <div class="animate-pulse text-[#5a6f56] text-center col-span-full py-24 space-y-3">
+                <div class="w-8 h-8 border-2 border-[#3a4d38] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <p class="tracking-widest uppercase text-xs font-semibold">Loading Collection...</p>
             </div>
         </div>
     </main>
 
-    <!-- Color Selection Modal -->
-    <div id="color-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto">
-            <button id="close-modal-btn" type="button" class="absolute top-4 right-4 bg-zinc-800 hover:bg-zinc-700 text-white w-8 h-8 rounded-full font-black text-sm">✕</button>
-            <h3 id="modal-watch-name" class="text-xl font-bold mb-1 gold-text"></h3>
-            <p class="text-xs text-zinc-400 mb-4">Select your favorite color/variant below to order:</p>
+    <!-- Variants Color Selection Modal -->
+    <div id="color-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-[#fbf9f5] border border-[#e2dacb] w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto shadow-2xl">
+            <button id="close-modal-btn" type="button" class="absolute top-4 right-4 bg-[#e8e2d5] hover:bg-[#dcd4c3] text-[#2b3a29] w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all">✕</button>
+            <h3 id="modal-watch-name" class="text-xl font-bold mb-1 text-[#2b3a29] font-serif-title"></h3>
+            <p class="text-xs text-[#5a6f56] font-medium mb-5">Select your preferred color variant:</p>
             
-            <div id="modal-variants-list" class="space-y-4"></div>
+            <div id="modal-variants-list" class="space-y-3"></div>
         </div>
     </div>
 
-    <footer class="p-10 text-center border-t border-zinc-900 text-zinc-600">
-        <p class="text-[10px] tracking-widest uppercase">&copy; 2026 TUE Watches - Baldia 4 Market</p>
+    <!-- Footer -->
+    <footer class="py-8 px-6 text-center border-t border-[#e8e2d5] text-[#6b7c67] bg-[#f4efe6]">
+        <p class="text-[11px] tracking-widest uppercase font-semibold">&copy; 2026 TUE WATCHES &bull; Baldia 24 Market, Karachi | gameextra94@gmail.com</p>
     </footer>
 
     <script type="module">
@@ -89,7 +122,7 @@
             list.innerHTML = "";
 
             if (snapshot.empty) {
-                list.innerHTML = "<p class='col-span-full text-center text-zinc-500'>No watches found in inventory.</p>";
+                list.innerHTML = "<p class='col-span-full text-center text-[#6b7c67] py-16 text-sm font-medium'>No watches available in catalog right now.</p>";
                 return;
             }
 
@@ -106,41 +139,44 @@
                 const isOutOfStock = currentStock <= 0;
                 const mainImg = urls[0] || 'https://via.placeholder.com/400x500?text=TUE+Watches';
 
-                // BADGE TAG RENDERING
-                const tagBadgeHtml = w.tag ? `<span class="absolute top-3 left-3 bg-[#d4af37] text-black text-[10px] font-black uppercase px-2.5 py-1 rounded-lg shadow-xl z-10 tracking-wider">🔥 ${w.tag}</span>` : '';
+                const tagBadgeHtml = w.tag ? `<span class="absolute top-3 left-3 bg-[#2b3a29] text-[#f4efe6] text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md z-10 tracking-wider border border-[#c5a059]">✨ ${w.tag}</span>` : '';
 
-                const defaultMsg = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${mainImg}`;
+                const defaultMsg = `Salam TUE Watches!\nI would like to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${mainImg}`;
                 const defaultWaLink = `https://wa.me/923232124734?text=${encodeURIComponent(defaultMsg)}`;
 
                 const card = document.createElement('div');
-                card.className = "watch-card p-4 rounded-[2rem] border border-zinc-900 group relative";
+                card.className = "cream-card p-4 rounded-2xl group relative flex flex-col justify-between";
                 card.innerHTML = `
-                    <div class="relative overflow-hidden rounded-[1.5rem] mb-4 shadow-2xl bg-zinc-950">
-                        ${tagBadgeHtml}
-                        <img src="${mainImg}" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
-                        ${isOutOfStock ? '<div class="absolute inset-0 bg-black/75 flex items-center justify-center font-black uppercase tracking-tighter text-2xl text-red-500 z-20">Sold Out</div>' : ''}
-                    </div>
-                    
-                    <div class="px-2">
-                        <h3 class="text-lg font-bold mb-1 tracking-tight text-white">${w.name}</h3>
-                        
-                        <div class="flex justify-between items-baseline mb-4">
-                            <p class="gold-text font-black text-xl">Rs. ${Number(w.price).toLocaleString()}</p>
-                            <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-emerald-400'} font-semibold">
-                                ${isOutOfStock ? 'Out of Stock' : `Stock: ${currentStock}`}
-                            </p>
+                    <div>
+                        <div class="relative overflow-hidden rounded-xl mb-4 bg-[#f4efe6] aspect-[4/5]">
+                            ${tagBadgeHtml}
+                            <img src="${mainImg}" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
+                            ${isOutOfStock ? '<div class="absolute inset-0 bg-white/85 backdrop-blur-sm flex items-center justify-center font-bold uppercase tracking-widest text-sm text-red-600 z-20">Sold Out</div>' : ''}
                         </div>
+                        
+                        <div class="px-1">
+                            <h3 class="text-lg font-extrabold mb-1 tracking-tight text-[#2b3a29] font-serif-title">${w.name}</h3>
+                            
+                            <div class="flex justify-between items-baseline mb-4">
+                                <p class="text-[#2b3a29] font-extrabold text-xl">PKR ${Number(w.price).toLocaleString()}</p>
+                                <p class="text-[11px] uppercase tracking-wider ${isOutOfStock ? 'text-red-600' : 'text-[#3a4d38]'} font-bold">
+                                    ${isOutOfStock ? 'Out of Stock' : `In Stock: ${currentStock}`}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="space-y-2 mt-2">
                         ${urls.length > 1 ? `
                             <button id="btn-colors-${docId}" type="button" 
-                                class="w-full mb-3 py-2.5 px-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-[#d4af37] text-zinc-300 text-xs font-semibold flex items-center justify-between transition-all">
-                                <span>🎨 Available Colors / Variants</span>
-                                <span class="text-[10px] bg-[#d4af37] text-black px-2 py-0.5 rounded-full font-bold">${urls.length} Colors</span>
+                                class="w-full py-2.5 px-4 rounded-xl border border-[#d8d0be] bg-[#f4efe6] hover:bg-[#eae2d0] text-[#2b3a29] text-xs font-semibold flex items-center justify-between transition-all">
+                                <span>See Available Colors</span>
+                                <span class="text-[10px] bg-[#2b3a29] text-[#f4efe6] px-2 py-0.5 rounded-full font-bold">${urls.length} Colors</span>
                             </button>
                         ` : ''}
 
                         <a href="${isOutOfStock ? '#' : defaultWaLink}" target="_blank" 
-                            class="block text-center w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed text-zinc-500' : 'bg-white hover:bg-[#d4af37] text-black'} py-3.5 rounded-xl font-black text-xs uppercase tracking-[0.15em] transition-all">
+                            class="block text-center w-full ${isOutOfStock ? 'bg-gray-200 cursor-not-allowed text-gray-500' : 'olive-btn'} py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md">
                             ${isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
                         </a>
                     </div>
@@ -148,7 +184,6 @@
 
                 list.appendChild(card);
 
-                // Modal Event Trigger
                 if (urls.length > 1) {
                     document.getElementById(`btn-colors-${docId}`).addEventListener('click', () => {
                         document.getElementById('modal-watch-name').innerText = w.name;
@@ -156,20 +191,20 @@
                         modalContainer.innerHTML = "";
 
                         urls.forEach((url, idx) => {
-                            const colorName = colors[idx] || `Variant ${idx + 1}`;
-                            const msg = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Selected Color:* ${colorName}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${url}`;
+                            const colorName = colors[idx] || `Option ${idx + 1}`;
+                            const msg = `Salam TUE Watches!\nI would like to order:\n\n*Watch:* ${w.name}\n*Selected Variant:* ${colorName}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${url}`;
                             const waUrl = `https://wa.me/923232124734?text=${encodeURIComponent(msg)}`;
 
                             modalContainer.innerHTML += `
-                                <div class="p-3 bg-black rounded-2xl border border-zinc-800 flex items-center gap-4">
-                                    <img src="${url}" class="w-20 h-20 object-cover rounded-xl border border-zinc-800">
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-sm text-white">${colorName}</h4>
-                                        <p class="gold-text font-black text-xs mt-1">Rs. ${Number(w.price).toLocaleString()}</p>
+                                <div class="p-3 bg-white rounded-xl border border-[#e2dacb] flex items-center gap-4 shadow-sm">
+                                    <img src="${url}" class="w-16 h-16 object-cover rounded-lg border border-[#e8e2d5]">
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-bold text-xs text-[#2b3a29] truncate">${colorName}</h4>
+                                        <p class="text-[#3a4d38] font-extrabold text-xs mt-0.5">PKR ${Number(w.price).toLocaleString()}</p>
                                     </div>
                                     <a href="${waUrl}" target="_blank" 
-                                       class="bg-[#d4af37] text-black font-black text-[11px] px-3 py-2.5 rounded-xl uppercase tracking-wider hover:bg-white transition-all">
-                                        Order This
+                                       class="olive-btn font-bold text-[11px] px-3.5 py-2.5 rounded-xl uppercase tracking-wider transition-all">
+                                        Order
                                     </a>
                                 </div>
                             `;
