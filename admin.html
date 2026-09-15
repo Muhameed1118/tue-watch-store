@@ -118,14 +118,15 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Announcement
-        const loadAnnouncement = async () => {
-            const docSnap = await getDoc(doc(db, "settings", "announcement"));
-            if (docSnap.exists() && docSnap.data().text) {
-                document.getElementById('announcement-text').value = docSnap.data().text;
-            }
+        // Announcement Functions
+        window.loadAnnouncement = async () => {
+            try {
+                const docSnap = await getDoc(doc(db, "settings", "announcement"));
+                if (docSnap.exists() && docSnap.data().text) {
+                    document.getElementById('announcement-text').value = docSnap.data().text;
+                }
+            } catch (err) { console.error(err); }
         };
-        loadAnnouncement();
 
         window.updateAnnouncement = async () => {
             const txt = document.getElementById('announcement-text').value.trim();
@@ -142,7 +143,7 @@
 
         window.clearAnnouncement = async () => {
             document.getElementById('announcement-text').value = "";
-            await updateAnnouncement();
+            await window.updateAnnouncement();
         };
 
         window.previewFiles = (input) => {
@@ -154,7 +155,7 @@
             }
         };
 
-        // Image Compression
+        // Image Compression helper
         const compressImage = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -185,7 +186,7 @@
             });
         };
 
-        // Upload Form Submit
+        // Upload Form Listener
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const status = document.getElementById('status-msg');
@@ -231,7 +232,7 @@
                 status.className = "text-emerald-400 text-center text-xs mt-4 font-bold";
                 document.getElementById('upload-form').reset();
                 document.getElementById('file-count').innerText = "";
-                loadWatchesList();
+                window.loadWatchesList();
             } catch (err) {
                 console.error(err);
                 status.innerText = "❌ Error uploading: " + err.message;
@@ -242,7 +243,7 @@
             }
         });
 
-        // LOAD & MANAGE WATCHES LIST
+        // Load Watches List
         window.loadWatchesList = async () => {
             const container = document.getElementById('watches-list');
             container.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">Loading watches...</p>`;
@@ -267,7 +268,7 @@
                                     <h4 class="text-xs font-bold text-white truncate">${w.name}</h4>
                                     <p class="text-[10px] text-zinc-400">Colors: ${w.colors || 'N/A'}</p>
                                 </div>
-                                <button onclick="deleteWatch('${id}')" class="bg-red-950/80 hover:bg-red-900 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-[10px] font-bold">
+                                <button onclick="window.deleteWatch('${id}')" class="bg-red-950/80 hover:bg-red-900 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                                     🗑️ Delete
                                 </button>
                             </div>
@@ -275,11 +276,11 @@
                             <div class="grid grid-cols-3 gap-2 bg-zinc-950 p-2 rounded-lg border border-zinc-800/80">
                                 <div>
                                     <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">PRICE (PKR)</label>
-                                    <input type="number" id="price-${id}" value="${w.price}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
+                                    <input type="number" id="price-${id}" value="${w.price || 0}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
                                 </div>
                                 <div>
                                     <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">STOCK</label>
-                                    <input type="number" id="stock-${id}" value="${w.stock}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
+                                    <input type="number" id="stock-${id}" value="${w.stock || 0}" class="w-full bg-black border border-zinc-800 rounded p-1 text-xs text-zinc-200">
                                 </div>
                                 <div>
                                     <label class="text-[9px] font-bold text-zinc-500 block mb-0.5">TAG/BADGE</label>
@@ -294,7 +295,7 @@
                                 </div>
                             </div>
 
-                            <button onclick="updateWatch('${id}')" class="w-full py-1.5 bg-zinc-800 hover:bg-zinc-700 text-[#d4af37] border border-zinc-700 rounded-lg text-[10px] font-bold uppercase tracking-wider">
+                            <button onclick="window.updateWatch('${id}')" class="w-full py-1.5 bg-zinc-800 hover:bg-zinc-700 text-[#d4af37] border border-zinc-700 rounded-lg text-[10px] font-bold uppercase tracking-wider">
                                 Save Changes
                             </button>
                         </div>
@@ -307,7 +308,7 @@
             }
         };
 
-        // Update Watch Details (Price, Stock, Tag)
+        // Global Update Watch
         window.updateWatch = async (id) => {
             const price = Number(document.getElementById(`price-${id}`).value);
             const stock = Number(document.getElementById(`stock-${id}`).value);
@@ -319,27 +320,29 @@
                     stock: stock,
                     tag: tag
                 });
-                alert("✅ Watch details updated successfully!");
+                alert("✅ Watch updated successfully!");
+                window.loadWatchesList();
             } catch (err) {
                 alert("❌ Error updating: " + err.message);
             }
         };
 
-        // Delete Watch
+        // Global Delete Watch
         window.deleteWatch = async (id) => {
             if (confirm("Are you sure you want to delete this watch?")) {
                 try {
                     await deleteDoc(doc(db, "watches", id));
                     alert("🗑️ Watch deleted successfully!");
-                    loadWatchesList();
+                    window.loadWatchesList();
                 } catch (err) {
-                    alert("❌ Error deleting watch: " + err.message);
+                    alert("❌ Error deleting: " + err.message);
                 }
             }
         };
 
-        // Initial Load
-        loadWatchesList();
+        // Initial setup calls
+        window.loadAnnouncement();
+        window.loadWatchesList();
     </script>
 </body>
 </html>
