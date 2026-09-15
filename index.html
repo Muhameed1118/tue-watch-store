@@ -40,7 +40,7 @@
     <!-- Color Selection Modal -->
     <div id="color-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto">
-            <button onclick="closeColorModal()" class="absolute top-4 right-4 bg-zinc-800 hover:bg-zinc-700 text-white w-8 h-8 rounded-full font-black text-sm">✕</button>
+            <button id="close-modal-btn" type="button" class="absolute top-4 right-4 bg-zinc-800 hover:bg-zinc-700 text-white w-8 h-8 rounded-full font-black text-sm">✕</button>
             <h3 id="modal-watch-name" class="text-xl font-bold mb-1 gold-text"></h3>
             <p class="text-xs text-zinc-400 mb-4">Select your favorite color/variant below to order:</p>
             
@@ -68,42 +68,11 @@
 
         window.watchStore = {};
 
-        window.openColorModal = (docId) => {
-            const w = window.watchStore[docId];
-            if (!w) return;
-
-            document.getElementById('modal-watch-name').innerText = w.name;
-            const container = document.getElementById('modal-variants-list');
-            container.innerHTML = "";
-
-            w.urls.forEach((url, idx) => {
-                const colorName = w.colors[idx] || `Color Option ${idx + 1}`;
-                const msg = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Selected Color:* ${colorName}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${url}`;
-                const waUrl = `https://wa.me/923232124734?text=${encodeURIComponent(msg)}`;
-
-                container.innerHTML += `
-                    <div class="p-3 bg-black rounded-2xl border border-zinc-800 flex items-center gap-4">
-                        <img src="${url}" class="w-20 h-20 object-cover rounded-xl border border-zinc-800">
-                        <div class="flex-1">
-                            <h4 class="font-bold text-sm text-white">${colorName}</h4>
-                            <p class="gold-text font-black text-xs mt-1">Rs. ${Number(w.price).toLocaleString()}</p>
-                        </div>
-                        <a href="${waUrl}" target="_blank" 
-                           class="bg-[#d4af37] text-black font-black text-[11px] px-3 py-2.5 rounded-xl uppercase tracking-wider hover:bg-white transition-all">
-                            Order This
-                        </a>
-                    </div>
-                `;
-            });
-
-            document.getElementById('color-modal').classList.remove('hidden');
-        };
-
-        window.closeColorModal = () => {
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
             document.getElementById('color-modal').classList.add('hidden');
-        };
+        });
 
-        // Live Announcement Listener
+        // Real-time Announcement Observer
         onSnapshot(doc(db, "settings", "announcement"), (docSnap) => {
             const bar = document.getElementById('announcement-section');
             if (docSnap.exists() && docSnap.data().text) {
@@ -114,7 +83,7 @@
             }
         });
 
-        // Live Watches Listener
+        // Real-time Watches Observer
         onSnapshot(collection(db, "watches"), (snapshot) => {
             const list = document.getElementById('watch-list');
             list.innerHTML = "";
@@ -137,46 +106,78 @@
                 const isOutOfStock = currentStock <= 0;
                 const mainImg = urls[0] || 'https://via.placeholder.com/400x500?text=TUE+Watches';
 
-                // TAG BADGE RENDER
+                // BADGE TAG RENDERING
                 const tagBadgeHtml = w.tag ? `<span class="absolute top-3 left-3 bg-[#d4af37] text-black text-[10px] font-black uppercase px-2.5 py-1 rounded-lg shadow-xl z-10 tracking-wider">🔥 ${w.tag}</span>` : '';
 
                 const defaultMsg = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${mainImg}`;
                 const defaultWaLink = `https://wa.me/923232124734?text=${encodeURIComponent(defaultMsg)}`;
 
-                list.innerHTML += `
-                    <div class="watch-card p-4 rounded-[2rem] border border-zinc-900 group relative">
-                        <div class="relative overflow-hidden rounded-[1.5rem] mb-4 shadow-2xl bg-zinc-950">
-                            ${tagBadgeHtml}
-                            <img src="${mainImg}" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
-                            ${isOutOfStock ? '<div class="absolute inset-0 bg-black/75 flex items-center justify-center font-black uppercase tracking-tighter text-2xl text-red-500 z-20">Sold Out</div>' : ''}
-                        </div>
+                const card = document.createElement('div');
+                card.className = "watch-card p-4 rounded-[2rem] border border-zinc-900 group relative";
+                card.innerHTML = `
+                    <div class="relative overflow-hidden rounded-[1.5rem] mb-4 shadow-2xl bg-zinc-950">
+                        ${tagBadgeHtml}
+                        <img src="${mainImg}" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105">
+                        ${isOutOfStock ? '<div class="absolute inset-0 bg-black/75 flex items-center justify-center font-black uppercase tracking-tighter text-2xl text-red-500 z-20">Sold Out</div>' : ''}
+                    </div>
+                    
+                    <div class="px-2">
+                        <h3 class="text-lg font-bold mb-1 tracking-tight text-white">${w.name}</h3>
                         
-                        <div class="px-2">
-                            <h3 class="text-lg font-bold mb-1 tracking-tight text-white">${w.name}</h3>
-                            
-                            <div class="flex justify-between items-baseline mb-4">
-                                <p class="gold-text font-black text-xl">Rs. ${Number(w.price).toLocaleString()}</p>
-                                <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-emerald-400'} font-semibold">
-                                    ${isOutOfStock ? 'Out of Stock' : `Stock: ${currentStock}`}
-                                </p>
-                            </div>
-
-                            ${urls.length > 1 ? `
-                                <button onclick="openColorModal('${docId}')" 
-                                    class="w-full mb-3 py-2.5 px-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-[#d4af37] text-zinc-300 text-xs font-semibold flex items-center justify-between transition-all">
-                                    <span>🎨 Available Colors / Variants</span>
-                                    <span class="text-[10px] bg-[#d4af37] text-black px-2 py-0.5 rounded-full font-bold">${urls.length} Colors</span>
-                                </button>
-                            ` : ''}
-
-                            <button onclick="window.location.href='${defaultWaLink}'" 
-                                class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed text-zinc-500' : 'bg-white hover:bg-[#d4af37] text-black'} py-3.5 rounded-xl font-black text-xs uppercase tracking-[0.15em] transition-all"
-                                ${isOutOfStock ? 'disabled' : ''}>
-                                ${isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
-                            </button>
+                        <div class="flex justify-between items-baseline mb-4">
+                            <p class="gold-text font-black text-xl">Rs. ${Number(w.price).toLocaleString()}</p>
+                            <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-emerald-400'} font-semibold">
+                                ${isOutOfStock ? 'Out of Stock' : `Stock: ${currentStock}`}
+                            </p>
                         </div>
+
+                        ${urls.length > 1 ? `
+                            <button id="btn-colors-${docId}" type="button" 
+                                class="w-full mb-3 py-2.5 px-4 rounded-xl border border-zinc-800 bg-zinc-900 hover:border-[#d4af37] text-zinc-300 text-xs font-semibold flex items-center justify-between transition-all">
+                                <span>🎨 Available Colors / Variants</span>
+                                <span class="text-[10px] bg-[#d4af37] text-black px-2 py-0.5 rounded-full font-bold">${urls.length} Colors</span>
+                            </button>
+                        ` : ''}
+
+                        <a href="${isOutOfStock ? '#' : defaultWaLink}" target="_blank" 
+                            class="block text-center w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed text-zinc-500' : 'bg-white hover:bg-[#d4af37] text-black'} py-3.5 rounded-xl font-black text-xs uppercase tracking-[0.15em] transition-all">
+                            ${isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
+                        </a>
                     </div>
                 `;
+
+                list.appendChild(card);
+
+                // Modal Event Trigger
+                if (urls.length > 1) {
+                    document.getElementById(`btn-colors-${docId}`).addEventListener('click', () => {
+                        document.getElementById('modal-watch-name').innerText = w.name;
+                        const modalContainer = document.getElementById('modal-variants-list');
+                        modalContainer.innerHTML = "";
+
+                        urls.forEach((url, idx) => {
+                            const colorName = colors[idx] || `Variant ${idx + 1}`;
+                            const msg = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Selected Color:* ${colorName}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${url}`;
+                            const waUrl = `https://wa.me/923232124734?text=${encodeURIComponent(msg)}`;
+
+                            modalContainer.innerHTML += `
+                                <div class="p-3 bg-black rounded-2xl border border-zinc-800 flex items-center gap-4">
+                                    <img src="${url}" class="w-20 h-20 object-cover rounded-xl border border-zinc-800">
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-sm text-white">${colorName}</h4>
+                                        <p class="gold-text font-black text-xs mt-1">Rs. ${Number(w.price).toLocaleString()}</p>
+                                    </div>
+                                    <a href="${waUrl}" target="_blank" 
+                                       class="bg-[#d4af37] text-black font-black text-[11px] px-3 py-2.5 rounded-xl uppercase tracking-wider hover:bg-white transition-all">
+                                        Order This
+                                    </a>
+                                </div>
+                            `;
+                        });
+
+                        document.getElementById('color-modal').classList.remove('hidden');
+                    });
+                }
             });
         });
     </script>
