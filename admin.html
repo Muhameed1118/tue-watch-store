@@ -2,45 +2,87 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TUE Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUE Admin | Mobile Upload & Announcement</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #080808; color: #fff; font-family: 'Inter', sans-serif; }
+        .gold-border { border-color: #d4af37; }
+        .gold-btn { background: #d4af37; color: #000; font-weight: 800; }
+    </style>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-2xl mx-auto space-y-6">
-        <!-- News Section -->
-        <div class="bg-black text-white p-6 rounded-3xl shadow-lg">
-            <h2 class="text-lg font-bold mb-3">📢 Update Website News</h2>
-            <input id="alertMsg" type="text" placeholder="Eid Sale or New Arrival Message" class="w-full p-3 bg-zinc-800 rounded-lg mb-3 text-white">
-            <div class="flex gap-3">
-                <button onclick="updateAlert()" class="w-2/3 bg-yellow-600 hover:bg-yellow-500 p-3 rounded-lg font-bold">Update News</button>
-                <button onclick="deleteAlert()" class="w-1/3 bg-red-600 hover:bg-red-500 p-3 rounded-lg font-bold">Remove News</button>
-            </div>
-        </div>
+<body class="p-4 max-w-lg mx-auto space-y-6">
 
-        <!-- Add Watch Section -->
-        <div class="bg-white p-6 rounded-3xl shadow-lg border">
-            <h2 class="text-lg font-bold mb-4">⌚ Add Watch to Stock</h2>
-            <input id="wName" type="text" placeholder="Watch Name" class="w-full p-3 mb-3 border rounded-lg">
-            <div class="flex gap-3 mb-3">
-                <input id="wPrice" type="number" placeholder="Price" class="w-1/2 p-3 border rounded-lg">
-                <input id="wStock" type="number" placeholder="Stock Qty" class="w-1/2 p-3 border rounded-lg">
+    <!-- ANNOUNCEMENT CONTROL BOX -->
+    <div class="bg-zinc-900/90 p-5 rounded-2xl border border-zinc-800 shadow-2xl">
+        <h3 class="text-sm font-black text-[#d4af37] uppercase tracking-wider mb-3">📢 Top Announcement Bar</h3>
+        <div class="space-y-3">
+            <input type="text" id="announcement-text" placeholder="e.g. Free Delivery All Over Pakistan!" 
+                   class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-xs focus:border-[#d4af37] outline-none">
+            <div class="flex gap-2">
+                <button onclick="updateAnnouncement()" class="flex-1 py-2.5 gold-btn rounded-xl text-xs uppercase tracking-wider">Save Banner</button>
+                <button onclick="clearAnnouncement()" class="py-2.5 px-4 bg-red-950 text-red-400 border border-red-800 rounded-xl text-xs font-bold uppercase">Clear</button>
             </div>
-            <input id="wUrl" type="text" placeholder="Image Link (from Postimages)" class="w-full p-3 mb-4 border rounded-lg">
-            <button onclick="addWatch()" id="btn" class="w-full bg-black text-white p-4 rounded-lg font-bold">ADD TO WEBSITE</button>
         </div>
+        <p id="anc-status" class="text-[10px] mt-2 font-bold text-center"></p>
+    </div>
 
-        <!-- Inventory Management Section (Delete Watch) -->
-        <div class="bg-white p-6 rounded-3xl shadow-lg border">
-            <h2 class="text-lg font-bold mb-4">🗑️ Manage Inventory & Delete Watches</h2>
-            <div id="admin-watch-list" class="space-y-3">
-                <p class="text-gray-500 text-sm">Loading stock...</p>
+    <!-- WATCH UPLOAD FORM -->
+    <div class="bg-zinc-900/90 p-6 rounded-2xl border border-zinc-800 shadow-2xl">
+        <h2 class="text-2xl font-black text-[#d4af37] tracking-tight mb-2 uppercase italic text-center">TUE Watch Admin</h2>
+        <p class="text-xs text-zinc-500 text-center mb-6">Mobile Gallery Direct Photo Uploader</p>
+
+        <form id="upload-form" class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-zinc-400 block mb-1">WATCH NAME</label>
+                <input type="text" id="watch-name" placeholder="e.g. Rolex Submariner" required
+                    class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
             </div>
-        </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs font-bold text-zinc-400 block mb-1">PRICE (PKR)</label>
+                    <input type="number" id="watch-price" placeholder="20000" required
+                        class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-zinc-400 block mb-1">INITIAL STOCK</label>
+                    <input type="number" id="watch-stock" placeholder="10" required
+                        class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="text-xs font-bold text-zinc-400 block mb-1">COLOR NAMES (Comma Separated)</label>
+                <input type="text" id="watch-colors" placeholder="e.g. Black, Gold, Silver" required
+                    class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
+                <span class="text-[10px] text-zinc-500">Colors ki taadad uploaded photos ke barabar honi chahiye.</span>
+            </div>
+
+            <div class="p-4 bg-black border border-dashed border-zinc-700 rounded-xl text-center">
+                <label class="text-xs font-bold text-[#d4af37] block mb-2 cursor-pointer">
+                    📱 TAP TO SELECT PHOTOS FROM GALLERY
+                </label>
+                <input type="file" id="watch-images" multiple accept="image/*" class="hidden" onchange="previewFiles(this)">
+                <button type="button" onclick="document.getElementById('watch-images').click()" 
+                    class="py-2 px-4 bg-zinc-800 hover:bg-zinc-700 text-xs rounded-lg font-semibold">
+                    Choose Watch Photos
+                </button>
+                <p id="file-count" class="text-[11px] text-emerald-400 mt-2 font-mono"></p>
+            </div>
+
+            <button type="submit" id="submit-btn" 
+                class="w-full py-4 gold-btn rounded-xl uppercase text-xs tracking-wider transition-all">
+                Upload Watch & Save
+            </button>
+        </form>
+
+        <div id="status-msg" class="mt-4 text-center text-xs font-bold"></div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
@@ -52,67 +94,107 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. News Functions
-        window.updateAlert = async () => {
-            const msg = document.getElementById('alertMsg').value;
-            await setDoc(doc(db, "settings", "announcement"), { text: msg });
-            alert("News Updated!");
+        const IMGBB_API_KEY = "9b90875b8a07c93cb7e28b248a3132bb";
+
+        // Load existing announcement
+        const loadAnnouncement = async () => {
+            const docSnap = await getDoc(doc(db, "settings", "announcement"));
+            if (docSnap.exists() && docSnap.data().text) {
+                document.getElementById('announcement-text').value = docSnap.data().text;
+            }
         };
+        loadAnnouncement();
 
-        window.deleteAlert = async () => {
-            await setDoc(doc(db, "settings", "announcement"), { text: "" });
-            alert("News Removed!");
-        };
-
-        // 2. Add Watch Function
-        window.addWatch = async () => {
-            const name = document.getElementById('wName').value;
-            const price = document.getElementById('wPrice').value;
-            const stock = document.getElementById('wStock').value;
-            const url = document.getElementById('wUrl').value;
-            
-            if(!name || !price || !url) { alert("Sari details bharein!"); return; }
-
-            await addDoc(collection(db, "watches"), {
-                name, price, stock: Number(stock), url, sales: 0
-            });
-            alert("Watch Added!");
-            location.reload();
-        };
-
-        // 3. Delete Watch Function
-        window.deleteWatch = async (id) => {
-            if(confirm("Kya aap is watch ko permanently delete karna chahte hain?")) {
-                await deleteDoc(doc(db, "watches", id));
-                alert("Watch deleted successfully!");
+        // Save Announcement
+        window.updateAnnouncement = async () => {
+            const txt = document.getElementById('announcement-text').value.trim();
+            const ancStatus = document.getElementById('anc-status');
+            try {
+                await setDoc(doc(db, "settings", "announcement"), { text: txt });
+                ancStatus.innerText = "✅ Announcement Updated Successfully!";
+                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-400";
+            } catch (err) {
+                ancStatus.innerText = "❌ Error saving announcement";
+                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-red-500";
             }
         };
 
-        // 4. Realtime Load Watches with Delete Action
-        onSnapshot(collection(db, "watches"), (snapshot) => {
-            const container = document.getElementById('admin-watch-list');
-            container.innerHTML = "";
-            
-            if(snapshot.empty) {
-                container.innerHTML = "<p class='text-gray-500 text-sm'>No watches in inventory.</p>";
+        // Clear Announcement
+        window.clearAnnouncement = async () => {
+            document.getElementById('announcement-text').value = "";
+            await updateAnnouncement();
+        };
+
+        window.previewFiles = (input) => {
+            const countEl = document.getElementById('file-count');
+            if (input.files.length > 0) {
+                countEl.innerText = `Selected ${input.files.length} Photo(s) (1st Photo = Main Card Cover)`;
+            } else {
+                countEl.innerText = "";
+            }
+        };
+
+        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const status = document.getElementById('status-msg');
+            const btn = document.getElementById('submit-btn');
+
+            const files = document.getElementById('watch-images').files;
+            if (files.length === 0) {
+                status.innerText = "❌ Please select at least 1 image from gallery!";
+                status.className = "text-red-500 text-center text-xs mt-4 font-bold";
                 return;
             }
 
-            snapshot.forEach((doc) => {
-                const w = doc.data();
-                container.innerHTML += `
-                    <div class="flex items-center justify-between p-3 border rounded-xl bg-gray-50">
-                        <div class="flex items-center gap-3">
-                            <img src="${w.url}" class="w-12 h-12 object-cover rounded-lg">
-                            <div>
-                                <p class="font-bold text-sm text-black">${w.name}</p>
-                                <p class="text-xs text-gray-500">Rs. ${w.price} | Stock: ${w.stock}</p>
-                            </div>
-                        </div>
-                        <button onclick="deleteWatch('${doc.id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-bold">Delete</button>
-                    </div>
-                `;
-            });
+            btn.disabled = true;
+            btn.innerText = "Uploading Photos... Please Wait";
+            status.innerText = "⏳ Uploading images from gallery to cloud...";
+            status.className = "text-yellow-400 text-center text-xs mt-4 font-bold";
+
+            try {
+                const uploadedUrls = [];
+                for (let file of files) {
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        uploadedUrls.push(data.data.url);
+                    }
+                }
+
+                if (uploadedUrls.length === 0) throw new Error("Image upload failed");
+
+                const name = document.getElementById('watch-name').value;
+                const price = Number(document.getElementById('watch-price').value);
+                const stock = Number(document.getElementById('watch-stock').value);
+                const colorsInput = document.getElementById('watch-colors').value;
+
+                await addDoc(collection(db, "watches"), {
+                    name: name,
+                    price: price,
+                    stock: stock,
+                    sales: 0,
+                    url: uploadedUrls.join(','),
+                    colors: colorsInput
+                });
+
+                status.innerText = "✅ Watch & All Color Photos Saved Successfully!";
+                status.className = "text-emerald-400 text-center text-xs mt-4 font-bold";
+                document.getElementById('upload-form').reset();
+                document.getElementById('file-count').innerText = "";
+            } catch (err) {
+                console.error(err);
+                status.innerText = "❌ Error uploading: " + err.message;
+                status.className = "text-red-500 text-center text-xs mt-4 font-bold";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Upload Watch & Save";
+            }
         });
     </script>
 </body>

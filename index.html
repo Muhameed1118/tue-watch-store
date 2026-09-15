@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE WATCHES | Premium Inventory</title>
+    <title>Timelab watch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; }
+        body { background: #000; color: #fff; font-family: , sans-serif; }
         .gold-text { color: #d4af37; }
         .announcement-bar { 
             background: linear-gradient(90deg, #d4af37, #f2d06b, #d4af37); 
@@ -17,29 +17,28 @@
             background: linear-gradient(145deg, #0a0a0a, #111);
             transition: all 0.4s ease;
         }
-        .watch-card:hover { transform: translateY(-10px); border-color: #d4af37; }
+        .watch-card:hover { transform: translateY(-6px); border-color: #d4af37; }
     </style>
 </head>
 <body>
 
-    <div id="announcement-section" class="announcement-bar text-center p-3 font-black text-xs hidden uppercase tracking-[0.3em] sticky top-0 z-50 shadow-2xl">
-    </div>
+    <div id="announcement-section" class="announcement-bar text-center p-3 font-black text-xs hidden uppercase tracking-[0.3em] sticky top-0 z-50 shadow-2xl"></div>
 
-    <header class="py-16 px-6 text-center border-b border-zinc-900">
-        <h1 class="text-6xl font-black tracking-tighter gold-text uppercase italic">TUE Watches</h1>
-        <p class="text-zinc-500 text-[10px] tracking-[0.8em] mt-4 uppercase font-light">The Ultimate Experience in Time</p>
+    <header class="py-12 px-6 text-center border-b border-zinc-900">
+        <h1 class="text-5xl font-black tracking-tighter gold-text uppercase italic">Timelab Watch</h1>
+        <p class="text-zinc-500 text-[10px] tracking-[0.8em] mt-3 uppercase font-light">The Ultimate Experience in Time</p>
     </header>
 
     <main class="container mx-auto px-6 py-12">
         <div id="watch-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div class="animate-pulse text-zinc-800 text-center col-span-full py-20">
-                <p class="tracking-widest uppercase">Fetching Premium Stock...</p>
+                <p class="tracking-widest uppercase">loeafing new arrivals...</p>
             </div>
         </div>
     </main>
 
     <footer class="p-10 text-center border-t border-zinc-900 text-zinc-600">
-        <p class="text-[10px] tracking-widest uppercase">&copy; 2026 TUE Watches - Baldia 4 Market</p>
+        <p class="text-[10px] tracking-widest uppercase">&copy; 2026 Timelab Watch - Baldia 4 Market | gameextra94@gmail.com</p>
     </footer>
 
     <script type="module">
@@ -56,18 +55,47 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Logic 1: Announcement Load & Auto-Hide
-        onSnapshot(doc(db, "settings", "announcement"), (doc) => {
+        window.watchData = {};
+
+        // Color Variant Switch Function
+        window.switchVariant = (docId, index) => {
+            const w = window.watchData[docId];
+            const selectedImage = w.urls[index] || w.urls[0];
+            const selectedColor = w.colors[index] || `Variant ${index + 1}`;
+
+            // Image Update
+            const imgEl = document.getElementById(`img-${docId}`);
+            if (imgEl) imgEl.src = selectedImage;
+
+            // Label Update
+            const labelEl = document.getElementById(`color-label-${docId}`);
+            if (labelEl) labelEl.innerText = selectedColor;
+
+            // WhatsApp Link Update
+            const messageText = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Selected Variant:* ${selectedColor}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${selectedImage}`;
+            const waBtn = document.getElementById(`wa-btn-${docId}`);
+            if (waBtn) {
+                waBtn.onclick = () => window.location.href = `https://wa.me/923232124734?text=${encodeURIComponent(messageText)}`;
+            }
+        };
+
+        window.toggleColors = (docId) => {
+            const drawer = document.getElementById(`color-drawer-${docId}`);
+            if (drawer) drawer.classList.toggle('hidden');
+        };
+
+        // Announcement listener
+        onSnapshot(doc(db, "settings", "announcement"), (docSnap) => {
             const bar = document.getElementById('announcement-section');
-            if (doc.exists() && doc.data().text) {
-                bar.innerText = doc.data().text;
+            if (docSnap.exists() && docSnap.data().text) {
+                bar.innerText = docSnap.data().text;
                 bar.classList.remove('hidden');
             } else {
                 bar.classList.add('hidden');
             }
         });
 
-        // Logic 2: Load Watches & Formatted WhatsApp Details
+        // Watches listener
         onSnapshot(collection(db, "watches"), (snapshot) => {
             const list = document.getElementById('watch-list');
             list.innerHTML = "";
@@ -77,38 +105,88 @@
                 return;
             }
 
-            snapshot.forEach((doc) => {
-                const w = doc.data();
+            snapshot.forEach((docSnap) => {
+                const docId = docSnap.id;
+                const w = docSnap.data();
+                
+                // Extract Image URLs
+                const rawUrls = w.url ? w.url.split(',').map(s => s.trim()) : [];
+                const finalUrls = rawUrls.length ? rawUrls : [w.url];
+                
+                // Clean Color Names (Auto filter out URLs if added by mistake in color field)
+                let rawColors = w.colors ? w.colors.split(',').map(s => s.trim()) : [];
+                
+                // If color field contains http link or is empty, convert to clean names like Color 1, Color 2
+                const finalColors = finalUrls.map((_, idx) => {
+                    const colorVal = rawColors[idx];
+                    if (!colorVal || colorVal.includes('http') || colorVal.includes('[')) {
+                        return `Color ${idx + 1}`;
+                    }
+                    return colorVal;
+                });
+                
+                window.watchData[docId] = {
+                    ...w,
+                    urls: finalUrls,
+                    colors: finalColors
+                };
+
                 const currentStock = (w.stock || 0) - (w.sales || 0);
                 const isOutOfStock = currentStock <= 0;
                 
-                // Formatted Message with Name, Price and Image URL
-                const messageText = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${w.url}`;
+                const activeImg = window.watchData[docId].urls[0];
+                const activeColor = window.watchData[docId].colors[0];
+                const totalVariants = window.watchData[docId].urls.length;
+
+                const messageText = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Selected Variant:* ${activeColor}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${activeImg}`;
                 const waLink = `https://wa.me/923232124734?text=${encodeURIComponent(messageText)}`;
 
+                let colorSectionHtml = "";
+                if (totalVariants > 1) {
+                    colorSectionHtml = `
+                        <div class="mb-4">
+                            <button onclick="toggleColors('${docId}')" 
+                                class="w-full py-2.5 px-4 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:border-[#d4af37] text-zinc-300 text-xs font-semibold flex items-center justify-between transition-all">
+                                <span>🎨 Variant: <strong id="color-label-${docId}" class="gold-text">${activeColor}</strong></span>
+                                <span class="text-[10px] bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full font-bold">${totalVariants} Options</span>
+                            </button>
+
+                            <div id="color-drawer-${docId}" class="hidden mt-2 p-2 bg-zinc-900/90 rounded-xl border border-zinc-800 grid grid-cols-2 gap-2">
+                                ${window.watchData[docId].colors.map((col, idx) => `
+                                    <button onclick="switchVariant('${docId}', ${idx})" 
+                                            class="py-2 px-3 bg-black hover:bg-[#d4af37] hover:text-black text-zinc-300 text-[11px] rounded-lg border border-zinc-800 transition-all text-center truncate font-bold">
+                                        ${col}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
                 list.innerHTML += `
-                    <div class="watch-card p-4 rounded-[2.5rem] border border-zinc-900 group">
-                        <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-2xl">
-                            <img src="${w.url}" class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110" 
+                    <div class="watch-card p-4 rounded-[2rem] border border-zinc-900 group">
+                        <div class="relative overflow-hidden rounded-[1.5rem] mb-5 shadow-2xl bg-zinc-950">
+                            <img id="img-${docId}" src="${activeImg}" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105" 
                                  onerror="this.src='https://via.placeholder.com/400x500?text=TUE+Watches'">
-                            ${isOutOfStock ? '<div class="absolute inset-0 bg-black/70 flex items-center justify-center font-black uppercase tracking-tighter text-3xl">Sold Out</div>' : ''}
+                            ${isOutOfStock ? '<div class="absolute inset-0 bg-black/75 flex items-center justify-center font-black uppercase tracking-tighter text-2xl text-red-500">Sold Out</div>' : ''}
                         </div>
                         
                         <div class="px-2">
-                            <h3 class="text-xl font-bold mb-1 tracking-tight">${w.name}</h3>
-                            <div class="flex justify-between items-end mb-6">
-                                <div>
-                                    <p class="gold-text font-black text-2xl">Rs. ${Number(w.price).toLocaleString()}</p>
-                                    <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-green-500'} font-bold mt-1">
-                                        ${isOutOfStock ? 'Out of Stock' : `Available Stock: ${currentStock}`}
-                                    </p>
-                                </div>
+                            <h3 class="text-lg font-bold mb-1 tracking-tight text-white">${w.name}</h3>
+                            
+                            <div class="flex justify-between items-baseline mb-3">
+                                <p class="gold-text font-black text-xl">Rs. ${Number(w.price).toLocaleString()}</p>
+                                <p class="text-[9px] uppercase tracking-widest ${isOutOfStock ? 'text-red-500' : 'text-emerald-400'} font-semibold">
+                                    ${isOutOfStock ? 'Out of Stock' : `Stock: ${currentStock}`}
+                                </p>
                             </div>
 
-                            <button onclick="window.location.href='${waLink}'" 
-                                class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed' : 'bg-white hover:bg-[#d4af37]'} text-black py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all"
+                            ${colorSectionHtml}
+
+                            <button id="wa-btn-${docId}" onclick="window.location.href='${waLink}'" 
+                                class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed text-zinc-500' : 'bg-white hover:bg-[#d4af37] text-black'} py-3.5 rounded-xl font-black text-xs uppercase tracking-[0.15em] transition-all"
                                 ${isOutOfStock ? 'disabled' : ''}>
-                                ${isOutOfStock ? 'Wait for Restock' : 'Order via WhatsApp'}
+                                ${isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
                             </button>
                         </div>
                     </div>
