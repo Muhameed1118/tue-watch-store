@@ -143,16 +143,18 @@
         document.getElementById('btn-save-banner').addEventListener('click', async () => {
             const txt = document.getElementById('announcement-text').value.trim();
             const ancStatus = document.getElementById('anc-status');
+            ancStatus.innerText = "⏳ Saving...";
+            ancStatus.className = "text-[10px] mt-2 font-bold text-center text-[#2b3a29]";
             try {
-                await setDoc(doc(db, "settings", "announcement"), { text: txt });
-                ancStatus.innerText = "✅ Banner Saved!";
+                await setDoc(doc(db, "settings", "announcement"), { text: txt }, { merge: true });
+                ancStatus.innerText = "✅ Banner Live Updated!";
                 ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-700";
-            } catch (err) { alert(err.message); }
+            } catch (err) { alert("Save Failed: " + err.message); }
         });
 
         document.getElementById('btn-clear-banner').addEventListener('click', async () => {
             document.getElementById('announcement-text').value = "";
-            await setDoc(doc(db, "settings", "announcement"), { text: "" });
+            await setDoc(doc(db, "settings", "announcement"), { text: "" }, { merge: true });
             document.getElementById('anc-status').innerText = "Banner Cleared!";
         });
 

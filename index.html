@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timelab watch</title>
+    <title>TUE WATCHES | Exclusive Timepieces</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,9 +16,6 @@
         }
         .font-serif-title {
             font-family: 'Playfair Display', serif;
-        }
-        .olive-bg {
-            background-color: #2b3a29;
         }
         .olive-btn {
             background: linear-gradient(135deg, #2b3a29 0%, #3d523a 100%);
@@ -42,19 +39,20 @@
             background-color: #2b3a29; 
             border-bottom: 1px solid #c5a059;
             color: #f4efe6; 
+            word-break: break-word;
         }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Top Announcement Bar -->
-    <div id="announcement-section" class="announcement-bar text-center py-2.5 px-4 font-medium text-xs hidden tracking-widest uppercase sticky top-0 z-50 shadow-sm"></div>
+    <div id="announcement-section" class="announcement-bar text-center py-2.5 px-4 font-medium text-xs hidden tracking-widest uppercase sticky top-0 z-[9999] shadow-sm"></div>
 
     <!-- Store Header -->
     <header class="py-14 px-6 text-center bg-[#f4efe6] border-b border-[#e5decb] relative">
         <div class="max-w-2xl mx-auto">
             <span class="text-[10px] font-bold tracking-[0.3em] text-[#3a4d38] uppercase bg-[#e3dbc8] px-3.5 py-1 rounded-full border border-[#d2c7ae]">Official Showroom</span>
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight font-serif-title text-[#2b3a29] italic mt-4 mb-2">Timelab Watch</h1>
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight font-serif-title text-[#2b3a29] italic mt-4 mb-2">TUE WATCHES</h1>
             <p class="text-[#5a6f56] text-xs sm:text-sm tracking-[0.25em] font-semibold uppercase">Timeless Elegance & Pure Style</p>
         </div>
     </header>
@@ -70,7 +68,7 @@
     </main>
 
     <!-- Variants Color Selection Modal -->
-    <div id="color-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div id="color-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
         <div class="bg-[#fbf9f5] border border-[#e2dacb] w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto shadow-2xl">
             <button id="close-modal-btn" type="button" class="absolute top-4 right-4 bg-[#e8e2d5] hover:bg-[#dcd4c3] text-[#2b3a29] w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all">✕</button>
             <h3 id="modal-watch-name" class="text-xl font-bold mb-1 text-[#2b3a29] font-serif-title"></h3>
@@ -82,7 +80,7 @@
 
     <!-- Footer -->
     <footer class="py-8 px-6 text-center border-t border-[#e8e2d5] text-[#6b7c67] bg-[#f4efe6]">
-        <p class="text-[11px] tracking-widest uppercase font-semibold">&copy; 2026 TUE WATCHES &bull; Baldia 24 Market, Karachi | gameextra94@gmail.com</p>
+        <p class="text-[11px] tracking-widest uppercase font-semibold">&copy; 2026 TUE WATCHES &bull; Baldia 4 Market, Karachi</p>
     </footer>
 
     <script type="module">
@@ -108,10 +106,11 @@
         // Real-time Announcement Observer
         onSnapshot(doc(db, "settings", "announcement"), (docSnap) => {
             const bar = document.getElementById('announcement-section');
-            if (docSnap.exists() && docSnap.data().text) {
-                bar.innerText = docSnap.data().text;
+            if (docSnap.exists() && docSnap.data().text && docSnap.data().text.trim() !== "") {
+                bar.textContent = docSnap.data().text;
                 bar.classList.remove('hidden');
             } else {
+                bar.textContent = "";
                 bar.classList.add('hidden');
             }
         });
