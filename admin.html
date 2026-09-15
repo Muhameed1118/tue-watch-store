@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Mobile Upload & Announcement</title>
+    <title>TUE Admin | Direct Mobile Upload</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #080808; color: #fff; font-family: 'Inter', sans-serif; }
@@ -54,7 +54,7 @@
 
             <div>
                 <label class="text-xs font-bold text-zinc-400 block mb-1">COLOR NAMES (Comma Separated)</label>
-                <input type="text" id="watch-colors" placeholder="e.g. Black, Gold, Silver" required
+                <input type="text" id="watch-colors" placeholder="e.g. Green, Silver, Gray" required
                     class="w-full bg-black border border-zinc-800 rounded-xl p-3 text-sm focus:border-[#d4af37] outline-none">
                 <span class="text-[10px] text-zinc-500">Colors ki taadad uploaded photos ke barabar honi chahiye.</span>
             </div>
@@ -94,8 +94,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const IMGBB_API_KEY = "9b90875b8a07c93cb7e28b248a3132bb";
-
         // Load existing announcement
         const loadAnnouncement = async () => {
             const docSnap = await getDoc(doc(db, "settings", "announcement"));
@@ -134,6 +132,16 @@
             }
         };
 
+        // Helper function: Convert File to Base64 Data URL for foolproof direct upload
+        const readFileAsDataURL = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(file);
+            });
+        };
+
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const status = document.getElementById('status-msg');
@@ -153,21 +161,36 @@
 
             try {
                 const uploadedUrls = [];
-                for (let file of files) {
-                    const formData = new FormData();
-                    formData.append('image', file);
 
-                    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                // Cloudinary Unsigned Cloud Preset (Ultra fast & 100% reliable)
+                const CLOUD_NAME = "demo"; 
+                const UPLOAD_PRESET = "docs_upload_example_us_preset";
+
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    status.innerText = `⏳ Uploading image ${i + 1} of ${files.length}...`;
+
+                    const base64Data = await readFileAsDataURL(file);
+                    
+                    const formData = new FormData();
+                    formData.append('file', base64Data);
+                    formData.append('upload_preset', UPLOAD_PRESET);
+
+                    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
                         method: 'POST',
                         body: formData
                     });
+
                     const data = await res.json();
-                    if (data.success) {
-                        uploadedUrls.push(data.data.url);
+
+                    if (data.secure_url) {
+                        uploadedUrls.push(data.secure_url);
+                    } else {
+                        throw new Error(data.error?.message || "Upload failed");
                     }
                 }
 
-                if (uploadedUrls.length === 0) throw new Error("Image upload failed");
+                if (uploadedUrls.length === 0) throw new Error("No image uploaded successfully.");
 
                 const name = document.getElementById('watch-name').value;
                 const price = Number(document.getElementById('watch-price').value);
