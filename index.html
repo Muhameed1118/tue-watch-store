@@ -23,7 +23,7 @@
 <body>
 
     <div id="announcement-section" class="announcement-bar text-center p-3 font-black text-xs hidden uppercase tracking-[0.3em] sticky top-0 z-50 shadow-2xl">
-        </div>
+    </div>
 
     <header class="py-16 px-6 text-center border-b border-zinc-900">
         <h1 class="text-6xl font-black tracking-tighter gold-text uppercase italic">TUE Watches</h1>
@@ -46,7 +46,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Aapki Nayi Project Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
             authDomain: "tuewatchstore.firebaseapp.com",
@@ -57,7 +56,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- Logic 1: Announcement Load Karna ---
+        // Logic 1: Announcement Load & Auto-Hide
         onSnapshot(doc(db, "settings", "announcement"), (doc) => {
             const bar = document.getElementById('announcement-section');
             if (doc.exists() && doc.data().text) {
@@ -68,10 +67,10 @@
             }
         });
 
-        // --- Logic 2: Watches & Stock Load Karna ---
+        // Logic 2: Load Watches & Formatted WhatsApp Details
         onSnapshot(collection(db, "watches"), (snapshot) => {
             const list = document.getElementById('watch-list');
-            list.innerHTML = ""; // Purana data saaf karein
+            list.innerHTML = "";
 
             if (snapshot.empty) {
                 list.innerHTML = "<p class='col-span-full text-center text-zinc-500'>No watches found in inventory.</p>";
@@ -80,11 +79,13 @@
 
             snapshot.forEach((doc) => {
                 const w = doc.data();
-                
-                // Stock Calculation: Total Stock - Sold
                 const currentStock = (w.stock || 0) - (w.sales || 0);
                 const isOutOfStock = currentStock <= 0;
                 
+                // Formatted Message with Name, Price and Image URL
+                const messageText = `Salam TUE Watches!\nI want to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${w.url}`;
+                const waLink = `https://wa.me/923232124734?text=${encodeURIComponent(messageText)}`;
+
                 list.innerHTML += `
                     <div class="watch-card p-4 rounded-[2.5rem] border border-zinc-900 group">
                         <div class="relative overflow-hidden rounded-[2rem] mb-6 shadow-2xl">
@@ -104,11 +105,11 @@
                                 </div>
                             </div>
 
-                            <button onclick="window.location.href='https://wa.me/923232124734?text=Salam, I want to order ${w.name}'" 
-        class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed' : 'bg-white hover:bg-[#d4af37]'} text-black py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all"
-        ${isOutOfStock ? 'disabled' : ''}>
-    ${isOutOfStock ? 'Wait for Restock' : 'Order via WhatsApp'}
-</button>
+                            <button onclick="window.location.href='${waLink}'" 
+                                class="w-full ${isOutOfStock ? 'bg-zinc-800 cursor-not-allowed' : 'bg-white hover:bg-[#d4af37]'} text-black py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all"
+                                ${isOutOfStock ? 'disabled' : ''}>
+                                ${isOutOfStock ? 'Wait for Restock' : 'Order via WhatsApp'}
+                            </button>
                         </div>
                     </div>
                 `;
