@@ -3,89 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  timelab</title>
+    <title>TUE | Official Watch Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #fbf9f5; 
-            color: #1f2921; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-        }
-        .font-serif-title {
-            font-family: 'Playfair Display', serif;
-        }
-        .olive-btn {
-            background: linear-gradient(135deg, #2b3a29 0%, #3d523a 100%);
-            color: #fcfaf7;
-        }
-        .olive-btn:hover {
-            background: linear-gradient(135deg, #202b1f 0%, #2e3e2c 100%);
-        }
-        .cream-card {
-            background: #ffffff;
-            border: 1px solid #e8e2d5;
-            box-shadow: 0 4px 20px -2px rgba(43, 58, 41, 0.05);
-            transition: all 0.35s ease;
-        }
-        .cream-card:hover {
-            transform: translateY(-6px);
-            border-color: #c5a059;
-            box-shadow: 0 16px 30px -10px rgba(43, 58, 41, 0.12);
-        }
-        .announcement-bar { 
-            background-color: #2b3a29; 
-            border-bottom: 1px solid #c5a059;
-            color: #f4efe6; 
-            word-break: break-word;
-        }
+        body { background: #fbf9f5; color: #1f2921; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .olive-btn { background: #2b3a29; color: #fcfaf7; font-weight: 700; }
+        .olive-btn:hover { background: #1e2a1c; }
+        .font-serif-title { font-family: 'Playfair Display', serif; }
+        .badge-tag { background: #2b3a29; color: #ffffff; font-weight: 700; font-size: 10px; padding: 3px 8px; border-radius: 6px; }
+        .color-chip { border: 1px solid #dcd4c3; background: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; color: #2b3a29; cursor: pointer; transition: all 0.2s; }
+        .color-chip.active { background: #2b3a29; color: #ffffff; border-color: #2b3a29; }
+        .thumb-img { width: 42px; height: 42px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; object-fit: cover; }
+        .thumb-img.active-thumb { border-color: #2b3a29; }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col justify-between">
+<body class="pb-24 antialiased">
 
-    <!-- Top Announcement Bar -->
-    <div id="announcement-section" class="announcement-bar text-center py-2.5 px-4 font-medium text-xs hidden tracking-widest uppercase sticky top-0 z-[9999] shadow-sm"></div>
+    <!-- ANNOUNCEMENT BANNER -->
+    <div id="announcement-bar" class="hidden bg-[#2b3a29] text-[#fcfaf7] text-xs py-2 px-4 text-center font-semibold tracking-wide shadow-sm">
+        <span id="announcement-content"></span>
+    </div>
 
-    <!-- Store Header -->
-    <header class="py-14 px-6 text-center bg-[#f4efe6] border-b border-[#e5decb] relative">
-        <div class="max-w-2xl mx-auto">
-            <span class="text-[10px] font-bold tracking-[0.3em] text-[#3a4d38] uppercase bg-[#e3dbc8] px-3.5 py-1 rounded-full border border-[#d2c7ae]">Official Showroom</span>
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight font-serif-title text-[#2b3a29] italic mt-4 mb-2">Timelab</h1>
-            <p class="text-[#5a6f56] text-xs sm:text-sm tracking-[0.25em] font-semibold uppercase">Timeless Elegance & Pure Style</p>
-        </div>
+    <!-- HEADER / BRANDING -->
+    <header class="py-6 px-4 text-center bg-white border-b border-[#e2dacb] shadow-xs sticky top-0 z-40">
+        <h1 class="text-3xl font-black text-[#2b3a29] font-serif-title tracking-tight">TUE</h1>
+        <p class="text-[10px] uppercase tracking-widest text-[#5a6f56] font-bold mt-0.5">Premium Timepieces • Since 2026</p>
     </header>
 
-    <!-- Main Inventory Grid -->
-    <main class="container mx-auto px-4 sm:px-6 py-12 flex-grow">
-        <div id="watch-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="animate-pulse text-[#5a6f56] text-center col-span-full py-24 space-y-3">
-                <div class="w-8 h-8 border-2 border-[#3a4d38] border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p class="tracking-widest uppercase text-xs font-semibold">Loading Collection...</p>
-            </div>
+    <!-- CATALOG GRID -->
+    <main class="max-w-4xl mx-auto p-4 sm:p-6">
+        <div id="catalog-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <p class="text-xs text-[#5a6f56] text-center col-span-full py-10">Loading watches...</p>
         </div>
     </main>
 
-    <!-- Variants Color Selection Modal -->
-    <div id="color-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-        <div class="bg-[#fbf9f5] border border-[#e2dacb] w-full max-w-lg rounded-t-3xl sm:rounded-3xl p-6 relative max-h-[85vh] overflow-y-auto shadow-2xl">
-            <button id="close-modal-btn" type="button" class="absolute top-4 right-4 bg-[#e8e2d5] hover:bg-[#dcd4c3] text-[#2b3a29] w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-all">✕</button>
-            <h3 id="modal-watch-name" class="text-xl font-bold mb-1 text-[#2b3a29] font-serif-title"></h3>
-            <p class="text-xs text-[#5a6f56] font-medium mb-5">Select your preferred color variant:</p>
-            
-            <div id="modal-variants-list" class="space-y-3"></div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="py-8 px-6 text-center border-t border-[#e8e2d5] text-[#6b7c67] bg-[#f4efe6]">
-        <p class="text-[11px] tracking-widest uppercase font-semibold">&copy; 2026 TUE WATCHES &bull; Baldia 4 Market, Karachi</p>
-    </footer>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
@@ -97,123 +54,140 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        window.watchStore = {};
+        // Fetch Live Announcement Banner
+        const loadBanner = async () => {
+            try {
+                const docSnap = await getDoc(doc(db, "settings", "announcement"));
+                if (docSnap.exists() && docSnap.data().text) {
+                    document.getElementById('announcement-content').innerText = docSnap.data().text;
+                    document.getElementById('announcement-bar').classList.remove('hidden');
+                }
+            } catch(e) { console.error(e); }
+        };
+        loadBanner();
 
-        document.getElementById('close-modal-btn').addEventListener('click', () => {
-            document.getElementById('color-modal').classList.add('hidden');
-        });
-
-        // Real-time Announcement Observer
-        onSnapshot(doc(db, "settings", "announcement"), (docSnap) => {
-            const bar = document.getElementById('announcement-section');
-            if (docSnap.exists() && docSnap.data().text && docSnap.data().text.trim() !== "") {
-                bar.textContent = docSnap.data().text;
-                bar.classList.remove('hidden');
-            } else {
-                bar.textContent = "";
-                bar.classList.add('hidden');
-            }
-        });
-
-        // Real-time Watches Observer
+        // Render Real-time Watches Catalog
         onSnapshot(collection(db, "watches"), (snapshot) => {
-            const list = document.getElementById('watch-list');
-            list.innerHTML = "";
+            const container = document.getElementById('catalog-container');
+            container.innerHTML = "";
 
             if (snapshot.empty) {
-                list.innerHTML = "<p class='col-span-full text-center text-[#6b7c67] py-16 text-sm font-medium'>No watches available in catalog right now.</p>";
+                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center col-span-full py-10">No watches currently available.</p>`;
                 return;
             }
 
             snapshot.forEach((docSnap) => {
-                const docId = docSnap.id;
                 const w = docSnap.data();
-                
-                const urls = w.url ? w.url.split(',').map(s => s.trim()) : [];
-                const colors = w.colors ? w.colors.split(',').map(s => s.trim()) : [];
+                const id = docSnap.id;
 
-                window.watchStore[docId] = { ...w, urls, colors };
+                // Split image URLs (commas or split tag)
+                let urls = [];
+                if (w.url) {
+                    urls = w.url.includes('---SPLIT---') 
+                           ? w.url.split('---SPLIT---').map(u => u.trim()) 
+                           : w.url.split(',').map(u => u.trim());
+                }
+                const mainImg = urls[0] || 'https://via.placeholder.com/400?text=No+Image';
 
-                const currentStock = (w.stock || 0) - (w.sales || 0);
-                const isOutOfStock = currentStock <= 0;
-                const mainImg = urls[0] || 'https://via.placeholder.com/400x500?text=TUE+Watches';
+                // Split Colors
+                let colorsList = [];
+                if (w.colors) {
+                    colorsList = w.colors.split(',').map(c => c.trim()).filter(c => c.length > 0);
+                }
 
-                const tagBadgeHtml = w.tag ? `<span class="absolute top-3 left-3 bg-[#2b3a29] text-[#f4efe6] text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-md z-10 tracking-wider border border-[#c5a059]">✨ ${w.tag}</span>` : '';
-
-                const defaultMsg = `Salam TUE Watches!\nI would like to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${mainImg}`;
-                const defaultWaLink = `https://wa.me/923232124734?text=${encodeURIComponent(defaultMsg)}`;
-
+                // Create Watch Card
                 const card = document.createElement('div');
-                card.className = "cream-card p-4 rounded-2xl group relative flex flex-col justify-between";
+                card.className = "bg-white rounded-2xl border border-[#e2dacb] overflow-hidden shadow-sm flex flex-col justify-between";
+
+                // Build Thumbnails HTML
+                let thumbsHtml = "";
+                if (urls.length > 1) {
+                    thumbsHtml = `<div class="flex gap-2 p-2 bg-[#fbf9f5] border-t border-[#e2dacb] overflow-x-auto">`;
+                    urls.forEach((u, idx) => {
+                        thumbsHtml += `<img src="${u}" class="thumb-img ${idx === 0 ? 'active-thumb' : ''}" data-card="${id}" data-url="${u}" onclick="switchImage('${id}', '${u}', this)">`;
+                    });
+                    thumbsHtml += `</div>`;
+                }
+
+                // Build Color Chips HTML
+                let colorsHtml = "";
+                if (colorsList.length > 0) {
+                    colorsHtml = `<div class="mt-3">
+                        <label class="text-[10px] font-bold text-[#5a6f56] block mb-1.5 uppercase tracking-wider">Available Colors:</label>
+                        <div class="flex flex-wrap gap-1.5" id="colors-group-${id}">`;
+                    colorsList.forEach((col, idx) => {
+                        colorsHtml += `<button type="button" class="color-chip ${idx === 0 ? 'active' : ''}" onclick="selectColor('${id}', '${col}', this)">${col}</button>`;
+                    });
+                    colorsHtml += `</div></div>`;
+                }
+
                 card.innerHTML = `
                     <div>
-                        <div class="relative overflow-hidden rounded-xl mb-4 bg-[#f4efe6] aspect-[4/5]">
-                            ${tagBadgeHtml}
-                            <img src="${mainImg}" class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
-                            ${isOutOfStock ? '<div class="absolute inset-0 bg-white/85 backdrop-blur-sm flex items-center justify-center font-bold uppercase tracking-widest text-sm text-red-600 z-20">Sold Out</div>' : ''}
+                        <!-- Main Image Container -->
+                        <div class="relative bg-[#fbf9f5] aspect-square flex items-center justify-center overflow-hidden">
+                            <img id="main-img-${id}" src="${mainImg}" onerror="this.onerror=null;this.src='https://via.placeholder.com/400?text=Image+Error';" class="w-full h-full object-cover transition-all duration-300">
+                            ${w.tag ? `<span class="absolute top-3 left-3 badge-tag">${w.tag}</span>` : ''}
                         </div>
                         
-                        <div class="px-1">
-                            <h3 class="text-lg font-extrabold mb-1 tracking-tight text-[#2b3a29] font-serif-title">${w.name}</h3>
+                        ${thumbsHtml}
+
+                        <!-- Content Details -->
+                        <div class="p-4">
+                            <h3 class="text-base font-bold text-[#2b3a29] leading-tight">${w.name}</h3>
                             
-                            <div class="flex justify-between items-baseline mb-4">
-                                <p class="text-[#2b3a29] font-extrabold text-xl">PKR ${Number(w.price).toLocaleString()}</p>
-                                <p class="text-[11px] uppercase tracking-wider ${isOutOfStock ? 'text-red-600' : 'text-[#3a4d38]'} font-bold">
-                                    ${isOutOfStock ? 'Out of Stock' : `In Stock: ${currentStock}`}
-                                </p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-lg font-black text-[#2b3a29]">Rs. ${Number(w.price).toLocaleString()}</span>
+                                <span class="text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                                    ${w.stock > 0 ? `In Stock (${w.stock})` : 'Out of Stock'}
+                                </span>
                             </div>
+
+                            ${colorsHtml}
                         </div>
                     </div>
 
-                    <div class="space-y-2 mt-2">
-                        ${urls.length > 1 ? `
-                            <button id="btn-colors-${docId}" type="button" 
-                                class="w-full py-2.5 px-4 rounded-xl border border-[#d8d0be] bg-[#f4efe6] hover:bg-[#eae2d0] text-[#2b3a29] text-xs font-semibold flex items-center justify-between transition-all">
-                                <span>See Available Colors</span>
-                                <span class="text-[10px] bg-[#2b3a29] text-[#f4efe6] px-2 py-0.5 rounded-full font-bold">${urls.length} Colors</span>
-                            </button>
-                        ` : ''}
-
-                        <a href="${isOutOfStock ? '#' : defaultWaLink}" target="_blank" 
-                            class="block text-center w-full ${isOutOfStock ? 'bg-gray-200 cursor-not-allowed text-gray-500' : 'olive-btn'} py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all shadow-md">
-                            ${isOutOfStock ? 'Sold Out' : 'Order via WhatsApp'}
-                        </a>
+                    <!-- Buy / WhatsApp Order Button -->
+                    <div class="p-4 pt-0">
+                        <button type="button" id="buy-btn-${id}" onclick="orderOnWhatsApp('${w.name}', '${w.price}', '${id}')" 
+                                ${w.stock <= 0 ? 'disabled' : ''}
+                                class="w-full py-3 olive-btn rounded-xl uppercase text-xs tracking-wider flex items-center justify-center gap-2 shadow-xs transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                            💬 Order on WhatsApp
+                        </button>
                     </div>
                 `;
 
-                list.appendChild(card);
-
-                if (urls.length > 1) {
-                    document.getElementById(`btn-colors-${docId}`).addEventListener('click', () => {
-                        document.getElementById('modal-watch-name').innerText = w.name;
-                        const modalContainer = document.getElementById('modal-variants-list');
-                        modalContainer.innerHTML = "";
-
-                        urls.forEach((url, idx) => {
-                            const colorName = colors[idx] || `Option ${idx + 1}`;
-                            const msg = `Salam TUE Watches!\nI would like to order:\n\n*Watch:* ${w.name}\n*Selected Variant:* ${colorName}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Image:* ${url}`;
-                            const waUrl = `https://wa.me/923232124734?text=${encodeURIComponent(msg)}`;
-
-                            modalContainer.innerHTML += `
-                                <div class="p-3 bg-white rounded-xl border border-[#e2dacb] flex items-center gap-4 shadow-sm">
-                                    <img src="${url}" class="w-16 h-16 object-cover rounded-lg border border-[#e8e2d5]">
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="font-bold text-xs text-[#2b3a29] truncate">${colorName}</h4>
-                                        <p class="text-[#3a4d38] font-extrabold text-xs mt-0.5">PKR ${Number(w.price).toLocaleString()}</p>
-                                    </div>
-                                    <a href="${waUrl}" target="_blank" 
-                                       class="olive-btn font-bold text-[11px] px-3.5 py-2.5 rounded-xl uppercase tracking-wider transition-all">
-                                        Order
-                                    </a>
-                                </div>
-                            `;
-                        });
-
-                        document.getElementById('color-modal').classList.remove('hidden');
-                    });
-                }
+                container.appendChild(card);
             });
         });
+
+        // Gallery Image Switcher
+        window.switchImage = (id, imgUrl, el) => {
+            document.getElementById(`main-img-${id}`).src = imgUrl;
+            const thumbs = document.querySelectorAll(`[data-card="${id}"]`);
+            thumbs.forEach(t => t.classList.remove('active-thumb'));
+            el.classList.add('active-thumb');
+        };
+
+        // Color Selection State
+        const selectedColorsMap = {};
+        window.selectColor = (id, colorName, el) => {
+            selectedColorsMap[id] = colorName;
+            const parent = document.getElementById(`colors-group-${id}`);
+            const chips = parent.querySelectorAll('.color-chip');
+            chips.forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        };
+
+        // WhatsApp Order Action
+        window.orderOnWhatsApp = (name, price, id) => {
+            const phoneNumber = "923000000000"; // Enter your official WhatsApp Number here (e.g., 923xxxxxxxx)
+            const chosenColor = selectedColorsMap[id] || (document.querySelector(`#colors-group-${id} .active`)?.innerText || 'Standard');
+            
+            const message = `Hello TUE Watch Store! I would like to order:\n\n*Watch:* ${name}\n*Price:* Rs. ${Number(price).toLocaleString()}\n*Selected Color:* ${chosenColor}\n\nPlease confirm delivery availability.`;
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        };
     </script>
 </body>
 </html>
