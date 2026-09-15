@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Olive Cream Panel</title>
+    <title>TUE Admin | Control Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -121,15 +121,19 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Open Mobile Gallery
         document.getElementById('btn-choose-photos').addEventListener('click', () => {
             document.getElementById('watch-images').click();
         });
 
+        // File Selection Counter
         document.getElementById('watch-images').addEventListener('change', (e) => {
             const countEl = document.getElementById('file-count');
-            countEl.innerText = e.target.files.length > 0 ? `Selected ${e.target.files.length} Photo(s)` : "";
+            const count = e.target.files.length;
+            countEl.innerText = count > 0 ? `✅ ${count} Photo(s) Selected` : "";
         });
 
+        // Fetch Announcement
         const fetchAnnouncement = async () => {
             try {
                 const docSnap = await getDoc(doc(db, "settings", "announcement"));
@@ -140,16 +144,16 @@
         };
         fetchAnnouncement();
 
+        // Banner Controls
         document.getElementById('btn-save-banner').addEventListener('click', async () => {
             const txt = document.getElementById('announcement-text').value.trim();
             const ancStatus = document.getElementById('anc-status');
             ancStatus.innerText = "⏳ Saving...";
-            ancStatus.className = "text-[10px] mt-2 font-bold text-center text-[#2b3a29]";
             try {
                 await setDoc(doc(db, "settings", "announcement"), { text: txt }, { merge: true });
-                ancStatus.innerText = "✅ Banner Live Updated!";
+                ancStatus.innerText = "✅ Banner Saved Live!";
                 ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-700";
-            } catch (err) { alert("Save Failed: " + err.message); }
+            } catch (err) { alert("Error: " + err.message); }
         });
 
         document.getElementById('btn-clear-banner').addEventListener('click', async () => {
@@ -158,6 +162,7 @@
             document.getElementById('anc-status').innerText = "Banner Cleared!";
         });
 
+        // Smart Mobile Image Compressor (Fixes 1MB Firestore Limit & Broken Images)
         const compressImage = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -167,8 +172,8 @@
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
-                        const maxWidth = 700;
-
+                        
+                        const maxWidth = 500;
                         if (width > maxWidth) {
                             height = Math.round((height * maxWidth) / width);
                             width = maxWidth;
@@ -178,7 +183,8 @@
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.75));
+                        
+                        resolve(canvas.toDataURL('image/jpeg', 0.60));
                     };
                     img.onerror = reject;
                     img.src = e.target.result;
@@ -188,6 +194,7 @@
             });
         };
 
+        // Upload & Publish Watch
         document.getElementById('upload-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const status = document.getElementById('status-msg');
@@ -195,13 +202,13 @@
             const files = document.getElementById('watch-images').files;
 
             if (files.length === 0) {
-                alert("Please select watch photos from gallery!");
+                alert("Please select photos from gallery!");
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = "Uploading Photos...";
-            status.innerText = "⏳ Saving watch to store...";
+            btn.innerText = "Processing Photos...";
+            status.innerText = "⏳ Uploading & Optimizing Images...";
             status.className = "text-[#2b3a29] text-center text-xs mt-4 font-bold";
 
             try {
@@ -212,13 +219,13 @@
                 }
 
                 await addDoc(collection(db, "watches"), {
-                    name: document.getElementById('watch-name').value,
+                    name: document.getElementById('watch-name').value.trim(),
                     price: Number(document.getElementById('watch-price').value),
                     stock: Number(document.getElementById('watch-stock').value),
                     sales: 0,
                     tag: document.getElementById('watch-tag').value || "",
-                    url: processedUrls.join(','),
-                    colors: document.getElementById('watch-colors').value
+                    url: processedUrls.join('---SPLIT---'),
+                    colors: document.getElementById('watch-colors').value.trim()
                 });
 
                 alert("✅ Watch Published Successfully!");
@@ -235,28 +242,35 @@
             }
         });
 
+        // Real-time Inventory List rendering
         onSnapshot(collection(db, "watches"), (snapshot) => {
             const container = document.getElementById('watches-list');
             container.innerHTML = "";
 
             if (snapshot.empty) {
-                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center py-4">No watches found in inventory.</p>`;
+                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center py-4">No watches in catalog.</p>`;
                 return;
             }
 
             snapshot.forEach((docSnap) => {
                 const w = docSnap.data();
                 const id = docSnap.id;
-                const firstImg = w.url ? w.url.split(',')[0] : '';
+                
+                let urls = [];
+                if (w.url) {
+                    urls = w.url.includes('---SPLIT---') ? w.url.split('---SPLIT---') : w.url.split(',');
+                }
+                const firstImg = urls[0] ? urls[0].trim() : 'https://via.placeholder.com/150';
 
                 const itemCard = document.createElement('div');
                 itemCard.className = "bg-[#fbf9f5] border border-[#e2dacb] rounded-xl p-3 flex flex-col gap-3";
                 itemCard.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <img src="${firstImg}" class="w-12 h-12 object-cover rounded-lg border border-[#dcd4c3]">
+                        <img src="${firstImg}" onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Error';" class="w-14 h-14 object-cover rounded-lg border border-[#dcd4c3]">
                         <div class="flex-1 min-w-0">
                             <h4 class="text-xs font-bold text-[#2b3a29] truncate">${w.name}</h4>
                             <p class="text-[10px] text-[#5a6f56]">Colors: ${w.colors || 'N/A'}</p>
+                            <p class="text-[9px] text-emerald-700 font-bold">${urls.length} Image(s) Attached</p>
                         </div>
                         <button id="del-${id}" type="button" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold">
                             🗑️ Delete
@@ -299,7 +313,7 @@
                             stock: Number(document.getElementById(`stock-${id}`).value),
                             tag: document.getElementById(`tag-${id}`).value
                         });
-                        alert("✅ Updated " + w.name);
+                        alert("✅ Updated details for " + w.name);
                     } catch (err) { alert(err.message); }
                 });
 
