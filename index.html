@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Timelab | Premium Timepieces</title>
+    <title>TUE | Premium Timepieces</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -975,7 +975,184 @@
                 height: 50px;
             }
         }
-    </style>
+    
+/* ===== TUE PREMIUM REDESIGN ===== */
+:root{
+ --olive:#182019;
+ --olive-dark:#0f1510;
+ --olive-light:#667164;
+ --cream:#f7f4ee;
+ --cream-dark:#ebe5da;
+ --border:#ddd6c9;
+ --gold:#b89a5d;
+ --gold-light:#d5bd8a;
+ --text:#171c18;
+ --muted:#777d76;
+}
+body{
+ background:#f8f6f1!important;
+ color:var(--text)!important;
+ font-family:"DM Sans",sans-serif!important;
+ letter-spacing:.005em;
+}
+header{
+ background:rgba(248,246,241,.92)!important;
+ border-bottom:1px solid rgba(24,32,25,.08)!important;
+ box-shadow:0 8px 30px rgba(20,26,20,.025);
+}
+.header-inner{max-width:1240px!important;height:88px!important}
+.logo{
+ color:#152018!important;font-size:34px!important;letter-spacing:.18em!important;
+}
+.logo-sub{color:#8b7a59!important;letter-spacing:.30em!important;font-size:7px!important}
+.nav a{color:#4e564f!important;font-size:10px!important;letter-spacing:.14em!important;text-transform:uppercase}
+.nav a:hover{color:#b08f52!important}
+.header-icon{border:1px solid #ded7ca!important;background:#fff!important}
+.hero{
+ max-width:1240px!important;padding:34px 22px 26px!important;
+}
+.hero-box{
+ min-height:570px!important;border-radius:2px!important;
+ background:
+ linear-gradient(100deg,rgba(11,17,12,.98) 0%,rgba(22,31,23,.95) 48%,rgba(35,43,35,.90) 100%)!important;
+ box-shadow:0 24px 70px rgba(19,25,20,.16);
+ grid-template-columns:1.02fr .98fr!important;
+}
+.hero-box:after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(90deg,transparent 35%,rgba(255,255,255,.035) 70%,transparent);
+}
+.hero-content{padding:72px!important}
+.eyebrow{color:var(--gold-light)!important;letter-spacing:.34em!important;font-size:9px!important}
+.hero-title{
+ color:#f8f5ed!important;font-size:clamp(56px,7vw,92px)!important;
+ line-height:.93!important;letter-spacing:-.045em!important;font-weight:500!important;
+}
+.hero-text{color:#b9c0b8!important;max-width:450px!important;font-size:14px!important;line-height:1.9!important}
+.hero-btn{
+ background:#f5f0e5!important;color:#182019!important;border-radius:0!important;
+ padding:15px 22px!important;font-size:10px!important;letter-spacing:.16em!important;
+ text-transform:uppercase!important;box-shadow:none!important;
+}
+.hero-btn:hover{background:#d4bc88!important}
+.hero-watch{position:relative!important}
+.hero-watch-ring{
+ width:430px!important;height:430px!important;border-color:rgba(213,189,138,.16)!important;
+ box-shadow:0 0 100px rgba(184,154,93,.08);
+}
+.hero-watch-ring:after{border-color:rgba(213,189,138,.10)!important}
+.hero-watch-icon{
+ font-size:150px!important;opacity:.12;filter:grayscale(1)!important;
+}
+.trust{max-width:1240px!important;margin:0 auto!important;padding:0 22px!important}
+.trust-grid{
+ border-radius:0!important;border-left:0!important;border-right:0!important;
+ background:transparent!important;border-top:1px solid var(--border)!important;border-bottom:1px solid var(--border)!important;
+}
+.trust-item{padding:25px 18px!important;border-right:1px solid var(--border)!important}
+.trust-icon{
+ width:34px!important;height:34px!important;border-radius:50%!important;
+ background:#ebe5d9!important;color:#8d7445!important;font-size:10px!important;font-weight:700;
+}
+.trust-title{font-size:10px!important;letter-spacing:.10em!important;text-transform:uppercase!important}
+.trust-text{font-size:9px!important;color:#858b83!important}
+.collection{max-width:1240px!important;margin:105px auto 0!important;padding:0 22px!important}
+.section-heading{margin-bottom:34px!important}
+.section-label,.story-label{font-size:9px!important;letter-spacing:.34em!important;color:#a48651!important}
+.section-title{
+ font-size:52px!important;font-weight:500!important;letter-spacing:-.03em!important;margin:8px 0!important;
+}
+.section-description{font-size:13px!important;color:#80867f!important}
+.search-area{max-width:620px!important;margin:0 auto 18px!important}
+.search-box{
+ border-radius:0!important;background:#fff!important;border:1px solid #d9d1c4!important;
+ box-shadow:0 8px 28px rgba(24,32,25,.04)!important;
+}
+.search-box input{font-size:12px!important}
+.filters{gap:8px!important;margin-bottom:30px!important}
+.filter-btn{
+ border-radius:0!important;border:1px solid #d8d0c3!important;background:#fff!important;
+ color:#5e665e!important;padding:10px 17px!important;font-size:9px!important;
+ letter-spacing:.12em!important;text-transform:uppercase!important;
+}
+.filter-btn.active,.filter-btn:hover{background:#1b251d!important;color:#fff!important;border-color:#1b251d!important}
+.catalog-grid{
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;
+}
+.watch-card{
+ border:1px solid #ded7cb!important;border-radius:0!important;background:#fff!important;
+ box-shadow:none!important;transition:transform .35s,box-shadow .35s!important;
+}
+.watch-card:hover{transform:translateY(-5px)!important;box-shadow:0 22px 55px rgba(24,32,25,.10)!important}
+.watch-image{aspect-ratio:1/1.08!important;background:#f1eee8!important}
+.watch-image img{transition:transform .7s cubic-bezier(.2,.7,.2,1)!important}
+.watch-card:hover .watch-image img{transform:scale(1.035)!important}
+.badge{
+ border-radius:0!important;background:#1a241c!important;color:#e8dcc2!important;
+ font-size:8px!important;letter-spacing:.12em!important;text-transform:uppercase!important;
+ padding:8px 11px!important;
+}
+.quick-order{
+ width:38px!important;height:38px!important;border-radius:50%!important;
+ background:rgba(255,255,255,.92)!important;color:#1c271e!important;
+ border:1px solid #ddd6ca!important;font-size:13px!important;
+}
+.product-info{padding:20px 19px 21px!important}
+.product-name{font-family:"Playfair Display",serif!important;font-size:19px!important;font-weight:600!important}
+.price{font-size:13px!important;font-weight:700!important;letter-spacing:.02em}
+.old-price{font-size:10px!important;color:#9a9b96!important}
+.color-label{font-size:8px!important;letter-spacing:.13em!important;text-transform:uppercase!important;color:#898d87!important}
+.color-chip{
+ border-radius:0!important;background:#faf8f3!important;border:1px solid #ddd5c8!important;
+ font-size:9px!important;
+}
+.color-chip.active{background:#202b22!important;color:#fff!important;border-color:#202b22!important}
+.order-btn{
+ width:100%!important;border-radius:0!important;background:#1a241c!important;
+ color:#fff!important;border:0!important;padding:13px!important;
+ font-size:9px!important;letter-spacing:.16em!important;text-transform:uppercase!important;
+}
+.order-btn:hover{background:#b49458!important;color:#111!important}
+.story{max-width:1240px!important;margin:120px auto!important;padding:0 22px!important}
+.story-box{
+ border-radius:0!important;padding:90px 25px!important;
+ background:
+ radial-gradient(circle at 50% 0,rgba(184,154,93,.12),transparent 35%),
+ #182019!important;
+}
+.story-title{font-size:50px!important;line-height:1.02!important;font-weight:500!important}
+.story-text{max-width:600px!important;color:#bbc0ba!important;line-height:1.9!important}
+footer{
+ background:#111811!important;color:#dfe2dc!important;border-top:1px solid #293229!important;
+}
+.footer-inner{max-width:1240px!important;padding:70px 22px!important}
+.footer-brand .logo{color:#f4efe4!important}
+.footer-brand p{color:#899189!important;line-height:1.8!important}
+.footer-heading{color:#b89a5d!important;letter-spacing:.22em!important}
+.footer-link{color:#aeb5ad!important;font-size:10px!important}
+.copyright{border-top:1px solid rgba(255,255,255,.08)!important;color:#687068!important}
+.whatsapp{
+ width:58px!important;height:58px!important;right:24px!important;bottom:24px!important;
+ background:#1b271e!important;color:#e8dfca!important;box-shadow:0 14px 38px rgba(16,24,17,.25)!important;
+ border:1px solid rgba(255,255,255,.18)!important;
+}
+@media(max-width:900px){
+ .catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .hero-box{min-height:500px!important}.hero-content{padding:46px!important}.hero-watch-ring{width:320px!important;height:320px!important}
+}
+@media(max-width:640px){
+ .header-inner{height:74px!important}.nav{display:none!important}
+ .hero{padding:16px 14px!important}.hero-box{min-height:620px!important;grid-template-columns:1fr!important}
+ .hero-content{padding:42px 28px 10px!important}.hero-title{font-size:57px!important}
+ .hero-watch{min-height:220px!important}.hero-watch-ring{width:250px!important;height:250px!important}
+ .trust{padding:0 14px!important}.trust-grid{grid-template-columns:repeat(2,1fr)!important}
+ .trust-item{padding:18px 12px!important}.collection{padding:0 14px!important;margin-top:75px!important}
+ .section-title{font-size:40px!important}.catalog-grid{grid-template-columns:1fr!important;gap:14px!important}
+ .story{padding:0 14px!important;margin:80px auto!important}.story-box{padding:65px 24px!important}.story-title{font-size:40px!important}
+ .footer-inner{grid-template-columns:1fr 1fr!important;gap:34px!important}
+}
+
+</style>
 </head>
 
 <body>
@@ -998,7 +1175,7 @@
         <div class="header-inner">
 
             <a href="#" style="text-decoration:none;">
-                <div class="logo">Timelab</div>
+                <div class="logo">TUE</div>
                 <div class="logo-sub">Premium Timepieces</div>
             </a>
 
@@ -1055,7 +1232,7 @@
                 <div class="hero-content">
 
                     <div class="eyebrow">
-                        The Timelab Collection
+                        The TUE Collection
                     </div>
 
                     <h1 class="hero-title">
@@ -1105,7 +1282,7 @@
             <div class="trust-grid">
 
                 <div class="trust-item">
-                    <div class="trust-icon">🚚</div>
+                    <div class="trust-icon">01</div>
                     <div>
                         <div class="trust-title">Fast Delivery</div>
                         <div class="trust-text">Quick & secure shipping</div>
@@ -1113,7 +1290,7 @@
                 </div>
 
                 <div class="trust-item">
-                    <div class="trust-icon">💵</div>
+                    <div class="trust-icon">02</div>
                     <div>
                         <div class="trust-title">Cash on Delivery</div>
                         <div class="trust-text">Pay when you receive</div>
@@ -1121,7 +1298,7 @@
                 </div>
 
                 <div class="trust-item">
-                    <div class="trust-icon">✓</div>
+                    <div class="trust-icon">03</div>
                     <div>
                         <div class="trust-title">Quality Checked</div>
                         <div class="trust-text">Every piece inspected</div>
@@ -1129,7 +1306,7 @@
                 </div>
 
                 <div class="trust-item">
-                    <div class="trust-icon">💬</div>
+                    <div class="trust-icon">04</div>
                     <div>
                         <div class="trust-title">WhatsApp Support</div>
                         <div class="trust-text">We're here to help</div>
@@ -1240,7 +1417,7 @@
             <div class="story-box">
 
                 <div class="story-label">
-                    The Timelab Philosophy
+                    The TUE Philosophy
                 </div>
 
                 <h2 class="story-title">
@@ -1249,7 +1426,7 @@
                 </h2>
 
                 <p class="story-text">
-                    At Timelab, we believe a watch is more than something
+                    At TUE, we believe a watch is more than something
                     that tells time. It is a quiet expression of character,
                     style and the moments we choose to remember.
                     Our collection is curated for everyday elegance —
@@ -1273,7 +1450,7 @@
 
             <div class="footer-brand">
 
-                <div class="logo">Timelab</div>
+                <div class="logo">TUE</div>
 
                 <p>
                     Timeless watches for modern moments.
@@ -1308,7 +1485,7 @@
             <div>
 
                 <div class="footer-heading">
-                    Timelab
+                    TUE
                 </div>
 
                 <a href="#story" class="footer-link">
@@ -1333,13 +1510,13 @@
                 </div>
 
                 <a
-                    href="https://wa.me/9232124734"
+                    href="https://wa.me/923232124734"
                     target="_blank"
                     class="footer-link">
                     WhatsApp
                 </a>
 
-                <a href="https://www.instagram.com/timelab.01?stkn=bHVkZnptb2l1anRq" target="_blank" class="footer-link">
+                <a href="#" class="footer-link">
                     Instagram
                 </a>
 
@@ -1353,7 +1530,7 @@
 
 
         <div class="copyright">
-            © 2026 TimelabWatch Store. All rights reserved.
+            © 2026 TUE Watch Store. All rights reserved.
         </div>
 
     </footer>
@@ -1364,7 +1541,7 @@
     ========================== -->
 
     <a
-        href="https://wa.me/9232124734?text=Hello%20TUE%20Watch%20Store!%20I%20need%20some%20help."
+        href="https://wa.me/923232124734?text=Hello%20TUE%20Watch%20Store!%20I%20need%20some%20help."
         target="_blank"
         class="whatsapp"
         aria-label="WhatsApp">
@@ -1630,6 +1807,22 @@
 
             renderWatches(filtered);
 
+            // Use the first available product image as the premium hero visual.
+            if (allWatches.length) {
+                const heroUrls = getImageUrls(allWatches[0]);
+                const heroImg = heroUrls[0];
+                const heroWatch = document.querySelector(".hero-watch");
+                if (heroImg && heroWatch) {
+                    heroWatch.innerHTML = `
+                        <div class="hero-watch-ring"></div>
+                        <img src="${escapeHtml(heroImg)}"
+                             alt="${escapeHtml(allWatches[0].name || "TUE Timepiece")}"
+                             style="position:relative;z-index:2;width:min(78%,430px);height:430px;object-fit:contain;filter:drop-shadow(0 28px 28px rgba(0,0,0,.38));"
+                             onerror="this.style.display='none';">
+                    `;
+                }
+            }
+
         }
 
 
@@ -1798,7 +1991,7 @@
                                 title="Order on WhatsApp"
                                 aria-label="Order on WhatsApp"
                             >
-                                💬
+                                04
                             </button>
 
                         </div>
@@ -1812,7 +2005,7 @@
                             <h3 class="product-name">
                                 ${escapeHtml(
                                     watch.name ||
-                                    "Timelab Timepiece"
+                                    "TUE Timepiece"
                                 )}
                             </h3>
 
@@ -1843,7 +2036,7 @@
                                 type="button"
                                 class="order-btn"
                             >
-                                💬 &nbsp; Order on WhatsApp
+                                04 &nbsp; Order on WhatsApp
                             </button>
 
                         </div>
@@ -1984,15 +2177,15 @@
 
 
             const phoneNumber =
-                "9232124734";
+                "923232124734";
 
 
             const message =
-                `Hello Timelab Watch Store!
+                `Hello TUE Watch Store!
 
 I would like to order:
 
-*Watch:* ${watch.name || "Timelab Watch"}
+*Watch:* ${watch.name || "TUE Watch"}
 *Price:* Rs. ${Number(
                     watch.price || 0
                 ).toLocaleString()}
