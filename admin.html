@@ -1,276 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Control Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { background: #fbf9f5; color: #1f2921; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .olive-btn { background: #2b3a29; color: #fcfaf7; font-weight: 700; }
-        .olive-btn:hover { background: #1e2a1c; }
-        .font-serif-title { font-family: 'Playfair Display', serif; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timelab Admin | Control Panel</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{background:#fbf9f5;color:#1f2921;font-family:'Plus Jakarta Sans',sans-serif}
+.font-serif-title{font-family:'Playfair Display',serif}
+.olive{background:#2b3a29;color:#fcfaf7}.olive:hover{background:#1e2a1c}
+.card{background:#fff;border:1px solid #e2dacb;box-shadow:0 6px 24px rgba(43,58,41,.05)}
+input,select,textarea{outline:none}
+input:focus,select:focus,textarea:focus{border-color:#2b3a29!important;box-shadow:0 0 0 2px rgba(43,58,41,.08)}
+.nav-active{background:#2b3a29;color:#fff}
+.modal-bg{background:rgba(31,41,33,.55);backdrop-filter:blur(3px)}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#cfc6b5;border-radius:99px}
+</style>
 </head>
-<body class="p-4 sm:p-6 max-w-xl mx-auto space-y-6 pb-20 antialiased">
-
-    <!-- ANNOUNCEMENT CONTROL BOX -->
-    <div class="bg-white p-5 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest mb-3">📢 Top Announcement Banner</h3>
-        <div class="space-y-3">
-            <input type="text" id="announcement-text" placeholder="e.g. Special Discount - Free Delivery Nationwide!" 
-                   class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-            <div class="flex gap-2">
-                <button id="btn-save-banner" type="button" class="flex-1 py-2.5 olive-btn rounded-xl text-xs uppercase tracking-wider shadow-sm">Save Banner</button>
-                <button id="btn-clear-banner" type="button" class="py-2.5 px-4 bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-bold uppercase">Clear</button>
-            </div>
-        </div>
-        <p id="anc-status" class="text-[10px] mt-2 font-bold text-center"></p>
+<body>
+<div class="min-h-screen flex">
+  <aside id="sidebar" class="fixed z-40 inset-y-0 left-0 w-64 bg-[#263325] text-white transform -translate-x-full lg:translate-x-0 transition-transform">
+    <div class="p-6 border-b border-white/10">
+      <div class="text-3xl font-serif-title tracking-wide">Timelab </div>
+      <div class="text-[10px] uppercase tracking-[.25em] text-[#c9d2c4] mt-1">Admin Control</div>
     </div>
+    <nav class="p-4 space-y-2 text-sm">
+      <button data-page="dashboard" class="nav w-full text-left px-4 py-3 rounded-xl nav-active">📊 Dashboard</button>
+      <button data-page="products" class="nav w-full text-left px-4 py-3 rounded-xl">⌚ Products</button>
+      <button data-page="orders" class="nav w-full text-left px-4 py-3 rounded-xl">🛒 Orders / Leads</button>
+      <button data-page="settings" class="nav w-full text-left px-4 py-3 rounded-xl">📢 Store Settings</button>
+    </nav>
+    <div class="absolute bottom-0 left-0 right-0 p-4 text-[10px] text-white/50">Timelab Watch Store • Direct Admin</div>
+  </aside>
 
-    <!-- WATCH UPLOAD FORM WITH IMAGE LINKS -->
-    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <h2 class="text-2xl font-black text-[#2b3a29] font-serif-title tracking-tight mb-1 text-center">TUE Watch Store</h2>
-        <p class="text-xs text-[#5a6f56] text-center mb-6 font-semibold">Admin Panel - Add Products via Image Links</p>
+  <div id="overlay" class="fixed inset-0 bg-black/30 z-30 hidden lg:hidden"></div>
+  <main class="w-full lg:ml-64 min-h-screen">
+    <header class="sticky top-0 z-20 bg-[#fbf9f5]/95 backdrop-blur border-b border-[#e2dacb] px-4 sm:px-7 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden text-xl">☰</button>
+        <div><h1 id="pageTitle" class="font-serif-title text-2xl text-[#2b3a29]">Dashboard</h1><p class="text-[10px] text-[#6b7769]">Manage your TUE storefront</p></div>
+      </div>
+      <button id="refreshBtn" class="px-3 py-2 rounded-lg border border-[#dcd4c3] bg-white text-xs font-bold">↻ Refresh</button>
+    </header>
 
-        <form id="upload-form" class="space-y-4">
-            <div>
-                <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">WATCH NAME</label>
-                <input type="text" id="watch-name" placeholder="e.g. Rolex Datejust Olive Dial" required
-                    class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">PRICE (PKR)</label>
-                    <input type="number" id="watch-price" placeholder="3500" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">INITIAL STOCK</label>
-                    <input type="number" id="watch-stock" placeholder="10" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">COLOR NAMES</label>
-                    <input type="text" id="watch-colors" placeholder="Silver, Black, Gold" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">BADGE / TAG</label>
-                    <select id="watch-tag" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                        <option value="">No Badge</option>
-                        <option value="Top Selling">🔥 Top Selling</option>
-                        <option value="Hot Item">⚡ Hot Item</option>
-                        <option value="New Arrival">✨ New Arrival</option>
-                        <option value="Limited Edition">💎 Limited Edition</option>
-                        <option value="Special Sale">🏷️ Special Sale</option>
-                    </select>
-                </div>
-            </div>
-
-            <div>
-                <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">IMAGE URL(S)</label>
-                <textarea id="watch-urls" rows="3" placeholder="https://i.imgur.com/link1.jpg, https://i.imgur.com/link2.jpg" required
-                    class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]"></textarea>
-                <p class="text-[10px] text-[#5a6f56] mt-1 font-medium">Multiple photos ke liye URLs ke beech mein **comma ( , )** lagayein.</p>
-            </div>
-
-            <button type="submit" id="submit-btn" 
-                class="w-full py-3.5 olive-btn rounded-xl uppercase text-xs tracking-wider transition-all">
-                Publish Watch
-            </button>
-        </form>
-
-        <div id="status-msg" class="mt-4 text-center text-xs font-bold"></div>
-    </div>
-
-    <!-- MANAGE INVENTORY SECTION -->
-    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest">📦 Manage Stock & Details</h3>
-            <button id="btn-refresh-list" type="button" class="text-xs text-[#5a6f56] hover:underline font-bold">Reload</button>
+    <section id="dashboard" class="page p-4 sm:p-7 space-y-6">
+      <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+        <div class="card rounded-2xl p-5"><div class="text-xs text-[#687567]">Products</div><div id="statProducts" class="text-3xl font-extrabold mt-2">0</div></div>
+        <div class="card rounded-2xl p-5"><div class="text-xs text-[#687567]">Stock Units</div><div id="statStock" class="text-3xl font-extrabold mt-2">0</div></div>
+        <div class="card rounded-2xl p-5"><div class="text-xs text-[#687567]">Low Stock</div><div id="statLow" class="text-3xl font-extrabold mt-2">0</div></div>
+        <div class="card rounded-2xl p-5"><div class="text-xs text-[#687567]">Sales</div><div id="statSales" class="text-3xl font-extrabold mt-2">0</div></div>
+      </div>
+      <div class="card rounded-2xl p-5">
+        <div class="flex justify-between items-center mb-4"><h2 class="font-bold">Quick Actions</h2><span id="dashboardStatus" class="text-xs text-[#687567]"></span></div>
+        <div class="grid sm:grid-cols-3 gap-3">
+          <button class="olive rounded-xl py-3 text-xs font-bold" onclick="openProductModal()">＋ Add Watch</button>
+          <button class="rounded-xl py-3 text-xs font-bold border border-[#dcd4c3]" onclick="showPage('products')">⌚ Manage Products</button>
+          <button class="rounded-xl py-3 text-xs font-bold border border-[#dcd4c3]" onclick="showPage('settings')">📢 Edit Announcement</button>
         </div>
+      </div>
+      <div class="card rounded-2xl p-5">
+        <h2 class="font-bold mb-4">Recent Products</h2>
+        <div id="recentProducts" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3"></div>
+      </div>
+    </section>
 
-        <div id="watches-list" class="space-y-3">
-            <p class="text-xs text-[#5a6f56] text-center">Fetching items...</p>
+    <section id="products" class="page hidden p-4 sm:p-7 space-y-5">
+      <div class="flex flex-col sm:flex-row gap-3 justify-between">
+        <div><h2 class="text-xl font-bold">Products</h2><p class="text-xs text-[#687567]">Same fields your storefront reads from Firestore.</p></div>
+        <button class="olive rounded-xl px-5 py-3 text-xs font-bold" onclick="openProductModal()">＋ Add Product</button>
+      </div>
+      <div class="card rounded-2xl p-4">
+        <input id="searchProducts" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs" placeholder="Search watch name, tag or color...">
+      </div>
+      <div id="productsGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section id="orders" class="page hidden p-4 sm:p-7">
+      <div class="card rounded-2xl p-6">
+        <h2 class="text-xl font-bold">Orders / Leads</h2>
+        <p class="text-sm text-[#687567] mt-2">Your current storefront sends orders to WhatsApp. This panel cannot show WhatsApp orders unless the storefront also saves them into an <code>orders</code> collection.</p>
+        <div class="mt-5 p-4 rounded-xl bg-[#fbf9f5] border border-[#e2dacb] text-xs leading-6">
+          <b>Current flow:</b> Customer → WhatsApp → your phone.<br>
+          <b>For full order management:</b> storefront order form must create Firestore order documents.
         </div>
-    </div>
+      </div>
+    </section>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <section id="settings" class="page hidden p-4 sm:p-7 space-y-5">
+      <div class="card rounded-2xl p-5">
+        <h2 class="text-xl font-bold mb-1">Announcement Bar</h2>
+        <p class="text-xs text-[#687567] mb-4">Controls the top announcement on your timelab  website.</p>
+        <textarea id="announcement" rows="3" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs" placeholder="Special Discount - Free Delivery Nationwide!"></textarea>
+        <div class="flex gap-2 mt-3"><button id="saveAnnouncement" class="olive rounded-xl px-5 py-3 text-xs font-bold">Save Live</button><button id="clearAnnouncement" class="rounded-xl px-5 py-3 text-xs font-bold bg-red-50 text-red-700 border border-red-200">Clear</button></div>
+        <p id="announcementStatus" class="text-xs font-bold mt-3"></p>
+      </div>
+      <div class="card rounded-2xl p-5">
+        <h2 class="font-bold">Store Connection</h2>
+        <p class="text-xs text-[#687567] mt-2">Firebase project: <b>timelabwatchstore</b>. Products use the <b>watches</b> collection and the banner uses <b>settings/announcement</b>.</p>
+      </div>
+    </section>
+  </main>
+</div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
-            authDomain: "tuewatchstore.firebaseapp.com",
-            projectId: "tuewatchstore",
-            appId: "1:982689793085:web:eb92ea1952692b083a5654"
-        };
+<div id="productModal" class="hidden fixed inset-0 z-50 modal-bg items-center justify-center p-4">
+  <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+    <div class="p-5 border-b border-[#e2dacb] flex justify-between items-center"><h2 id="modalTitle" class="font-serif-title text-2xl text-[#2b3a29]">Add Watch</h2><button onclick="closeProductModal()" class="text-xl">×</button></div>
+    <form id="productForm" class="p-5 space-y-4">
+      <input type="hidden" id="productId">
+      <div><label class="label">WATCH NAME</label><input id="fName" required class="field"></div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div><label class="label">PRICE (PKR)</label><input id="fPrice" type="number" required class="field"></div>
+        <div><label class="label">OLD PRICE (PKR)</label><input id="fOldPrice" type="number" class="field" placeholder="Optional"></div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div><label class="label">STOCK</label><input id="fStock" type="number" class="field" value="0"></div>
+        <div><label class="label">COLORS</label><input id="fColors" class="field" placeholder="Silver, Black, Gold"></div>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <div><label class="label">TAG / BADGE</label><select id="fTag" class="field"><option value="">No Badge</option><option>Top Selling</option><option>Hot Item</option><option>New Arrival</option><option>Best Seller</option><option>Limited Edition</option><option>Special Sale</option><option>Sale</option></select></div>
+        <div><label class="label">SALES COUNT</label><input id="fSales" type="number" class="field" value="0"></div>
+      </div>
+      <div><label class="label">IMAGE URL(S)</label><textarea id="fUrl" rows="3" required class="field" placeholder="https://...jpg, https://...jpg"></textarea><p class="text-[10px] text-[#687567] mt-1">Multiple URLs comma-separated. Your storefront also supports its existing image-link format.</p></div>
+      <div class="grid sm:grid-cols-3 gap-3 text-xs">
+        <label class="toggle"><input id="fNew" type="checkbox"><span>✨ New Arrival</span></label>
+        <label class="toggle"><input id="fBest" type="checkbox"><span>🔥 Best Seller</span></label>
+        <label class="toggle"><input id="fSale" type="checkbox"><span>🏷️ Sale</span></label>
+      </div>
+      <button id="saveProduct" class="olive w-full rounded-xl py-3.5 text-xs font-bold uppercase tracking-wider">Publish Product</button>
+      <p id="productStatus" class="text-xs text-center font-bold"></p>
+    </form>
+  </div>
+</div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+<style>
+.label{display:block;font-size:10px;font-weight:800;color:#2b3a29;margin-bottom:5px;letter-spacing:.05em}
+.field{width:100%;background:#fbf9f5;border:1px solid #dcd4c3;border-radius:11px;padding:11px;font-size:12px;color:#1f2921}
+.toggle{border:1px solid #e2dacb;background:#fbf9f5;border-radius:11px;padding:11px;display:flex;gap:8px;align-items:center;font-weight:700}
+</style>
 
-        // Fetch Announcement
-        const fetchAnnouncement = async () => {
-            try {
-                const docSnap = await getDoc(doc(db, "settings", "announcement"));
-                if (docSnap.exists() && docSnap.data().text) {
-                    document.getElementById('announcement-text').value = docSnap.data().text;
-                }
-            } catch (err) { console.error(err); }
-        };
-        fetchAnnouncement();
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Banner Controls
-        document.getElementById('btn-save-banner').addEventListener('click', async () => {
-            const txt = document.getElementById('announcement-text').value.trim();
-            const ancStatus = document.getElementById('anc-status');
-            ancStatus.innerText = "⏳ Saving...";
-            try {
-                await setDoc(doc(db, "settings", "announcement"), { text: txt }, { merge: true });
-                ancStatus.innerText = "✅ Banner Saved Live!";
-                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-700";
-            } catch (err) { alert("Error: " + err.message); }
-        });
+const firebaseConfig = {
+  apiKey:"AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
+  authDomain:"timelabwatchstore.firebaseapp.com",
+  projectId:"timelabwatchstore",
+  appId:"1:982689793085:web:eb92ea1952692b083a5654"
+};
+const app=initializeApp(firebaseConfig), db=getFirestore(app);
+let products=[];
 
-        document.getElementById('btn-clear-banner').addEventListener('click', async () => {
-            document.getElementById('announcement-text').value = "";
-            await setDoc(doc(db, "settings", "announcement"), { text: "" }, { merge: true });
-            document.getElementById('anc-status').innerText = "Banner Cleared!";
-        });
+const $=id=>document.getElementById(id);
+window.showPage=(page)=>{
+  document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));
+  $(page).classList.remove('hidden');
+  document.querySelectorAll('.nav').forEach(x=>x.classList.remove('nav-active'));
+  const b=document.querySelector(`[data-page="${page}"]`); if(b)b.classList.add('nav-active');
+  const titles={dashboard:'Dashboard',products:'Products',orders:'Orders / Leads',settings:'Store Settings'};
+  $('pageTitle').textContent=titles[page];
+  $('sidebar').classList.add('-translate-x-full'); $('overlay').classList.add('hidden');
+};
+document.querySelectorAll('.nav').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+$('menuBtn').onclick=()=>{$('sidebar').classList.remove('-translate-x-full');$('overlay').classList.remove('hidden')};
+$('overlay').onclick=()=>{$('sidebar').classList.add('-translate-x-full');$('overlay').classList.add('hidden')};
+$('refreshBtn').onclick=()=>location.reload();
 
-        // Publish Watch
-        document.getElementById('upload-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const status = document.getElementById('status-msg');
-            const btn = document.getElementById('submit-btn');
+function imgOf(w){return (w.url||'').split(/,|---SPLIT---/).map(x=>x.trim()).filter(Boolean)[0]||'https://via.placeholder.com/300?text=Timelab';}
+function render(){
+  const q=($('searchProducts').value||'').toLowerCase();
+  const list=products.filter(w=>[w.name,w.tag,w.colors].join(' ').toLowerCase().includes(q));
+  $('productsGrid').innerHTML=list.map(w=>`
+    <div class="card rounded-2xl p-4">
+      <div class="flex gap-3">
+        <img src="${imgOf(w)}" onerror="this.src='https://via.placeholder.com/300?text=Timelab'" class="w-20 h-20 object-cover rounded-xl border border-[#e2dacb]">
+        <div class="min-w-0 flex-1"><h3 class="font-bold text-sm truncate">${escapeHtml(w.name||'Unnamed')}</h3>
+        <p class="text-xs mt-1">PKR ${Number(w.price||0).toLocaleString()}</p>
+        <p class="text-[10px] text-[#687567]">Stock: ${Number(w.stock||0)} • Sales: ${Number(w.sales||0)}</p>
+        <div class="flex flex-wrap gap-1 mt-2">${w.tag?`<span class="text-[9px] px-2 py-1 rounded-full bg-[#edf1ea]">${escapeHtml(w.tag)}</span>`:''}${w.sale||w.oldPrice?'<span class="text-[9px] px-2 py-1 rounded-full bg-red-50 text-red-700">SALE</span>':''}</div></div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mt-4"><button onclick="editProduct('${w.id}')" class="rounded-lg py-2 border border-[#2b3a29] text-[#2b3a29] text-[10px] font-bold">Edit</button><button onclick="removeProduct('${w.id}')" class="rounded-lg py-2 border border-red-200 bg-red-50 text-red-700 text-[10px] font-bold">Delete</button></div>
+    </div>`).join('') || '<div class="col-span-full text-center text-xs text-[#687567] py-10">No products found.</div>';
 
-            btn.disabled = true;
-            status.innerText = "⏳ Publishing watch...";
-            status.className = "text-[#2b3a29] text-center text-xs mt-4 font-bold";
+  $('statProducts').textContent=products.length;
+  $('statStock').textContent=products.reduce((a,w)=>a+Number(w.stock||0),0);
+  $('statLow').textContent=products.filter(w=>Number(w.stock||0)<=3).length;
+  $('statSales').textContent=products.reduce((a,w)=>a+Number(w.sales||0),0);
+  $('recentProducts').innerHTML=products.slice(0,4).map(w=>`<div class="flex gap-3 items-center bg-[#fbf9f5] rounded-xl p-3"><img src="${imgOf(w)}" class="w-12 h-12 object-cover rounded-lg"><div class="min-w-0"><b class="text-xs truncate block">${escapeHtml(w.name||'')}</b><span class="text-[10px]">PKR ${Number(w.price||0).toLocaleString()}</span></div></div>`).join('');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+$('searchProducts').addEventListener('input',render);
 
-            try {
-                await addDoc(collection(db, "watches"), {
-                    name: document.getElementById('watch-name').value.trim(),
-                    price: Number(document.getElementById('watch-price').value),
-                    stock: Number(document.getElementById('watch-stock').value),
-                    sales: 0,
-                    tag: document.getElementById('watch-tag').value || "",
-                    url: document.getElementById('watch-urls').value.trim(),
-                    colors: document.getElementById('watch-colors').value.trim()
-                });
+window.openProductModal=(w=null)=>{
+  $('productForm').reset(); $('productId').value=w?.id||''; $('modalTitle').textContent=w?'Edit Watch':'Add Watch';
+  if(w){$('fName').value=w.name||'';$('fPrice').value=w.price||'';$('fOldPrice').value=w.oldPrice||'';$('fStock').value=w.stock||0;$('fColors').value=w.colors||'';$('fTag').value=w.tag||'';$('fSales').value=w.sales||0;$('fUrl').value=w.url||'';$('fNew').checked=!!w.isNew;$('fBest').checked=!!w.bestSeller;$('fSale').checked=!!w.sale}
+  $('productModal').classList.remove('hidden');$('productModal').classList.add('flex');
+};
+window.closeProductModal=()=>{$('productModal').classList.add('hidden');$('productModal').classList.remove('flex')};
 
-                alert("✅ Watch Published Successfully!");
-                document.getElementById('upload-form').reset();
-                status.innerText = "";
-            } catch (err) {
-                alert("Upload Error: " + err.message);
-                status.innerText = "❌ Upload Failed!";
-                status.className = "text-red-600 text-center text-xs mt-4 font-bold";
-            } finally {
-                btn.disabled = false;
-            }
-        });
+$('productForm').addEventListener('submit',async e=>{
+  e.preventDefault(); const btn=$('saveProduct');btn.disabled=true;$('productStatus').textContent='Saving...';
+  const data={name:$('fName').value.trim(),price:Number($('fPrice').value),oldPrice:Number($('fOldPrice').value)||0,stock:Number($('fStock').value)||0,sales:Number($('fSales').value)||0,tag:$('fTag').value,url:$('fUrl').value.trim(),colors:$('fColors').value.trim(),isNew:$('fNew').checked,bestSeller:$('fBest').checked,sale:$('fSale').checked};
+  try{const id=$('productId').value;if(id)await updateDoc(doc(db,'watches',id),data);else await addDoc(collection(db,'watches'),data);closeProductModal();}catch(err){alert(err.message)}finally{btn.disabled=false;$('productStatus').textContent=''}
+});
+window.editProduct=id=>openProductModal(products.find(w=>w.id===id));
+window.removeProduct=async id=>{const w=products.find(x=>x.id===id);if(!w||!confirm(`Delete "${w.name}"?`))return;try{await deleteDoc(doc(db,'watches',id))}catch(e){alert(e.message)}};
 
-        // Real-time Inventory List
-        onSnapshot(collection(db, "watches"), (snapshot) => {
-            const container = document.getElementById('watches-list');
-            container.innerHTML = "";
+onSnapshot(collection(db,'watches'),snap=>{products=[];snap.forEach(d=>products.push({id:d.id,...d.data()}));render();$('dashboardStatus').textContent=`Updated ${new Date().toLocaleTimeString()}`},err=>alert(err.message));
 
-            if (snapshot.empty) {
-                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center py-4">No watches in catalog.</p>`;
-                return;
-            }
-
-            snapshot.forEach((docSnap) => {
-                const w = docSnap.data();
-                const id = docSnap.id;
-                
-                let urls = w.url ? w.url.split(',').map(s => s.trim()) : [];
-                const firstImg = urls[0] || 'https://via.placeholder.com/150?text=No+Image';
-
-                const itemCard = document.createElement('div');
-                itemCard.className = "bg-[#fbf9f5] border border-[#e2dacb] rounded-xl p-3 flex flex-col gap-3";
-                itemCard.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${firstImg}" onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Error';" class="w-14 h-14 object-cover rounded-lg border border-[#dcd4c3]">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-xs font-bold text-[#2b3a29] truncate">${w.name}</h4>
-                            <p class="text-[10px] text-[#5a6f56]">Colors: ${w.colors || 'N/A'}</p>
-                            <p class="text-[9px] text-emerald-700 font-bold">${urls.length} Image Link(s)</p>
-                        </div>
-                        <button id="del-${id}" type="button" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                            🗑️ Delete
-                        </button>
-                    </div>
-
-                    <div class="space-y-2 bg-white p-2.5 rounded-lg border border-[#e2dacb]">
-                        <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">PRICE</label>
-                                <input type="number" id="price-${id}" value="${w.price || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
-                            </div>
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">STOCK</label>
-                                <input type="number" id="stock-${id}" value="${w.stock || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
-                            </div>
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">TAG</label>
-                                <select id="tag-${id}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-[10px] text-[#1f2921]">
-                                    <option value="" ${!w.tag ? 'selected' : ''}>None</option>
-                                    <option value="Top Selling" ${w.tag === 'Top Selling' ? 'selected' : ''}>Top Selling</option>
-                                    <option value="Hot Item" ${w.tag === 'Hot Item' ? 'selected' : ''}>Hot Item</option>
-                                    <option value="New Arrival" ${w.tag === 'New Arrival' ? 'selected' : ''}>New Arrival</option>
-                                    <option value="Limited Edition" ${w.tag === 'Limited Edition' ? 'selected' : ''}>Limited Edition</option>
-                                    <option value="Special Sale" ${w.tag === 'Special Sale' ? 'selected' : ''}>Special Sale</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">IMAGE URL(S)</label>
-                            <input type="text" id="url-${id}" value="${w.url || ''}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1.5 text-xs text-[#1f2921]">
-                        </div>
-                    </div>
-
-                    <button id="update-${id}" type="button" class="w-full py-2 bg-white border border-[#2b3a29] text-[#2b3a29] hover:bg-[#2b3a29] hover:text-white rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all">
-                        Save Updates
-                    </button>
-                `;
-
-                container.appendChild(itemCard);
-
-                document.getElementById(`update-${id}`).addEventListener('click', async () => {
-                    try {
-                        await updateDoc(doc(db, "watches", id), {
-                            price: Number(document.getElementById(`price-${id}`).value),
-                            stock: Number(document.getElementById(`stock-${id}`).value),
-                            tag: document.getElementById(`tag-${id}`).value,
-                            url: document.getElementById(`url-${id}`).value.trim()
-                        });
-                        alert("✅ Updated details for " + w.name);
-                    } catch (err) { alert(err.message); }
-                });
-
-                document.getElementById(`del-${id}`).addEventListener('click', async () => {
-                    if (confirm(`Delete "${w.name}"?`)) {
-                        try {
-                            await deleteDoc(doc(db, "watches", id));
-                            alert("🗑️ Item Deleted!");
-                        } catch (err) { alert(err.message); }
-                    }
-                });
-            });
-        });
-
-        document.getElementById('btn-refresh-list').addEventListener('click', () => location.reload());
-    </script>
+async function loadAnnouncement(){try{const s=await getDoc(doc(db,'settings','announcement'));if(s.exists())$('announcement').value=s.data().text||''}catch(e){console.error(e)}}
+loadAnnouncement();
+$('saveAnnouncement').onclick=async()=>{try{await setDoc(doc(db,'settings','announcement'),{text:$('announcement').value.trim()},{merge:true});$('announcementStatus').textContent='✅ Banner saved live';$('announcementStatus').className='text-xs font-bold mt-3 text-emerald-700'}catch(e){$('announcementStatus').textContent='❌ '+e.message}};
+$('clearAnnouncement').onclick=async()=>{try{$('announcement').value='';await setDoc(doc(db,'settings','announcement'),{text:''},{merge:true});$('announcementStatus').textContent='Banner cleared'}catch(e){alert(e.message)}};
+</script>
 </body>
 </html>

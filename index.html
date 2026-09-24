@@ -3,100 +3,1400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE | Official Watch Store</title>
+
+    <title>Timelab | Premium Timepieces</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { background: #fbf9f5; color: #1f2921; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-        .olive-btn { background: #2b3a29; color: #fcfaf7; font-weight: 700; }
-        .olive-btn:hover { background: #1e2a1c; }
-        .font-serif-title { font-family: 'Playfair Display', serif; }
-        .badge-tag { background: #2b3a29; color: #ffffff; font-weight: 700; font-size: 10px; padding: 3px 8px; border-radius: 6px; }
-        .color-chip { border: 1px solid #dcd4c3; background: #ffffff; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; color: #2b3a29; cursor: pointer; transition: all 0.2s; }
-        .color-chip.active { background: #2b3a29; color: #ffffff; border-color: #2b3a29; }
-        .active-thumb { border: 2px solid #2b3a29 !important; opacity: 1 !important; }
-
-        /* Watch Card Hover Effect */
-        .watch-card {
-            transition: all 0.3s ease;
-        }
-        .watch-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 24px -10px rgba(43, 58, 41, 0.18);
+        :root {
+            --olive: #293628;
+            --olive-dark: #1d271d;
+            --olive-light: #566b51;
+            --cream: #f8f5ef;
+            --cream-dark: #eee8dc;
+            --border: #e4ddd0;
+            --gold: #b79a62;
+            --text: #20271f;
+            --muted: #71806d;
         }
 
-        /* Continuous Scrolling Banner Animation */
-        .marquee-container {
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--cream);
+            color: var(--text);
+            font-family: "DM Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        .serif {
+            font-family: "Playfair Display", serif;
+        }
+
+        /* =========================
+           ANNOUNCEMENT
+        ========================= */
+
+        .announcement {
+            background: var(--olive);
+            color: #fff;
+            height: 34px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .marquee {
             white-space: nowrap;
+            animation: marquee 22s linear infinite;
         }
-        .marquee-content {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 18s linear infinite;
-        }
+
         @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,.94);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-inner {
+            max-width: 1180px;
+            margin: auto;
+            height: 78px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: var(--olive);
+            font-family: "Playfair Display", serif;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            line-height: 1;
+        }
+
+        .logo-sub {
+            margin-top: 4px;
+            font-size: 8px;
+            letter-spacing: .22em;
+            color: var(--olive-light);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav a {
+            color: #4b5648;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .nav a:hover {
+            color: var(--olive);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--olive);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .header-icon:hover {
+            background: var(--olive);
+            color: white;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 55px 22px 30px;
+        }
+
+        .hero-box {
+            min-height: 510px;
+            border-radius: 28px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 80% 35%, rgba(183,154,98,.18), transparent 28%),
+                linear-gradient(120deg, #eae6dc 0%, #f5f1e9 52%, #ddd7c9 100%);
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+
+        .hero-content {
+            padding: 55px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: .25em;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .hero-title {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(44px, 6vw, 76px);
+            line-height: .95;
+            color: var(--olive);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .hero-text {
+            color: #667062;
+            max-width: 440px;
+            line-height: 1.8;
+            font-size: 14px;
+            margin: 24px 0;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--olive);
+            color: white;
+            padding: 14px 23px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            transition: .25s;
+        }
+
+        .hero-btn:hover {
+            background: var(--olive-dark);
+            transform: translateY(-2px);
+        }
+
+        .hero-watch {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-watch-ring {
+            position: absolute;
+            width: 390px;
+            height: 390px;
+            border-radius: 50%;
+            border: 1px solid rgba(43,58,41,.14);
+        }
+
+        .hero-watch-ring::after {
+            content: "";
+            position: absolute;
+            inset: 25px;
+            border-radius: 50%;
+            border: 1px solid rgba(43,58,41,.08);
+        }
+
+        .hero-watch-icon {
+            font-size: 170px;
+            filter: drop-shadow(0 25px 25px rgba(40,50,40,.2));
+            transform: rotate(-8deg);
+        }
+
+        /* =========================
+           TRUST STRIP
+        ========================= */
+
+        .trust {
+            max-width: 1180px;
+            margin: 20px auto 0;
+            padding: 0 22px;
+        }
+
+        .trust-grid {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+        }
+
+        .trust-item {
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            border-right: 1px solid var(--border);
+        }
+
+        .trust-item:last-child {
+            border-right: 0;
+        }
+
+        .trust-icon {
+            width: 39px;
+            height: 39px;
+            border-radius: 50%;
+            background: #f0eee7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--olive);
+            font-size: 17px;
+        }
+
+        .trust-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--olive);
+        }
+
+        .trust-text {
+            font-size: 9px;
+            color: #8a9186;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           COLLECTION
+        ========================= */
+
+        .collection {
+            max-width: 1180px;
+            margin: 80px auto 0;
+            padding: 0 22px;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .section-label {
+            font-size: 9px;
+            color: var(--gold);
+            letter-spacing: .25em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin: 8px 0;
+            font-family: "Playfair Display", serif;
+            color: var(--olive);
+            font-size: 38px;
+        }
+
+        .section-description {
+            color: #7c8579;
+            font-size: 12px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-area {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            width: min(520px, 100%);
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 999px;
+            padding: 14px 45px 14px 45px;
+            outline: none;
+            font-size: 12px;
+            color: var(--olive);
+            transition: .2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--olive);
+            box-shadow: 0 5px 25px rgba(43,58,41,.07);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 17px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--olive-light);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 27px;
+            height: 27px;
+            border: 0;
+            border-radius: 50%;
+            background: #f0eee8;
+            color: var(--olive);
+            cursor: pointer;
+            display: none;
+        }
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+        }
+
+        .filter-btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: #667062;
+            padding: 9px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--olive);
+            color: white;
+            border-color: var(--olive);
+        }
+
+        /* =========================
+           PRODUCT GRID
+        ========================= */
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+            gap: 24px;
+        }
+
+        .watch-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            overflow: hidden;
+            transition: .35s ease;
+            position: relative;
+        }
+
+        .watch-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 20px 45px rgba(43,58,41,.12);
+        }
+
+        .watch-image {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: #f5f2eb;
+            overflow: hidden;
+        }
+
+        .watch-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .watch-card:hover .watch-image img {
+            transform: scale(1.045);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--olive);
+            color: white;
+            border-radius: 999px;
+            padding: 6px 11px;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .quick-order {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            color: var(--olive);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: .25s;
+            cursor: pointer;
+        }
+
+        .watch-card:hover .quick-order {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 7px;
+            padding: 10px 12px;
+            overflow-x: auto;
+            background: #faf8f3;
+            border-top: 1px solid var(--border);
+        }
+
+        .thumbs img {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            object-fit: cover;
+            border-radius: 9px;
+            border: 2px solid transparent;
+            opacity: .6;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .thumbs img:hover,
+        .thumbs img.active {
+            opacity: 1;
+            border-color: var(--olive);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            color: var(--olive);
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 9px;
+        }
+
+        .price {
+            color: var(--olive);
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .old-price {
+            color: #9aa096;
+            text-decoration: line-through;
+            font-size: 11px;
+        }
+
+        .color-section {
+            margin-top: 17px;
+        }
+
+        .color-label {
+            font-size: 9px;
+            color: #7d8879;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 8px;
+        }
+
+        .colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .color-chip {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--olive);
+            border-radius: 7px;
+            padding: 6px 10px;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .color-chip:hover,
+        .color-chip.active {
+            background: var(--olive);
+            color: white;
+            border-color: var(--olive);
+        }
+
+        .order-btn {
+            width: 100%;
+            margin-top: 18px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--olive);
+            color: white;
+            padding: 13px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .order-btn:hover {
+            background: var(--olive-dark);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           BRAND STORY
+        ========================= */
+
+        .story {
+            max-width: 1180px;
+            margin: 100px auto;
+            padding: 0 22px;
+        }
+
+        .story-box {
+            background: var(--olive);
+            color: white;
+            border-radius: 25px;
+            padding: 65px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-box::before {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 50%;
+            left: -100px;
+            top: -150px;
+        }
+
+        .story-box::after {
+            content: "";
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 50%;
+            right: -180px;
+            bottom: -250px;
+        }
+
+        .story-label {
+            color: #c9ad76;
+            font-size: 9px;
+            letter-spacing: .25em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .story-title {
+            font-family: "Playfair Display", serif;
+            font-size: 42px;
+            margin: 12px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .story-text {
+            max-width: 620px;
+            margin: auto;
+            color: #d4dbd1;
+            font-size: 13px;
+            line-height: 1.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 55px 22px 25px;
+        }
+
+        .footer-inner {
+            max-width: 1180px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand p {
+            color: #7b8578;
+            font-size: 11px;
+            line-height: 1.8;
+            max-width: 320px;
+        }
+
+        .footer-heading {
+            color: var(--olive);
+            font-size: 11px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .footer-link {
+            display: block;
+            color: #7b8578;
+            text-decoration: none;
+            font-size: 10px;
+            margin: 9px 0;
+        }
+
+        .footer-link:hover {
+            color: var(--olive);
+        }
+
+        .copyright {
+            max-width: 1180px;
+            margin: 45px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: #8a9187;
+            text-align: center;
+            font-size: 9px;
+        }
+
+        /* =========================
+           WHATSAPP
+        ========================= */
+
+        .whatsapp {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            box-shadow: 0 10px 30px rgba(37,211,102,.28);
+            transition: .25s;
+            text-decoration: none;
+        }
+
+        .whatsapp:hover {
+            transform: scale(1.08);
+        }
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            grid-column: 1 / -1;
+            padding: 70px 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ddd8cc;
+            border-top-color: var(--olive);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero-box {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .hero-content {
+                padding: 42px 28px 20px;
+                text-align: center;
+            }
+
+            .hero-text {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-watch {
+                min-height: 270px;
+            }
+
+            .hero-watch-ring {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hero-watch-icon {
+                font-size: 120px;
+            }
+
+            .trust-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .trust-item:nth-child(2) {
+                border-right: 0;
+            }
+
+            .trust-item:nth-child(-n+2) {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 580px) {
+
+            .header-inner {
+                height: 68px;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .hero {
+                padding-top: 20px;
+            }
+
+            .hero-box {
+                border-radius: 20px;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .hero-content {
+                padding: 38px 22px 10px;
+            }
+
+            .hero-watch {
+                min-height: 230px;
+            }
+
+            .hero-watch-ring {
+                width: 205px;
+                height: 205px;
+            }
+
+            .hero-watch-icon {
+                font-size: 95px;
+            }
+
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-item {
+                border-right: 0 !important;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .trust-item:last-child {
+                border-bottom: 0;
+            }
+
+            .collection {
+                margin-top: 60px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .catalog-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .quick-order {
+                opacity: 1;
+                transform: none;
+            }
+
+            .story {
+                margin: 65px auto;
+            }
+
+            .story-box {
+                padding: 45px 24px;
+            }
+
+            .story-title {
+                font-size: 34px;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px 20px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+
+            .whatsapp {
+                right: 17px;
+                bottom: 17px;
+                width: 50px;
+                height: 50px;
+            }
         }
     </style>
 </head>
-<body class="antialiased">
 
-    <!-- MOVING ANNOUNCEMENT BANNER -->
-    <div id="announcement-bar" class="hidden bg-[#2b3a29] text-[#fcfaf7] text-xs py-2 px-4 shadow-sm marquee-container font-semibold tracking-wide">
-        <span id="announcement-content" class="marquee-content"></span>
+<body>
+
+    <!-- =========================
+         ANNOUNCEMENT
+    ========================== -->
+
+    <div id="announcement-bar" class="announcement" style="display:none;">
+        <div id="announcement-content" class="marquee"></div>
     </div>
 
-    <!-- HEADER / BRANDING -->
-    <header class="py-6 px-4 text-center bg-white border-b border-[#e2dacb] shadow-xs sticky top-0 z-40">
-        <h1 class="text-3xl font-black text-[#2b3a29] font-serif-title tracking-tight">TUE</h1>
-        <p class="text-[10px] uppercase tracking-widest text-[#5a6f56] font-bold mt-0.5">Premium Timepieces • Since 2026</p>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header>
+
+        <div class="header-inner">
+
+            <a href="#" style="text-decoration:none;">
+                <div class="logo">Timelab</div>
+                <div class="logo-sub">Premium Timepieces</div>
+            </a>
+
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#collection">Collection</a>
+                <a href="#collection">New Arrivals</a>
+                <a href="#story">Our Story</a>
+            </nav>
+
+            <div class="header-actions">
+
+                <button
+                    type="button"
+                    class="header-icon"
+                    onclick="document.getElementById('search-input').focus(); document.getElementById('collection').scrollIntoView({behavior:'smooth'});"
+                    aria-label="Search">
+
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/>
+                    </svg>
+
+                </button>
+
+                <button
+                    type="button"
+                    class="header-icon mobile-menu-btn"
+                    aria-label="Menu">
+
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/>
+                    </svg>
+
+                </button>
+
+            </div>
+
+        </div>
+
     </header>
 
-    <!-- MAIN SECTION WITH SEARCH BAR -->
-    <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6">
-        
-        <!-- SEARCH BAR -->
-        <div class="mb-6">
-            <div class="relative max-w-md mx-auto">
-                <input type="text" id="search-input" placeholder="Search watch by name..." 
-                       class="w-full bg-white border border-[#e2dacb] rounded-2xl py-3 px-4 pl-11 text-xs text-[#2b3a29] placeholder-[#8c9c8a] focus:outline-none focus:border-[#2b3a29] shadow-xs transition-all">
-                <svg class="w-4 h-4 text-[#5a6f56] absolute left-4 top-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-        </div>
 
-        <!-- CATALOG GRID -->
-        <div id="catalog-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <p class="text-xs text-[#5a6f56] text-center col-span-full py-10">Loading watches...</p>
-        </div>
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <main id="home">
+
+        <section class="hero">
+
+            <div class="hero-box">
+
+                <div class="hero-content">
+
+                    <div class="eyebrow">
+                        The Timelab Collection
+                    </div>
+
+                    <h1 class="hero-title">
+                        Time,<br>
+                        Redefined.
+                    </h1>
+
+                    <p class="hero-text">
+                        Discover timeless watches designed for those
+                        who appreciate refined details, effortless style
+                        and every moment that matters.
+                    </p>
+
+                    <a href="#collection" class="hero-btn">
+                        Explore Collection
+
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/>
+                        </svg>
+
+                    </a>
+
+                </div>
+
+                <div class="hero-watch">
+
+                    <div class="hero-watch-ring"></div>
+
+                    <!-- Elegant placeholder until a real featured image is connected -->
+                    <div class="hero-watch-icon">
+                        ⌚
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TRUST
+        ========================== -->
+
+        <section class="trust">
+
+            <div class="trust-grid">
+
+                <div class="trust-item">
+                    <div class="trust-icon">🚚</div>
+                    <div>
+                        <div class="trust-title">Fast Delivery</div>
+                        <div class="trust-text">Quick & secure shipping</div>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <div class="trust-icon">💵</div>
+                    <div>
+                        <div class="trust-title">Cash on Delivery</div>
+                        <div class="trust-text">Pay when you receive</div>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <div class="trust-icon">✓</div>
+                    <div>
+                        <div class="trust-title">Quality Checked</div>
+                        <div class="trust-text">Every piece inspected</div>
+                    </div>
+                </div>
+
+                <div class="trust-item">
+                    <div class="trust-icon">💬</div>
+                    <div>
+                        <div class="trust-title">WhatsApp Support</div>
+                        <div class="trust-text">We're here to help</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             COLLECTION
+        ========================== -->
+
+        <section id="collection" class="collection">
+
+            <div class="section-heading">
+
+                <div class="section-label">
+                    Curated For You
+                </div>
+
+                <h2 class="section-title">
+                    The Collection
+                </h2>
+
+                <p class="section-description">
+                    Find the watch that speaks to your style.
+                </p>
+
+            </div>
+
+
+            <!-- Search -->
+
+            <div class="search-area">
+
+                <div class="search-box">
+
+                    <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/>
+                    </svg>
+
+                    <input
+                        id="search-input"
+                        type="text"
+                        placeholder="Search your perfect watch..."
+                        autocomplete="off"
+                    >
+
+                    <button id="clear-search" class="clear-search" type="button">
+                        ×
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Filters -->
+
+            <div class="filters">
+
+                <button class="filter-btn active" data-filter="all">
+                    All Watches
+                </button>
+
+                <button class="filter-btn" data-filter="new">
+                    New Arrivals
+                </button>
+
+                <button class="filter-btn" data-filter="best">
+                    Best Sellers
+                </button>
+
+                <button class="filter-btn" data-filter="sale">
+                    Special Offers
+                </button>
+
+            </div>
+
+
+            <!-- Products -->
+
+            <div id="catalog-container" class="catalog-grid">
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading our collection...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             STORY
+        ========================== -->
+
+        <section id="story" class="story">
+
+            <div class="story-box">
+
+                <div class="story-label">
+                    The Timelab Philosophy
+                </div>
+
+                <h2 class="story-title">
+                    Made for moments<br>
+                    that matter.
+                </h2>
+
+                <p class="story-text">
+                    At Timelab, we believe a watch is more than something
+                    that tells time. It is a quiet expression of character,
+                    style and the moments we choose to remember.
+                    Our collection is curated for everyday elegance —
+                    timeless pieces designed to stay with you.
+                </p>
+
+            </div>
+
+        </section>
+
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-[#e2dacb] py-8 px-4 text-center mt-12">
-        <div class="max-w-4xl mx-auto flex flex-col items-center gap-2">
-            <h2 class="text-lg font-black font-serif-title text-[#2b3a29]">TUE Watches</h2>
-            <p class="text-xs text-[#5a6f56]">Crafting elegance, defining moments. Elevate your everyday style with our timeless collection.</p>
-            <p class="text-[11px] font-semibold text-[#2b3a29] mt-2">&copy; 2026 TUE Watch Store. All rights reserved.</p>
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <div class="logo">Timelab</div>
+
+                <p>
+                    Timeless watches for modern moments.
+                    Discover refined timepieces designed
+                    to elevate your everyday style.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    SHOP
+                </div>
+
+                <a href="#collection" class="footer-link">
+                    All Watches
+                </a>
+
+                <a href="#collection" class="footer-link">
+                    New Arrivals
+                </a>
+
+                <a href="#collection" class="footer-link">
+                    Best Sellers
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    Timelab
+                </div>
+
+                <a href="#story" class="footer-link">
+                    Our Story
+                </a>
+
+                <a href="#" class="footer-link">
+                    Contact
+                </a>
+
+                <a href="#" class="footer-link">
+                    Privacy
+                </a>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-heading">
+                    CONNECT
+                </div>
+
+                <a
+                    href="https://wa.me/9232124734"
+                    target="_blank"
+                    class="footer-link">
+                    WhatsApp
+                </a>
+
+                <a href="https://www.instagram.com/timelab.01?stkn=bHVkZnptb2l1anRq" target="_blank" class="footer-link">
+                    Instagram
+                </a>
+
+                <a href="#" class="footer-link">
+                    Facebook
+                </a>
+
+            </div>
+
         </div>
+
+
+        <div class="copyright">
+            © 2026 TimelabWatch Store. All rights reserved.
+        </div>
+
     </footer>
 
-    <!-- FLOATING WHATSAPP HELP BUTTON -->
-    <a href="https://wa.me/9232124734?text=Hello%20TUE%20Watch%20Store!%20I%20need%20some%20help." target="_blank" 
-       class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-3.5 rounded-full shadow-lg hover:scale-110 transition-all flex items-center justify-center gap-2 font-bold text-xs">
-        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+
+    <!-- =========================
+         WHATSAPP
+    ========================== -->
+
+    <a
+        href="https://wa.me/9232124734?text=Hello%20TUE%20Watch%20Store!%20I%20need%20some%20help."
+        target="_blank"
+        class="whatsapp"
+        aria-label="WhatsApp">
+
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.96L.06 24l6.28-1.65a11.9 11.9 0 0 0 5.72 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.43ZM12.07 21.8a9.88 9.88 0 0 1-5.04-1.38l-.36-.21-3.73.98 1-3.64-.23-.37a9.87 9.87 0 0 1-1.52-5.28c0-5.46 4.45-9.9 9.91-9.9 2.65 0 5.14 1.03 7.01 2.9a9.84 9.84 0 0 1 2.9 7c0 5.47-4.45 9.9-9.91 9.9Zm5.43-7.42c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.48-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.09 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z"/>
         </svg>
-        <span class="hidden sm:inline">Need Help?</span>
+
     </a>
 
+
+    <!-- =========================
+         FIREBASE
+    ========================== -->
+
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        import { initializeApp }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+        import {
+            getFirestore,
+            collection,
+            onSnapshot,
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+
+        /* =========================
+           FIREBASE CONFIG
+        ========================== */
 
         const firebaseConfig = {
             apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
@@ -105,163 +1405,731 @@
             appId: "1:982689793085:web:eb92ea1952692b083a5654"
         };
 
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Fetch Live Moving Announcement Banner
-        const loadBanner = async () => {
-            try {
-                const docSnap = await getDoc(doc(db, "settings", "announcement"));
-                if (docSnap.exists() && docSnap.data().text) {
-                    document.getElementById('announcement-content').innerText = docSnap.data().text;
-                    document.getElementById('announcement-bar').classList.remove('hidden');
-                }
-            } catch(e) { console.error(e); }
-        };
-        loadBanner();
+
+        /* =========================
+           GLOBAL DATA
+        ========================== */
 
         let allWatches = [];
+        let currentFilter = "all";
 
-        // Render Real-time Watches Catalog
-        onSnapshot(collection(db, "watches"), (snapshot) => {
-            allWatches = [];
-            snapshot.forEach((docSnap) => {
-                allWatches.push({ id: docSnap.id, ...docSnap.data() });
-            });
-            renderWatches(allWatches);
-        });
 
-        // Function to render watches list with search filter support
-        function renderWatches(watchesToRender) {
-            const container = document.getElementById('catalog-container');
-            container.innerHTML = "";
+        /* =========================
+           ANNOUNCEMENT
+        ========================== */
 
-            if (watchesToRender.length === 0) {
-                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center col-span-full py-10">No watches found.</p>`;
-                return;
+        async function loadBanner() {
+
+            try {
+
+                const snap = await getDoc(
+                    doc(db, "settings", "announcement")
+                );
+
+                if (
+                    snap.exists() &&
+                    snap.data().text
+                ) {
+
+                    document.getElementById(
+                        "announcement-content"
+                    ).textContent = snap.data().text;
+
+                    document.getElementById(
+                        "announcement-bar"
+                    ).style.display = "flex";
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Announcement error:",
+                    error
+                );
+
             }
 
-            watchesToRender.forEach((w) => {
-                const id = w.id;
+        }
 
-                // Extract Image URLs
-                let urls = [];
-                if (w.url) {
-                    urls = w.url.includes('---SPLIT---') 
-                           ? w.url.split('---SPLIT---').map(u => u.trim()) 
-                           : w.url.split(',').map(u => u.trim());
-                }
-                urls = urls.filter(u => u.length > 0);
-                const mainImg = urls[0] || 'https://via.placeholder.com/400?text=No+Image';
+        loadBanner();
 
-                // Extract Colors
-                let colorsList = [];
-                if (w.colors) {
-                    colorsList = w.colors.split(',').map(c => c.trim()).filter(c => c.length > 0);
-                }
 
-                const card = document.createElement('div');
-                card.className = "watch-card bg-white rounded-2xl border border-[#e2dacb] overflow-hidden shadow-sm flex flex-col justify-between";
+        /* =========================
+           FIRESTORE WATCHES
+        ========================== */
 
-                // Gallery Thumbnails HTML
-                let thumbsHtml = "";
-                if (urls.length > 1) {
-                    thumbsHtml = `<div class="flex gap-2 p-2 bg-[#fbf9f5] border-t border-[#e2dacb] overflow-x-auto">`;
-                    urls.forEach((u, idx) => {
-                        thumbsHtml += `
-                            <img src="${u}" 
-                                 class="thumb-btn-${id} ${idx === 0 ? 'active-thumb' : 'opacity-70'}" 
-                                 data-url="${u}" 
-                                 style="width:44px; height:44px; object-fit:cover; border-radius:8px; cursor:pointer; border:2px solid transparent;"
-                            >
-                        `;
+        onSnapshot(
+            collection(db, "watches"),
+
+            (snapshot) => {
+
+                allWatches = [];
+
+                snapshot.forEach((docSnap) => {
+
+                    allWatches.push({
+                        id: docSnap.id,
+                        ...docSnap.data()
                     });
-                    thumbsHtml += `</div>`;
-                }
 
-                // Color Chips HTML
-                let colorsHtml = "";
-                if (colorsList.length > 0) {
-                    colorsHtml = `<div class="mt-3">
-                        <label class="text-[10px] font-bold text-[#5a6f56] block mb-1.5 uppercase tracking-wider">Available Colors:</label>
-                        <div class="flex flex-wrap gap-1.5" id="colors-group-${id}">`;
-                    colorsList.forEach((col, idx) => {
-                        colorsHtml += `<button type="button" class="color-chip ${idx === 0 ? 'active' : ''}" data-color="${col}">${col}</button>`;
-                    });
-                    colorsHtml += `</div></div>`;
-                }
+                });
 
-                card.innerHTML = `
-                    <div>
-                        <!-- Main Watch Image -->
-                        <div class="relative bg-[#fbf9f5] aspect-square flex items-center justify-center overflow-hidden">
-                            <img id="main-img-${id}" src="${mainImg}" onerror="this.onerror=null;this.src='https://via.placeholder.com/400?text=Image+Error';" class="w-full h-full object-cover transition-all duration-300">
-                            ${w.tag ? `<span class="absolute top-3 left-3 badge-tag">${w.tag}</span>` : ''}
-                        </div>
-                        
-                        ${thumbsHtml}
+                applyFilters();
 
-                        <div class="p-4">
-                            <h3 class="text-base font-bold text-[#2b3a29] leading-tight">${w.name}</h3>
-                            
-                            <div class="flex items-center justify-between mt-2">
-                                <span class="text-lg font-black text-[#2b3a29]">Rs. ${Number(w.price).toLocaleString()}</span>
-                            </div>
+            },
 
-                            ${colorsHtml}
-                        </div>
-                    </div>
+            (error) => {
 
-                    <div class="p-4 pt-0">
-                        <button type="button" id="buy-btn-${id}" 
-                                class="w-full py-3 olive-btn rounded-xl uppercase text-xs tracking-wider flex items-center justify-center gap-2 shadow-xs transition-all">
-                            💬 Order on WhatsApp
-                        </button>
+                console.error(
+                    "Firebase watches error:",
+                    error
+                );
+
+                document.getElementById(
+                    "catalog-container"
+                ).innerHTML = `
+                    <div class="loading">
+                        Unable to load watches right now.
                     </div>
                 `;
 
-                container.appendChild(card);
+            }
+        );
 
-                // Image Switching Click Handler
-                const thumbImgs = card.querySelectorAll(`.thumb-btn-${id}`);
-                thumbImgs.forEach(imgEl => {
-                    imgEl.addEventListener('click', () => {
-                        const targetUrl = imgEl.getAttribute('data-url');
-                        document.getElementById(`main-img-${id}`).src = targetUrl;
-                        thumbImgs.forEach(t => {
-                            t.classList.remove('active-thumb');
-                            t.classList.add('opacity-70');
-                        });
-                        imgEl.classList.add('active-thumb');
-                        imgEl.classList.remove('opacity-70');
-                    });
-                });
 
-                // Color Selection Handler
-                const colorBtns = card.querySelectorAll(`#colors-group-${id} .color-chip`);
-                colorBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        colorBtns.forEach(c => c.classList.remove('active'));
-                        btn.classList.add('active');
-                    });
-                });
+        /* =========================
+           IMAGE URL PARSER
+        ========================== */
 
-                // WhatsApp Order Handler with Correct Number
-                document.getElementById(`buy-btn-${id}`).addEventListener('click', () => {
-                    const activeColor = card.querySelector(`#colors-group-${id} .active`)?.getAttribute('data-color') || 'Standard';
-                    const phoneNumber = "9232124734"; // Correct updated store owner number
-                    const message = `Hello TUE Watch Store! I would like to order:\n\n*Watch:* ${w.name}\n*Price:* Rs. ${Number(w.price).toLocaleString()}\n*Selected Color:* ${activeColor}\n\nPlease confirm availability.`;
-                    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-                });
-            });
+        function getImageUrls(watch) {
+
+            let urls = [];
+
+            if (watch.url) {
+
+                urls = watch.url.includes(
+                    "---SPLIT---"
+                )
+                    ? watch.url
+                        .split("---SPLIT---")
+                        .map(u => u.trim())
+
+                    : watch.url
+                        .split(",")
+                        .map(u => u.trim());
+
+            }
+
+            return urls.filter(
+                url => url.length > 0
+            );
+
         }
 
-        // Search Bar Event Listener
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-            const filtered = allWatches.filter(w => w.name && w.name.toLowerCase().includes(query));
+
+        /* =========================
+           COLORS PARSER
+        ========================== */
+
+        function getColors(watch) {
+
+            if (!watch.colors) {
+                return [];
+            }
+
+            return watch.colors
+                .split(",")
+                .map(c => c.trim())
+                .filter(c => c.length > 0);
+
+        }
+
+
+        /* =========================
+           FILTER
+        ========================== */
+
+        function applyFilters() {
+
+            const query =
+                document
+                    .getElementById("search-input")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            let filtered =
+                allWatches.filter(watch => {
+
+                    const name =
+                        (watch.name || "")
+                            .toLowerCase();
+
+                    const matchesSearch =
+                        name.includes(query);
+
+
+                    if (
+                        currentFilter === "new"
+                    ) {
+
+                        return (
+                            matchesSearch &&
+                            (
+                                watch.isNew === true ||
+                                watch.tag?.toLowerCase() === "new" ||
+                                watch.tag?.toLowerCase() === "new arrival"
+                            )
+                        );
+
+                    }
+
+
+                    if (
+                        currentFilter === "best"
+                    ) {
+
+                        return (
+                            matchesSearch &&
+                            (
+                                watch.bestSeller === true ||
+                                watch.tag?.toLowerCase() === "best seller" ||
+                                watch.tag?.toLowerCase() === "bestseller"
+                            )
+                        );
+
+                    }
+
+
+                    if (
+                        currentFilter === "sale"
+                    ) {
+
+                        return (
+                            matchesSearch &&
+                            (
+                                watch.oldPrice ||
+                                watch.sale === true ||
+                                watch.tag?.toLowerCase() === "sale"
+                            )
+                        );
+
+                    }
+
+
+                    return matchesSearch;
+
+                });
+
+
             renderWatches(filtered);
-        });
+
+        }
+
+
+        /* =========================
+           RENDER WATCHES
+        ========================== */
+
+        function renderWatches(watches) {
+
+            const container =
+                document.getElementById(
+                    "catalog-container"
+                );
+
+            container.innerHTML = "";
+
+
+            if (!watches.length) {
+
+                container.innerHTML = `
+                    <div class="loading">
+                        No watches found.<br>
+                        <span style="font-size:10px;color:#9aa096;">
+                            Try another search or category.
+                        </span>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            watches.forEach((watch) => {
+
+                const id = watch.id;
+
+                const urls =
+                    getImageUrls(watch);
+
+                const colors =
+                    getColors(watch);
+
+
+                const mainImage =
+                    urls[0] ||
+                    "https://via.placeholder.com/700?text=TUE+Watch";
+
+
+                const price =
+                    Number(
+                        watch.price || 0
+                    ).toLocaleString();
+
+
+                const oldPrice =
+                    watch.oldPrice
+                        ? Number(
+                            watch.oldPrice
+                        ).toLocaleString()
+                        : null;
+
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "watch-card";
+
+
+                /* -------------------------
+                   THUMBNAILS
+                ------------------------- */
+
+                let thumbnails = "";
+
+                if (urls.length > 1) {
+
+                    thumbnails = `
+                        <div class="thumbs">
+                            ${urls.map(
+                                (url, index) => `
+                                    <img
+                                        src="${escapeHtml(url)}"
+                                        class="${index === 0 ? "active" : ""}"
+                                        data-url="${escapeHtml(url)}"
+                                        alt="${escapeHtml(watch.name || "TUE Watch")}"
+                                    >
+                                `
+                            ).join("")}
+                        </div>
+                    `;
+
+                }
+
+
+                /* -------------------------
+                   COLORS
+                ------------------------- */
+
+                let colorHTML = "";
+
+                if (colors.length) {
+
+                    colorHTML = `
+                        <div class="color-section">
+
+                            <div class="color-label">
+                                Available Colors
+                            </div>
+
+                            <div class="colors">
+
+                                ${colors.map(
+                                    (color, index) => `
+                                        <button
+                                            type="button"
+                                            class="color-chip ${index === 0 ? "active" : ""}"
+                                            data-color="${escapeHtml(color)}"
+                                        >
+                                            ${escapeHtml(color)}
+                                        </button>
+                                    `
+                                ).join("")}
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }
+
+
+                /* -------------------------
+                   CARD
+                ------------------------- */
+
+                card.innerHTML = `
+
+                    <div>
+
+                        <div class="watch-image">
+
+                            <img
+                                id="main-image-${id}"
+                                src="${escapeHtml(mainImage)}"
+                                alt="${escapeHtml(watch.name || "TUE Watch")}"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='https://via.placeholder.com/700?text=TUE+Watch';"
+                            >
+
+                            ${
+                                watch.tag
+                                    ? `
+                                        <span class="badge">
+                                            ${escapeHtml(watch.tag)}
+                                        </span>
+                                    `
+                                    : ""
+                            }
+
+
+                            <button
+                                type="button"
+                                class="quick-order"
+                                title="Order on WhatsApp"
+                                aria-label="Order on WhatsApp"
+                            >
+                                💬
+                            </button>
+
+                        </div>
+
+
+                        ${thumbnails}
+
+
+                        <div class="product-info">
+
+                            <h3 class="product-name">
+                                ${escapeHtml(
+                                    watch.name ||
+                                    "Timelab Timepiece"
+                                )}
+                            </h3>
+
+
+                            <div class="price-row">
+
+                                <span class="price">
+                                    Rs. ${price}
+                                </span>
+
+                                ${
+                                    oldPrice
+                                        ? `
+                                            <span class="old-price">
+                                                Rs. ${oldPrice}
+                                            </span>
+                                        `
+                                        : ""
+                                }
+
+                            </div>
+
+
+                            ${colorHTML}
+
+
+                            <button
+                                type="button"
+                                class="order-btn"
+                            >
+                                💬 &nbsp; Order on WhatsApp
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(card);
+
+
+                /* -------------------------
+                   IMAGE SWITCH
+                ------------------------- */
+
+                const thumbnailElements =
+                    card.querySelectorAll(
+                        ".thumbs img"
+                    );
+
+
+                thumbnailElements.forEach(
+                    (thumbnail) => {
+
+                        thumbnail.addEventListener(
+                            "click",
+                            () => {
+
+                                const image =
+                                    thumbnail.dataset.url;
+
+                                card.querySelector(
+                                    `#main-image-${CSS.escape(id)}`
+                                ).src = image;
+
+
+                                thumbnailElements
+                                    .forEach(
+                                        item =>
+                                            item.classList
+                                                .remove("active")
+                                    );
+
+
+                                thumbnail.classList
+                                    .add("active");
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* -------------------------
+                   COLOR SELECTION
+                ------------------------- */
+
+                const colorButtons =
+                    card.querySelectorAll(
+                        ".color-chip"
+                    );
+
+
+                colorButtons.forEach(
+                    (button) => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                colorButtons
+                                    .forEach(
+                                        btn =>
+                                            btn.classList
+                                                .remove("active")
+                                    );
+
+
+                                button.classList
+                                    .add("active");
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* -------------------------
+                   WHATSAPP
+                ------------------------- */
+
+                const orderButtons =
+                    card.querySelectorAll(
+                        ".order-btn, .quick-order"
+                    );
+
+
+                orderButtons.forEach(
+                    (button) => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                orderOnWhatsApp(
+                                    watch,
+                                    card
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           WHATSAPP ORDER
+        ========================== */
+
+        function orderOnWhatsApp(
+            watch,
+            card
+        ) {
+
+            const selectedColor =
+                card.querySelector(
+                    ".color-chip.active"
+                )?.dataset.color ||
+                "Standard";
+
+
+            const phoneNumber =
+                "9232124734";
+
+
+            const message =
+                `Hello Timelab Watch Store!
+
+I would like to order:
+
+*Watch:* ${watch.name || "Timelab Watch"}
+*Price:* Rs. ${Number(
+                    watch.price || 0
+                ).toLocaleString()}
+*Selected Color:* ${selectedColor}
+
+Please confirm availability.`;
+
+
+            window.open(
+                `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+                "_blank"
+            );
+
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================== */
+
+        const searchInput =
+            document.getElementById(
+                "search-input"
+            );
+
+
+        const clearSearch =
+            document.getElementById(
+                "clear-search"
+            );
+
+
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                clearSearch.style.display =
+                    searchInput.value
+                        ? "block"
+                        : "none";
+
+
+                applyFilters();
+
+            }
+        );
+
+
+        clearSearch.addEventListener(
+            "click",
+            () => {
+
+                searchInput.value = "";
+
+                clearSearch.style.display =
+                    "none";
+
+                applyFilters();
+
+                searchInput.focus();
+
+            }
+        );
+
+
+        /* =========================
+           FILTER BUTTONS
+        ========================== */
+
+        document
+            .querySelectorAll(".filter-btn")
+            .forEach(
+                (button) => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            document
+                                .querySelectorAll(
+                                    ".filter-btn"
+                                )
+                                .forEach(
+                                    btn =>
+                                        btn.classList
+                                            .remove("active")
+                                );
+
+
+                            button.classList
+                                .add("active");
+
+
+                            currentFilter =
+                                button.dataset.filter;
+
+
+                            applyFilters();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* =========================
+           HTML ESCAPE
+        ========================== */
+
+        function escapeHtml(value) {
+
+            return String(value ?? "")
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
     </script>
+
 </body>
 </html>
