@@ -3,274 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUE Admin | Control Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Time Lab - Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { background: #fbf9f5; color: #1f2921; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .olive-btn { background: #2b3a29; color: #fcfaf7; font-weight: 700; }
-        .olive-btn:hover { background: #1e2a1c; }
-        .font-serif-title { font-family: 'Playfair Display', serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        ::selection {
+            background-color: #d4af37;
+            color: #000000;
+        }
+
+        body {
+            background-color: #0f0f0f;
+            color: #f3f4f6;
+            padding: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #262626;
+            padding-bottom: 15px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #d4af37;
+        }
+
+        .back-link {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .card-box {
+            background: #161616;
+            border: 1px solid #262626;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .form-control:focus {
+            border-color: #d4af37;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #d4af37;
+            color: #000;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="p-4 sm:p-6 max-w-xl mx-auto space-y-6 pb-20 antialiased">
+<body>
 
-    <!-- ANNOUNCEMENT CONTROL BOX -->
-    <div class="bg-white p-5 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest mb-3">📢 Top Announcement Banner</h3>
-        <div class="space-y-3">
-            <input type="text" id="announcement-text" placeholder="e.g. Special Discount - Free Delivery Nationwide!" 
-                   class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-            <div class="flex gap-2">
-                <button id="btn-save-banner" type="button" class="flex-1 py-2.5 olive-btn rounded-xl text-xs uppercase tracking-wider shadow-sm">Save Banner</button>
-                <button id="btn-clear-banner" type="button" class="py-2.5 px-4 bg-red-100 text-red-700 border border-red-200 rounded-xl text-xs font-bold uppercase">Clear</button>
-            </div>
-        </div>
-        <p id="anc-status" class="text-[10px] mt-2 font-bold text-center"></p>
+    <div class="header-top">
+        <div class="logo">Time Lab | Admin Panel</div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> View Website</a>
     </div>
 
-    <!-- WATCH UPLOAD FORM WITH IMAGE LINKS -->
-    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <h2 class="text-2xl font-black text-[#2b3a29] font-serif-title tracking-tight mb-1 text-center">TUE Watch Store</h2>
-        <p class="text-xs text-[#5a6f56] text-center mb-6 font-semibold">Admin Panel - Add Products via Image Links</p>
+    <!-- 0. Update Website Logo -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-image"></i> Update Website Logo (Top-Left URL)</div>
+        <form id="logoForm">
+            <div class="form-group">
+                <label>Logo Image URL (PNG Link)</label>
+                <input type="url" id="logoUrlInput" class="form-control" placeholder="https://example.com/logo.png" required>
+            </div>
+            <button type="submit" class="submit-btn">Update Store Logo</button>
+        </form>
+    </div>
 
-        <form id="upload-form" class="space-y-4">
-            <div>
-                <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">WATCH NAME</label>
-                <input type="text" id="watch-name" placeholder="e.g. Rolex Datejust Olive Dial" required
-                    class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
+    <!-- 1. Upload AI Model Lookbook -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-user-plus"></i> Add Model Lookbook (Via URL)</div>
+        <form id="modelForm">
+            <div class="form-group">
+                <label>Model Style / Title</label>
+                <input type="text" id="modelTitle" class="form-control" placeholder="e.g., Casual Look, Suit Vibe" required>
+            </div>
+            <div class="form-group">
+                <label>Model Photo URL</label>
+                <input type="url" id="modelUrlInput" class="form-control" placeholder="https://images.unsplash.com/..." required>
+            </div>
+            <button type="submit" class="submit-btn">Publish Model Look</button>
+        </form>
+    </div>
+
+    <!-- 2. Add New Watch Product -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-clock"></i> Add New Watch Product (Via URL)</div>
+        <form id="watchForm">
+            <div class="form-group">
+                <label>Watch Name</label>
+                <input type="text" id="watchName" class="form-control" placeholder="e.g., Time Lab Royal Black" required>
             </div>
 
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">PRICE (PKR)</label>
-                    <input type="number" id="watch-price" placeholder="3500" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label>Category (Tag)</label>
+                    <select id="watchCategory" class="form-control">
+                        <option value="Hot Selling">🔥 Hot Selling</option>
+                        <option value="New Arrival">New Arrival</option>
+                        <option value="Regular">Regular</option>
+                    </select>
                 </div>
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">INITIAL STOCK</label>
-                    <input type="number" id="watch-stock" placeholder="10" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">COLOR NAMES</label>
-                    <input type="text" id="watch-colors" placeholder="Silver, Black, Gold" required
-                        class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">BADGE / TAG</label>
-                    <select id="watch-tag" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]">
-                        <option value="">No Badge</option>
-                        <option value="Top Selling">🔥 Top Selling</option>
-                        <option value="Hot Item">⚡ Hot Item</option>
-                        <option value="New Arrival">✨ New Arrival</option>
-                        <option value="Limited Edition">💎 Limited Edition</option>
-                        <option value="Special Sale">🏷️ Special Sale</option>
+                <div class="form-group">
+                    <label>Strap Type</label>
+                    <select id="watchStrap" class="form-control">
+                        <option value="Leather Strap">Leather Strap</option>
+                        <option value="Chain Strap">Chain Strap</option>
+                        <option value="Silicon Strap">Silicon Strap</option>
                     </select>
                 </div>
             </div>
 
-            <div>
-                <label class="text-[11px] font-bold text-[#2b3a29] block mb-1">IMAGE URL(S)</label>
-                <textarea id="watch-urls" rows="3" placeholder="https://i.imgur.com/link1.jpg, https://i.imgur.com/link2.jpg" required
-                    class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded-xl p-3 text-xs focus:border-[#2b3a29] outline-none text-[#1f2921]"></textarea>
-                <p class="text-[10px] text-[#5a6f56] mt-1 font-medium">Multiple photos ke liye URLs ke beech mein **comma ( , )** lagayein.</p>
+            <div class="form-group">
+                <label>Price (Rs.)</label>
+                <input type="number" id="watchPrice" class="form-control" placeholder="e.g., 4000" required>
             </div>
 
-            <button type="submit" id="submit-btn" 
-                class="w-full py-3.5 olive-btn rounded-xl uppercase text-xs tracking-wider transition-all">
-                Publish Watch
-            </button>
+            <div class="form-group">
+                <label>Watch Photo URL</label>
+                <input type="url" id="watchUrlInput" class="form-control" placeholder="https://images.unsplash.com/..." required>
+            </div>
+
+            <button type="submit" class="submit-btn">Publish Watch to Store</button>
         </form>
-
-        <div id="status-msg" class="mt-4 text-center text-xs font-bold"></div>
     </div>
 
-    <!-- MANAGE INVENTORY SECTION -->
-    <div class="bg-white p-6 rounded-2xl border border-[#e2dacb] shadow-sm">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xs font-bold text-[#2b3a29] uppercase tracking-widest">📦 Manage Stock & Details</h3>
-            <button id="btn-refresh-list" type="button" class="text-xs text-[#5a6f56] hover:underline font-bold">Reload</button>
-        </div>
-
-        <div id="watches-list" class="space-y-3">
-            <p class="text-xs text-[#5a6f56] text-center">Fetching items...</p>
-        </div>
+    <!-- 3. Add New Blog / Care Tip -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-pen-nib"></i> Add Watch Care Tip / Blog</div>
+        <form id="blogForm">
+            <div class="form-group">
+                <label>Tip Title</label>
+                <input type="text" id="blogTitle" class="form-control" placeholder="e.g., How to Clean Glass Scratch" required>
+            </div>
+            <div class="form-group">
+                <label>Tip Description / Details</label>
+                <textarea id="blogDesc" class="form-control" placeholder="Write detailed instructions here..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Publish Blog Tip</button>
+        </form>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- 4. Update About Us Section -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-circle-info"></i> Edit About Section</div>
+        <form id="aboutForm">
+            <div class="form-group">
+                <label>About Us Description</label>
+                <textarea id="aboutText" class="form-control" placeholder="Write your brand story here..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Update About Section</button>
+        </form>
+    </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBdmv6OXxJt3VM-xybMMc0LrgFmv4AfjYg",
-            authDomain: "tuewatchstore.firebaseapp.com",
-            projectId: "tuewatchstore",
-            appId: "1:982689793085:web:eb92ea1952692b083a5654"
-        };
+    <!-- 5. Update Footer Section -->
+    <div class="card-box">
+        <div class="section-title"><i class="fa-solid fa-shoe-prints"></i> Edit Footer Details</div>
+        <form id="footerForm">
+            <div class="form-group">
+                <label>Footer Description / Tagline</label>
+                <input type="text" id="footerDesc" class="form-control" placeholder="e.g., Crafting timeless elegance..." required>
+            </div>
+            <div class="form-group">
+                <label>Copyright Text</label>
+                <input type="text" id="footerCopy" class="form-control" placeholder="e.g., © 2026 Time Lab. All Rights Reserved." required>
+            </div>
+            <button type="submit" class="submit-btn">Update Footer</button>
+        </form>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Fetch Announcement
-        const fetchAnnouncement = async () => {
-            try {
-                const docSnap = await getDoc(doc(db, "settings", "announcement"));
-                if (docSnap.exists() && docSnap.data().text) {
-                    document.getElementById('announcement-text').value = docSnap.data().text;
-                }
-            } catch (err) { console.error(err); }
-        };
-        fetchAnnouncement();
-
-        // Banner Controls
-        document.getElementById('btn-save-banner').addEventListener('click', async () => {
-            const txt = document.getElementById('announcement-text').value.trim();
-            const ancStatus = document.getElementById('anc-status');
-            ancStatus.innerText = "⏳ Saving...";
-            try {
-                await setDoc(doc(db, "settings", "announcement"), { text: txt }, { merge: true });
-                ancStatus.innerText = "✅ Banner Saved Live!";
-                ancStatus.className = "text-[10px] mt-2 font-bold text-center text-emerald-700";
-            } catch (err) { alert("Error: " + err.message); }
-        });
-
-        document.getElementById('btn-clear-banner').addEventListener('click', async () => {
-            document.getElementById('announcement-text').value = "";
-            await setDoc(doc(db, "settings", "announcement"), { text: "" }, { merge: true });
-            document.getElementById('anc-status').innerText = "Banner Cleared!";
-        });
-
-        // Publish Watch
-        document.getElementById('upload-form').addEventListener('submit', async (e) => {
+    <script>
+        document.getElementById("logoForm").addEventListener("submit", function(e) {
             e.preventDefault();
-            const status = document.getElementById('status-msg');
-            const btn = document.getElementById('submit-btn');
-
-            btn.disabled = true;
-            status.innerText = "⏳ Publishing watch...";
-            status.className = "text-[#2b3a29] text-center text-xs mt-4 font-bold";
-
-            try {
-                await addDoc(collection(db, "watches"), {
-                    name: document.getElementById('watch-name').value.trim(),
-                    price: Number(document.getElementById('watch-price').value),
-                    stock: Number(document.getElementById('watch-stock').value),
-                    sales: 0,
-                    tag: document.getElementById('watch-tag').value || "",
-                    url: document.getElementById('watch-urls').value.trim(),
-                    colors: document.getElementById('watch-colors').value.trim()
-                });
-
-                alert("✅ Watch Published Successfully!");
-                document.getElementById('upload-form').reset();
-                status.innerText = "";
-            } catch (err) {
-                alert("Upload Error: " + err.message);
-                status.innerText = "❌ Upload Failed!";
-                status.className = "text-red-600 text-center text-xs mt-4 font-bold";
-            } finally {
-                btn.disabled = false;
-            }
+            const logoUrl = document.getElementById("logoUrlInput").value;
+            localStorage.setItem("timelab_logo", logoUrl);
+            alert("Store Logo URL Updated Successfully!");
+            this.reset();
         });
 
-        // Real-time Inventory List
-        onSnapshot(collection(db, "watches"), (snapshot) => {
-            const container = document.getElementById('watches-list');
-            container.innerHTML = "";
-
-            if (snapshot.empty) {
-                container.innerHTML = `<p class="text-xs text-[#5a6f56] text-center py-4">No watches in catalog.</p>`;
-                return;
-            }
-
-            snapshot.forEach((docSnap) => {
-                const w = docSnap.data();
-                const id = docSnap.id;
-                
-                let urls = w.url ? w.url.split(',').map(s => s.trim()) : [];
-                const firstImg = urls[0] || 'https://via.placeholder.com/150?text=No+Image';
-
-                const itemCard = document.createElement('div');
-                itemCard.className = "bg-[#fbf9f5] border border-[#e2dacb] rounded-xl p-3 flex flex-col gap-3";
-                itemCard.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <img src="${firstImg}" onerror="this.onerror=null;this.src='https://via.placeholder.com/150?text=Error';" class="w-14 h-14 object-cover rounded-lg border border-[#dcd4c3]">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-xs font-bold text-[#2b3a29] truncate">${w.name}</h4>
-                            <p class="text-[10px] text-[#5a6f56]">Colors: ${w.colors || 'N/A'}</p>
-                            <p class="text-[9px] text-emerald-700 font-bold">${urls.length} Image Link(s)</p>
-                        </div>
-                        <button id="del-${id}" type="button" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg text-[10px] font-bold">
-                            🗑️ Delete
-                        </button>
-                    </div>
-
-                    <div class="space-y-2 bg-white p-2.5 rounded-lg border border-[#e2dacb]">
-                        <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">PRICE</label>
-                                <input type="number" id="price-${id}" value="${w.price || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
-                            </div>
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">STOCK</label>
-                                <input type="number" id="stock-${id}" value="${w.stock || 0}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-xs text-[#1f2921]">
-                            </div>
-                            <div>
-                                <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">TAG</label>
-                                <select id="tag-${id}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1 text-[10px] text-[#1f2921]">
-                                    <option value="" ${!w.tag ? 'selected' : ''}>None</option>
-                                    <option value="Top Selling" ${w.tag === 'Top Selling' ? 'selected' : ''}>Top Selling</option>
-                                    <option value="Hot Item" ${w.tag === 'Hot Item' ? 'selected' : ''}>Hot Item</option>
-                                    <option value="New Arrival" ${w.tag === 'New Arrival' ? 'selected' : ''}>New Arrival</option>
-                                    <option value="Limited Edition" ${w.tag === 'Limited Edition' ? 'selected' : ''}>Limited Edition</option>
-                                    <option value="Special Sale" ${w.tag === 'Special Sale' ? 'selected' : ''}>Special Sale</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="text-[9px] font-bold text-[#5a6f56] block mb-0.5">IMAGE URL(S)</label>
-                            <input type="text" id="url-${id}" value="${w.url || ''}" class="w-full bg-[#fbf9f5] border border-[#dcd4c3] rounded p-1.5 text-xs text-[#1f2921]">
-                        </div>
-                    </div>
-
-                    <button id="update-${id}" type="button" class="w-full py-2 bg-white border border-[#2b3a29] text-[#2b3a29] hover:bg-[#2b3a29] hover:text-white rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all">
-                        Save Updates
-                    </button>
-                `;
-
-                container.appendChild(itemCard);
-
-                document.getElementById(`update-${id}`).addEventListener('click', async () => {
-                    try {
-                        await updateDoc(doc(db, "watches", id), {
-                            price: Number(document.getElementById(`price-${id}`).value),
-                            stock: Number(document.getElementById(`stock-${id}`).value),
-                            tag: document.getElementById(`tag-${id}`).value,
-                            url: document.getElementById(`url-${id}`).value.trim()
-                        });
-                        alert("✅ Updated details for " + w.name);
-                    } catch (err) { alert(err.message); }
-                });
-
-                document.getElementById(`del-${id}`).addEventListener('click', async () => {
-                    if (confirm(`Delete "${w.name}"?`)) {
-                        try {
-                            await deleteDoc(doc(db, "watches", id));
-                            alert("🗑️ Item Deleted!");
-                        } catch (err) { alert(err.message); }
-                    }
-                });
-            });
+        document.getElementById("modelForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const title = document.getElementById("modelTitle").value;
+            const image = document.getElementById("modelUrlInput").value;
+            let models = JSON.parse(localStorage.getItem("timelab_models")) || [];
+            models.push({ title, image });
+            localStorage.setItem("timelab_models", JSON.stringify(models));
+            alert("Model Photo Published Successfully!");
+            this.reset();
         });
 
-        document.getElementById('btn-refresh-list').addEventListener('click', () => location.reload());
+        document.getElementById("watchForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const newWatch = {
+                id: Date.now(),
+                name: document.getElementById("watchName").value,
+                category: document.getElementById("watchCategory").value,
+                strap: document.getElementById("watchStrap").value,
+                price: document.getElementById("watchPrice").value,
+                image: document.getElementById("watchUrlInput").value
+            };
+            let watches = JSON.parse(localStorage.getItem("timelab_watches")) || [];
+            watches.push(newWatch);
+            localStorage.setItem("timelab_watches", JSON.stringify(watches));
+            alert("Watch Published to Store Successfully!");
+            this.reset();
+        });
+
+        document.getElementById("blogForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const title = document.getElementById("blogTitle").value;
+            const desc = document.getElementById("blogDesc").value;
+            let blogs = JSON.parse(localStorage.getItem("timelab_blogs")) || [];
+            blogs.push({ title, desc });
+            localStorage.setItem("timelab_blogs", JSON.stringify(blogs));
+            alert("Blog Tip Published Successfully!");
+            this.reset();
+        });
+
+        document.getElementById("aboutForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const aboutText = document.getElementById("aboutText").value;
+            localStorage.setItem("timelab_about", aboutText);
+            alert("About Section Updated Successfully!");
+        });
+
+        document.getElementById("footerForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const footerDesc = document.getElementById("footerDesc").value;
+            const footerCopy = document.getElementById("footerCopy").value;
+            localStorage.setItem("timelab_footer_desc", footerDesc);
+            localStorage.setItem("timelab_footer_copy", footerCopy);
+            alert("Footer Updated Successfully!");
+        });
     </script>
 </body>
 </html>
