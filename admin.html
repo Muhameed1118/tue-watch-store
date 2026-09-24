@@ -117,7 +117,19 @@
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> View Website</a>
     </div>
 
-    <!-- 0. Update Website Logo -->
+    <!-- 0. Delivery Charges Settings Control -->
+    <div class="card-box" style="border-color: #d4af37;">
+        <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Manage Delivery Charges (Courier Fee)</div>
+        <form id="deliveryFeeForm">
+            <div class="form-group">
+                <label>Current Delivery Fee Amount (Rs.)</label>
+                <input type="number" id="deliveryFeeInput" class="form-control" placeholder="e.g., 400" required>
+            </div>
+            <button type="submit" class="submit-btn">Update Delivery Charges</button>
+        </form>
+    </div>
+
+    <!-- 1. Update Website Logo -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-image"></i> Update Website Logo (Top-Left URL)</div>
         <form id="logoForm">
@@ -129,7 +141,7 @@
         </form>
     </div>
 
-    <!-- 1. Upload AI Model Lookbook -->
+    <!-- 2. Upload AI Model Lookbook -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-user-plus"></i> Add Model Lookbook (Via URL)</div>
         <form id="modelForm">
@@ -145,7 +157,7 @@
         </form>
     </div>
 
-    <!-- 2. Add New Watch Product -->
+    <!-- 3. Add New Watch Product -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-clock"></i> Add New Watch Product (Via URL)</div>
         <form id="watchForm">
@@ -187,7 +199,7 @@
         </form>
     </div>
 
-    <!-- 3. Add New Blog / Care Tip -->
+    <!-- 4. Add New Blog / Care Tip -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-pen-nib"></i> Add Watch Care Tip / Blog</div>
         <form id="blogForm">
@@ -203,7 +215,7 @@
         </form>
     </div>
 
-    <!-- 4. Update About Us Section -->
+    <!-- 5. Update About Us Section -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-circle-info"></i> Edit About Section</div>
         <form id="aboutForm">
@@ -215,7 +227,7 @@
         </form>
     </div>
 
-    <!-- 5. Update Footer Section -->
+    <!-- 6. Update Footer Section -->
     <div class="card-box">
         <div class="section-title"><i class="fa-solid fa-shoe-prints"></i> Edit Footer Details</div>
         <form id="footerForm">
@@ -232,6 +244,20 @@
     </div>
 
     <script>
+        // Set initial delivery fee value in input on page load
+        window.addEventListener("DOMContentLoaded", () => {
+            const currentFee = localStorage.getItem("timelab_delivery_fee") || "400";
+            document.getElementById("deliveryFeeInput").value = currentFee;
+        });
+
+        // Delivery Fee Handler
+        document.getElementById("deliveryFeeForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const fee = document.getElementById("deliveryFeeInput").value;
+            localStorage.setItem("timelab_delivery_fee", fee);
+            alert("Delivery Charges Updated Successfully to Rs. " + fee + "!");
+        });
+
         document.getElementById("logoForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const logoUrl = document.getElementById("logoUrlInput").value;

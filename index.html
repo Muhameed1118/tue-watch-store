@@ -17,7 +17,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* ::SELECTION THEME COLOR (Aapka manga hua feature) */
         ::selection {
             background-color: #d4af37;
             color: #000000;
@@ -44,16 +43,18 @@
             letter-spacing: 0.5px;
         }
 
+        /* Navbar with Logo & Right-Side Search Bar */
         header {
             background-color: #141414;
             padding: 12px 20px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #262626;
             position: sticky;
             top: 0;
             z-index: 1000;
+            gap: 15px;
         }
 
         .logo-container {
@@ -61,19 +62,52 @@
             align-items: center;
             gap: 8px;
             text-decoration: none;
+            flex-shrink: 0;
         }
 
         .logo-img {
             height: 32px;
-            max-width: 140px;
+            max-width: 130px;
             object-fit: contain;
         }
 
         .logo-fallback {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             color: #d4af37;
+        }
+
+        /* Search Bar Styling */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: #1e1e1e;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 5px 12px;
+            width: 100%;
+            max-width: 250px;
+            transition: 0.3s;
+        }
+
+        .search-container:focus-within {
+            border-color: #d4af37;
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 12px;
+            width: 100%;
+            padding: 2px;
+        }
+
+        .search-container i {
+            color: #9ca3af;
+            font-size: 12px;
         }
 
         .section-title {
@@ -86,7 +120,6 @@
             gap: 8px;
         }
 
-        /* SCROLL ANIMATION CLASSES (Halki halki animation) */
         .reveal {
             opacity: 0;
             transform: translateY(25px);
@@ -285,6 +318,108 @@
             opacity: 0.85;
         }
 
+        /* Checkout Modal Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #161616;
+            border: 1px solid #333;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-bottom: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 9px 12px;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #d4af37;
+        }
+
+        /* Highlighted Delivery Charges Note */
+        .delivery-note {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px dashed #d4af37;
+            color: #d4af37;
+            font-size: 11px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         /* Ticker */
         .ticker-wrap {
             background: #1a1a1a;
@@ -390,10 +525,15 @@
         ⚡ Time Lab Exclusive Drop • Free Nationwide Shipping on Pre-paid Orders!
     </div>
 
+    <!-- Header with Logo & Search Bar -->
     <header>
         <a href="index.html" class="logo-container" id="logoWrapper">
             <div class="logo-fallback">TIME LAB.</div>
         </a>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search luxury timepieces..." oninput="handleSearch()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
     </header>
 
     <div class="section-title reveal"><i class="fa-solid fa-camera-retro"></i> Time Lab Lookbook (AI Models)</div>
@@ -409,6 +549,34 @@
     </div>
 
     <div class="grid-container reveal" id="watchGrid"></div>
+
+    <!-- Checkout Popup Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-title"><i class="fa-solid fa-bag-shopping"></i> Complete Your Order</div>
+            
+            <div class="delivery-note" id="deliveryNoteDisplay">
+                📦 Standard Delivery Charges: Rs. 400 apply to all orders.
+            </div>
+
+            <form id="orderForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label>Your Full Name</label>
+                    <input type="text" id="customerName" class="form-control" placeholder="e.g., Ali Ahmed" required>
+                </div>
+                <div class="form-group">
+                    <label>Contact Number (Phone)</label>
+                    <input type="tel" id="customerPhone" class="form-control" placeholder="e.g., 03123456789" required>
+                </div>
+                <div class="form-group">
+                    <label>Complete Delivery Address</label>
+                    <textarea id="customerAddress" class="form-control" placeholder="House #, Street, Area, City" style="height: 60px;" required></textarea>
+                </div>
+                <button type="submit" class="submit-order-btn">Confirm & Send Order</button>
+            </form>
+        </div>
+    </div>
 
     <div class="ticker-wrap reveal">
         <div class="ticker">
@@ -431,7 +599,12 @@
         <div class="footer-copy" id="footerCopyText">© 2026 Time Lab. All Rights Reserved.</div>
     </footer>
 
+    <!-- EmailJS CDN for sending email notifications -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <script>
+        let currentOrderWatch = null;
+
         const defaultModels = [
             { image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=300&q=80", title: "Classic Look" },
             { image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80", title: "Executive" },
@@ -477,17 +650,21 @@
             });
         }
 
-        function loadWatches(filter = "all") {
+        function loadWatches(filter = "all", searchQuery = "") {
             const grid = document.getElementById("watchGrid");
             grid.innerHTML = "";
             let storedWatches = JSON.parse(localStorage.getItem("timelab_watches")) || defaultWatches;
             let allWatches = [...defaultWatches, ...storedWatches];
             let uniqueWatches = Array.from(new Set(allWatches.map(a => a.id))).map(id => allWatches.find(a => a.id === id));
 
-            const filtered = filter === "all" ? uniqueWatches : uniqueWatches.filter(w => w.category === filter || w.strap === filter);
+            let filtered = filter === "all" ? uniqueWatches : uniqueWatches.filter(w => w.category === filter || w.strap === filter);
+
+            if (searchQuery.trim() !== "") {
+                filtered = filtered.filter(w => w.name.toLowerCase().includes(searchQuery.toLowerCase()) || w.strap.toLowerCase().includes(searchQuery.toLowerCase()));
+            }
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #737373; padding: 20px; font-size: 13px;">No watches found in this category.</p>`;
+                grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #737373; padding: 20px; font-size: 13px;">No watches found matching your search.</p>`;
                 return;
             }
 
@@ -506,11 +683,18 @@
                         </div>
                         <div class="item-footer">
                             <span class="item-price">Rs. ${item.price}</span>
-                            <button class="buy-btn" onclick="orderWhatsApp('${item.name}', '${item.price}', '${item.strap}')">Buy Now</button>
+                            <button class="buy-btn" onclick="openCheckoutModal('${item.name}', '${item.price}', '${item.strap}')">Buy Now</button>
                         </div>
                     </div>
                 `;
             });
+        }
+
+        function handleSearch() {
+            const query = document.getElementById("searchInput").value;
+            const activeBtn = document.querySelector(".filter-btn.active");
+            let currentFilter = activeBtn ? activeBtn.getAttribute("onclick").match(/'([^']+)'/)[1] : "all";
+            loadWatches(currentFilter, query);
         }
 
         function loadBlogs() {
@@ -531,11 +715,16 @@
             document.getElementById("aboutTextContent").innerText = localStorage.getItem("timelab_about") || defaultAbout;
             document.getElementById("footerDescContent").innerText = localStorage.getItem("timelab_footer_desc") || defaultFooterDesc;
             document.getElementById("footerCopyText").innerText = localStorage.getItem("timelab_footer_copy") || defaultFooterCopy;
+
+            // Update Dynamic Delivery Note from Admin settings
+            const deliveryFee = localStorage.getItem("timelab_delivery_fee") || "400";
+            document.getElementById("deliveryNoteDisplay").innerHTML = `📦 Standard Delivery Charges: Rs. ${deliveryFee} apply to all orders.`;
         }
 
         function filterWatches(category, btnElement) {
             document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
             btnElement.classList.add("active");
+            document.getElementById("searchInput").value = "";
             loadWatches(category);
         }
 
@@ -552,17 +741,51 @@
             }
         }
 
-        function orderWhatsApp(name, price, strap) {
-            let phone = "923232124734"; // Aapka number update kar diya gaya hai
-            let message = `Hello Time Lab, I want to order this timepiece:\n\n*Watch:* ${name}\n*Strap:* ${strap}\n*Price:* Rs. ${price}\n\nPlease confirm my order.`;
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+        function openCheckoutModal(name, price, strap) {
+            currentOrderWatch = { name, price, strap };
+            document.getElementById("checkoutModal").classList.add("open");
         }
 
-        // Scroll Reveal Animation Observer
+        function closeCheckoutModal() {
+            document.getElementById("checkoutModal").classList.remove("open");
+            currentOrderWatch = null;
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            if (!currentOrderWatch) return;
+
+            const name = document.getElementById("customerName").value;
+            const phone = document.getElementById("customerPhone").value;
+            const address = document.getElementById("customerAddress").value;
+            const deliveryFee = localStorage.getItem("timelab_delivery_fee") || "400";
+            const totalPrice = parseInt(currentOrderWatch.price) + parseInt(deliveryFee);
+
+            // 1. WhatsApp Notification to Shop Owner (03232124734)
+            let ownerPhone = "923232124734";
+            let message = `🛒 *NEW ORDER RECEIVED - TIME LAB*\n\n` +
+                          `🕒 *Watch:* ${currentOrderWatch.name}\n` +
+                          `🔗 *Strap:* ${currentOrderWatch.strap}\n` +
+                          `💰 *Watch Price:* Rs. ${currentOrderWatch.price}\n` +
+                          `📦 *Delivery Fee:* Rs. ${deliveryFee}\n` +
+                          `💵 *Total Amount:* Rs. ${totalPrice}\n\n` +
+                          `👤 *Customer Name:* ${name}\n` +
+                          `📞 *Phone Number:* ${phone}\n` +
+                          `🏠 *Address:* ${address}`;
+
+            let whatsappUrl = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+            
+            // 2. Optional Email Notification via EmailJS (Agar configured ho)
+            // emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { name, phone, address, watch: currentOrderWatch.name, total: totalPrice });
+
+            alert("Order placed successfully! Redirecting to WhatsApp...");
+            window.open(whatsappUrl, '_blank');
+            closeCheckoutModal();
+            document.getElementById("orderForm").reset();
+        }
+
         function initScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.1
-            };
+            const observerOptions = { threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -572,9 +795,7 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll(".reveal").forEach(el => {
-                observer.observe(el);
-            });
+            document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
         }
 
         window.onload = () => {
