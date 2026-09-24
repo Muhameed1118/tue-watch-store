@@ -35,18 +35,8 @@
             padding-bottom: 15px;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: #d4af37;
-        }
-
-        .back-link {
-            color: #d4af37;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-        }
+        .logo { font-size: 20px; font-weight: 700; color: #d4af37; }
+        .back-link { color: #d4af37; text-decoration: none; font-size: 13px; font-weight: 500; }
 
         .card-box {
             background: #161616;
@@ -66,16 +56,8 @@
             gap: 8px;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 6px;
-        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; color: #9ca3af; margin-bottom: 6px; }
 
         .form-control {
             width: 100%;
@@ -88,14 +70,7 @@
             outline: none;
         }
 
-        textarea.form-control {
-            resize: vertical;
-            height: 80px;
-        }
-
-        .form-control:focus {
-            border-color: #d4af37;
-        }
+        .form-control:focus { border-color: #d4af37; }
 
         .submit-btn {
             width: 100%;
@@ -108,6 +83,35 @@
             font-weight: 600;
             cursor: pointer;
         }
+
+        .manage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1f1f1f;
+            border: 1px solid #2e2e2e;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .manage-info { display: flex; align-items: center; gap: 10px; }
+        .manage-info img { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; }
+        .manage-details h5 { font-size: 12px; color: #fff; }
+        .manage-details p { font-size: 11px; color: #d4af37; }
+
+        .manage-actions { display: flex; gap: 6px; }
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .edit-btn { background: #3b82f6; color: #fff; }
+        .delete-btn { background: #ef4444; color: #fff; }
+        .sold-btn { background: #eab308; color: #000; }
     </style>
 </head>
 <body>
@@ -117,60 +121,56 @@
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> View Website</a>
     </div>
 
-    <!-- 0. Delivery Charges Settings Control -->
+    <!-- 1. Delivery Charges -->
     <div class="card-box" style="border-color: #d4af37;">
-        <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Manage Delivery Charges (Courier Fee)</div>
+        <div class="section-title"><i class="fa-solid fa-truck-fast"></i> Manage Delivery Charges</div>
         <form id="deliveryFeeForm">
             <div class="form-group">
-                <label>Current Delivery Fee Amount (Rs.)</label>
-                <input type="number" id="deliveryFeeInput" class="form-control" placeholder="e.g., 400" required>
+                <label>Current Delivery Fee (Rs.)</label>
+                <input type="number" id="deliveryFeeInput" class="form-control" required>
             </div>
             <button type="submit" class="submit-btn">Update Delivery Charges</button>
         </form>
     </div>
 
-    <!-- 1. Update Website Logo -->
+    <!-- 2. Add Model / Lookbook Image -->
     <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-image"></i> Update Website Logo (Top-Left URL)</div>
-        <form id="logoForm">
-            <div class="form-group">
-                <label>Logo Image URL (PNG Link)</label>
-                <input type="url" id="logoUrlInput" class="form-control" placeholder="https://example.com/logo.png" required>
-            </div>
-            <button type="submit" class="submit-btn">Update Store Logo</button>
-        </form>
-    </div>
-
-    <!-- 2. Upload AI Model Lookbook -->
-    <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-user-plus"></i> Add Model Lookbook (Via URL)</div>
+        <div class="section-title"><i class="fa-solid fa-camera"></i> Add Lookbook Model / Card</div>
         <form id="modelForm">
             <div class="form-group">
-                <label>Model Style / Title</label>
-                <input type="text" id="modelTitle" class="form-control" placeholder="e.g., Casual Look, Suit Vibe" required>
+                <label>Model / Card Title</label>
+                <input type="text" id="modelTitle" class="form-control" placeholder="e.g., Classic Look" required>
             </div>
             <div class="form-group">
-                <label>Model Photo URL</label>
-                <input type="url" id="modelUrlInput" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                <label>Image URL</label>
+                <input type="url" id="modelUrl" class="form-control" placeholder="https://..." required>
             </div>
-            <button type="submit" class="submit-btn">Publish Model Look</button>
+            <button type="submit" class="submit-btn">Add Model to Lookbook</button>
         </form>
     </div>
 
-    <!-- 3. Add New Watch Product -->
+    <!-- Lookbook Management List (Delete Models) -->
     <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-clock"></i> Add New Watch Product (Via URL)</div>
+        <div class="section-title"><i class="fa-solid fa-list-check"></i> Manage Lookbook Models</div>
+        <div id="adminModelList">Loading models...</div>
+    </div>
+
+    <!-- 3. Add or Edit Watch Product Form -->
+    <div class="card-box">
+        <div class="section-title" id="formTitleHeading"><i class="fa-solid fa-clock"></i> Add New Watch Product</div>
         <form id="watchForm">
+            <input type="hidden" id="editWatchId">
             <div class="form-group">
                 <label>Watch Name</label>
-                <input type="text" id="watchName" class="form-control" placeholder="e.g., Time Lab Royal Black" required>
+                <input type="text" id="watchName" class="form-control" placeholder="e.g., Ultra Smart Series 9" required>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="form-group">
-                    <label>Category (Tag)</label>
+                    <label>Category</label>
                     <select id="watchCategory" class="form-control">
                         <option value="Hot Selling">🔥 Hot Selling</option>
+                        <option value="Smart Watch">⌚ Smart Watch</option>
                         <option value="New Arrival">New Arrival</option>
                         <option value="Regular">Regular</option>
                     </select>
@@ -187,139 +187,201 @@
 
             <div class="form-group">
                 <label>Price (Rs.)</label>
-                <input type="number" id="watchPrice" class="form-control" placeholder="e.g., 4000" required>
+                <input type="number" id="watchPrice" class="form-control" placeholder="e.g., 5000" required>
             </div>
 
             <div class="form-group">
                 <label>Watch Photo URL</label>
-                <input type="url" id="watchUrlInput" class="form-control" placeholder="https://images.unsplash.com/..." required>
+                <input type="url" id="watchUrlInput" class="form-control" placeholder="https://..." required>
             </div>
 
-            <button type="submit" class="submit-btn">Publish Watch to Store</button>
+            <button type="submit" class="submit-btn" id="saveWatchBtn">Publish Watch to Store</button>
         </form>
     </div>
 
-    <!-- 4. Add New Blog / Care Tip -->
+    <!-- Existing Watches List (Edit / Delete / Sold Out) -->
     <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-pen-nib"></i> Add Watch Care Tip / Blog</div>
-        <form id="blogForm">
-            <div class="form-group">
-                <label>Tip Title</label>
-                <input type="text" id="blogTitle" class="form-control" placeholder="e.g., How to Clean Glass Scratch" required>
-            </div>
-            <div class="form-group">
-                <label>Tip Description / Details</label>
-                <textarea id="blogDesc" class="form-control" placeholder="Write detailed instructions here..." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Publish Blog Tip</button>
-        </form>
-    </div>
-
-    <!-- 5. Update About Us Section -->
-    <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-circle-info"></i> Edit About Section</div>
-        <form id="aboutForm">
-            <div class="form-group">
-                <label>About Us Description</label>
-                <textarea id="aboutText" class="form-control" placeholder="Write your brand story here..." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Update About Section</button>
-        </form>
-    </div>
-
-    <!-- 6. Update Footer Section -->
-    <div class="card-box">
-        <div class="section-title"><i class="fa-solid fa-shoe-prints"></i> Edit Footer Details</div>
-        <form id="footerForm">
-            <div class="form-group">
-                <label>Footer Description / Tagline</label>
-                <input type="text" id="footerDesc" class="form-control" placeholder="e.g., Crafting timeless elegance..." required>
-            </div>
-            <div class="form-group">
-                <label>Copyright Text</label>
-                <input type="text" id="footerCopy" class="form-control" placeholder="e.g., © 2026 Time Lab. All Rights Reserved." required>
-            </div>
-            <button type="submit" class="submit-btn">Update Footer</button>
-        </form>
+        <div class="section-title"><i class="fa-solid fa-list-check"></i> Manage Watches (Edit / Delete / Sold Out)</div>
+        <div id="adminWatchList">Loading watches...</div>
     </div>
 
     <script>
-        // Set initial delivery fee value in input on page load
         window.addEventListener("DOMContentLoaded", () => {
-            const currentFee = localStorage.getItem("timelab_delivery_fee") || "400";
-            document.getElementById("deliveryFeeInput").value = currentFee;
+            document.getElementById("deliveryFeeInput").value = localStorage.getItem("timelab_delivery_fee") || "400";
+            renderAdminModels();
+            renderAdminWatches();
         });
 
-        // Delivery Fee Handler
         document.getElementById("deliveryFeeForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const fee = document.getElementById("deliveryFeeInput").value;
             localStorage.setItem("timelab_delivery_fee", fee);
-            alert("Delivery Charges Updated Successfully to Rs. " + fee + "!");
+            alert("Delivery Charges Updated Successfully!");
         });
 
-        document.getElementById("logoForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const logoUrl = document.getElementById("logoUrlInput").value;
-            localStorage.setItem("timelab_logo", logoUrl);
-            alert("Store Logo URL Updated Successfully!");
-            this.reset();
-        });
-
+        // Model / Lookbook Functions
         document.getElementById("modelForm").addEventListener("submit", function(e) {
             e.preventDefault();
             const title = document.getElementById("modelTitle").value;
-            const image = document.getElementById("modelUrlInput").value;
+            const image = document.getElementById("modelUrl").value;
+
             let models = JSON.parse(localStorage.getItem("timelab_models")) || [];
-            models.push({ title, image });
+            models.push({ id: Date.now(), title, image });
             localStorage.setItem("timelab_models", JSON.stringify(models));
-            alert("Model Photo Published Successfully!");
+
+            alert("Lookbook Model Added Successfully!");
             this.reset();
+            renderAdminModels();
         });
+
+        function renderAdminModels() {
+            const container = document.getElementById("adminModelList");
+            container.innerHTML = "";
+            let models = JSON.parse(localStorage.getItem("timelab_models")) || [];
+
+            if (models.length === 0) {
+                container.innerHTML = `<p style="color: #737373; font-size: 12px;">No lookbook models added yet.</p>`;
+                return;
+            }
+
+            models.forEach(m => {
+                container.innerHTML += `
+                    <div class="manage-item">
+                        <div class="manage-info">
+                            <img src="${m.image}" alt="">
+                            <div class="manage-details">
+                                <h5>${m.title}</h5>
+                            </div>
+                        </div>
+                        <div class="manage-actions">
+                            <button class="action-btn delete-btn" onclick="deleteModel(${m.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteModel(id) {
+            if (confirm("Delete this lookbook model?")) {
+                let models = JSON.parse(localStorage.getItem("timelab_models")) || [];
+                models = models.filter(m => m.id !== id);
+                localStorage.setItem("timelab_models", JSON.stringify(models));
+                renderAdminModels();
+                alert("Model Deleted Successfully!");
+            }
+        }
+
+        // Watch Functions
+        function getStoredWatches() {
+            return JSON.parse(localStorage.getItem("timelab_watches")) || [];
+        }
+
+        function renderAdminWatches() {
+            const listContainer = document.getElementById("adminWatchList");
+            listContainer.innerHTML = "";
+            let watches = getStoredWatches();
+
+            if (watches.length === 0) {
+                listContainer.innerHTML = `<p style="color: #737373; font-size: 12px;">No watches uploaded yet.</p>`;
+                return;
+            }
+
+            watches.forEach(watch => {
+                let statusText = watch.status === "soldout" ? "🟢 Available" : "🟡 Sold Out";
+                listContainer.innerHTML += `
+                    <div class="manage-item">
+                        <div class="manage-info">
+                            <img src="${watch.image}" alt="">
+                            <div class="manage-details">
+                                <h5>${watch.name}</h5>
+                                <p>Rs. ${watch.price} | ${watch.category} ${watch.status === 'soldout' ? '<b>(SOLD OUT)</b>' : ''}</p>
+                            </div>
+                        </div>
+                        <div class="manage-actions">
+                            <button class="action-btn sold-btn" onclick="toggleSoldOut(${watch.id})">${statusText}</button>
+                            <button class="action-btn edit-btn" onclick="editWatch(${watch.id})">Edit</button>
+                            <button class="action-btn delete-btn" onclick="deleteWatch(${watch.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
         document.getElementById("watchForm").addEventListener("submit", function(e) {
             e.preventDefault();
-            const newWatch = {
-                id: Date.now(),
-                name: document.getElementById("watchName").value,
-                category: document.getElementById("watchCategory").value,
-                strap: document.getElementById("watchStrap").value,
-                price: document.getElementById("watchPrice").value,
-                image: document.getElementById("watchUrlInput").value
-            };
-            let watches = JSON.parse(localStorage.getItem("timelab_watches")) || [];
-            watches.push(newWatch);
+            let watches = getStoredWatches();
+            const editId = document.getElementById("editWatchId").value;
+
+            const name = document.getElementById("watchName").value;
+            const category = document.getElementById("watchCategory").value;
+            const strap = document.getElementById("watchStrap").value;
+            const price = document.getElementById("watchPrice").value;
+            const image = document.getElementById("watchUrlInput").value;
+
+            if (editId) {
+                let index = watches.findIndex(w => w.id == editId);
+                if (index !== -1) {
+                    watches[index].name = name;
+                    watches[index].category = category;
+                    watches[index].strap = strap;
+                    watches[index].price = price;
+                    watches[index].image = image;
+                }
+                alert("Watch Updated Successfully!");
+                document.getElementById("editWatchId").value = "";
+                document.getElementById("formTitleHeading").innerHTML = `<i class="fa-solid fa-clock"></i> Add New Watch Product`;
+                document.getElementById("saveWatchBtn").innerText = "Publish Watch to Store";
+            } else {
+                const newWatch = {
+                    id: Date.now(),
+                    name, category, strap, price, image,
+                    status: "available"
+                };
+                watches.push(newWatch);
+                alert("Watch Published Successfully!");
+            }
+
             localStorage.setItem("timelab_watches", JSON.stringify(watches));
-            alert("Watch Published to Store Successfully!");
             this.reset();
+            renderAdminWatches();
         });
 
-        document.getElementById("blogForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const title = document.getElementById("blogTitle").value;
-            const desc = document.getElementById("blogDesc").value;
-            let blogs = JSON.parse(localStorage.getItem("timelab_blogs")) || [];
-            blogs.push({ title, desc });
-            localStorage.setItem("timelab_blogs", JSON.stringify(blogs));
-            alert("Blog Tip Published Successfully!");
-            this.reset();
-        });
+        function editWatch(id) {
+            let watches = getStoredWatches();
+            let watch = watches.find(w => w.id === id);
+            if (!watch) return;
 
-        document.getElementById("aboutForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const aboutText = document.getElementById("aboutText").value;
-            localStorage.setItem("timelab_about", aboutText);
-            alert("About Section Updated Successfully!");
-        });
+            document.getElementById("editWatchId").value = watch.id;
+            document.getElementById("watchName").value = watch.name;
+            document.getElementById("watchCategory").value = watch.category;
+            document.getElementById("watchStrap").value = watch.strap;
+            document.getElementById("watchPrice").value = watch.price;
+            document.getElementById("watchUrlInput").value = watch.image;
 
-        document.getElementById("footerForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const footerDesc = document.getElementById("footerDesc").value;
-            const footerCopy = document.getElementById("footerCopy").value;
-            localStorage.setItem("timelab_footer_desc", footerDesc);
-            localStorage.setItem("timelab_footer_copy", footerCopy);
-            alert("Footer Updated Successfully!");
-        });
+            document.getElementById("formTitleHeading").innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Edit Watch Product`;
+            document.getElementById("saveWatchBtn").innerText = "Update Watch Changes";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteWatch(id) {
+            if (confirm("Are you sure you want to delete this watch?")) {
+                let watches = getStoredWatches();
+                watches = watches.filter(w => w.id !== id);
+                localStorage.setItem("timelab_watches", JSON.stringify(watches));
+                renderAdminWatches();
+                alert("Watch Deleted Successfully!");
+            }
+        }
+
+        function toggleSoldOut(id) {
+            let watches = getStoredWatches();
+            let watch = watches.find(w => w.id === id);
+            if (watch) {
+                watch.status = watch.status === "soldout" ? "available" : "soldout";
+                localStorage.setItem("timelab_watches", JSON.stringify(watches));
+                renderAdminWatches();
+            }
+        }
     </script>
 </body>
 </html>

@@ -21,10 +21,6 @@
             background-color: #d4af37;
             color: #000000;
         }
-        ::-moz-selection {
-            background-color: #d4af37;
-            color: #000000;
-        }
 
         body {
             background-color: #0f0f0f;
@@ -43,7 +39,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Navbar with Logo & Right-Side Search Bar */
         header {
             background-color: #141414;
             padding: 12px 20px;
@@ -78,7 +73,6 @@
             color: #d4af37;
         }
 
-        /* Search Bar Styling */
         .search-container {
             display: flex;
             align-items: center;
@@ -155,11 +149,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .lookbook-card:hover img {
-            transform: scale(1.05);
         }
 
         .lookbook-badge {
@@ -220,12 +209,37 @@
             flex-direction: column;
             justify-content: space-between;
             position: relative;
-            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .product-card:hover {
-            border-color: #d4af37;
-            transform: translateY(-3px);
+        .product-card.sold-out { opacity: 0.75; }
+
+        .product-img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            background: #222;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sold-out-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         .share-icon-btn {
@@ -243,35 +257,13 @@
             justify-content: center;
             font-size: 11px;
             cursor: pointer;
-            transition: 0.2s;
+            z-index: 2;
         }
 
-        .share-icon-btn:hover {
-            background: #d4af37;
-            color: #000;
-        }
+        .product-details { padding: 10px; }
 
-        .product-img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            background: #222;
-        }
-
-        .product-details {
-            padding: 10px;
-        }
-
-        .tag-hot {
-            background: #b91c1c;
-            color: white;
-            font-size: 9px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 4px;
-        }
+        .tag-hot { background: #b91c1c; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block; margin-bottom: 4px; }
+        .tag-smart { background: #2563eb; color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600; display: inline-block; margin-bottom: 4px; }
 
         .item-name {
             font-size: 13px;
@@ -283,11 +275,7 @@
             text-overflow: ellipsis;
         }
 
-        .item-strap {
-            font-size: 11px;
-            color: #9ca3af;
-            margin-bottom: 8px;
-        }
+        .item-strap { font-size: 11px; color: #9ca3af; margin-bottom: 8px; }
 
         .item-footer {
             display: flex;
@@ -296,11 +284,7 @@
             padding: 0 10px 10px 10px;
         }
 
-        .item-price {
-            font-size: 14px;
-            font-weight: 700;
-            color: #d4af37;
-        }
+        .item-price { font-size: 14px; font-weight: 700; color: #d4af37; }
 
         .buy-btn {
             background-color: #d4af37;
@@ -311,14 +295,11 @@
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
 
-        .buy-btn:hover {
-            opacity: 0.85;
-        }
+        .buy-btn.disabled { background-color: #333; color: #737373; cursor: not-allowed; }
 
-        /* Checkout Modal Popup */
+        /* Checkout Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -335,10 +316,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .modal-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
 
         .modal-box {
             background: #161616;
@@ -348,7 +326,6 @@
             max-width: 400px;
             padding: 20px;
             position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .modal-close {
@@ -362,40 +339,11 @@
             cursor: pointer;
         }
 
-        .modal-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #d4af37;
-            margin-bottom: 12px;
-        }
+        .modal-title { font-size: 15px; font-weight: 600; color: #d4af37; margin-bottom: 12px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; color: #9ca3af; margin-bottom: 4px; }
+        .form-control { width: 100%; padding: 9px 12px; background: #222; border: 1px solid #333; color: white; border-radius: 6px; font-size: 12px; outline: none; }
 
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 11px;
-            color: #9ca3af;
-            margin-bottom: 4px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 9px 12px;
-            background: #222;
-            border: 1px solid #333;
-            color: white;
-            border-radius: 6px;
-            font-size: 12px;
-            outline: none;
-        }
-
-        .form-control:focus {
-            border-color: #d4af37;
-        }
-
-        /* Highlighted Delivery Charges Note */
         .delivery-note {
             background: rgba(212, 175, 55, 0.15);
             border: 1px dashed #d4af37;
@@ -408,19 +356,8 @@
             font-weight: 500;
         }
 
-        .submit-order-btn {
-            width: 100%;
-            background: #d4af37;
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+        .submit-order-btn { width: 100%; background: #d4af37; color: #000; border: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
 
-        /* Ticker */
         .ticker-wrap {
             background: #1a1a1a;
             border-top: 1px solid #333;
@@ -444,79 +381,13 @@
             100% { transform: translate3d(-50%, 0, 0); }
         }
 
-        /* Blog Section */
-        .blog-section {
-            padding: 0 20px;
-        }
+        .about-section { background: #141414; border-top: 1px solid #262626; padding: 25px 20px; margin-top: 30px; text-align: center; }
+        .about-section p { font-size: 12px; color: #9ca3af; line-height: 1.6; margin-top: 8px; }
 
-        .blog-card {
-            background: #161616;
-            border: 1px solid #262626;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-        }
-
-        .blog-card h4 {
-            font-size: 13px;
-            color: #d4af37;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .blog-card p {
-            font-size: 11px;
-            color: #9ca3af;
-            line-height: 1.4;
-        }
-
-        /* About Us Section */
-        .about-section {
-            background: #141414;
-            border-top: 1px solid #262626;
-            padding: 25px 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .about-section p {
-            font-size: 12px;
-            color: #9ca3af;
-            line-height: 1.6;
-            margin-top: 8px;
-        }
-
-        /* Footer Section */
-        footer {
-            background: #0a0a0a;
-            border-top: 1px solid #262626;
-            padding: 25px 20px;
-            text-align: center;
-        }
-
-        .footer-brand {
-            font-size: 16px;
-            font-weight: 700;
-            color: #d4af37;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .footer-desc {
-            font-size: 11px;
-            color: #737373;
-            margin-bottom: 15px;
-        }
-
-        .footer-copy {
-            font-size: 11px;
-            color: #525252;
-            border-top: 1px solid #1a1a1a;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
+        footer { background: #0a0a0a; border-top: 1px solid #262626; padding: 25px 20px; text-align: center; }
+        .footer-brand { font-size: 16px; font-weight: 700; color: #d4af37; margin-bottom: 8px; }
+        .footer-desc { font-size: 11px; color: #737373; margin-bottom: 15px; }
+        .footer-copy { font-size: 11px; color: #525252; border-top: 1px solid #1a1a1a; padding-top: 15px; }
     </style>
 </head>
 <body>
@@ -525,23 +396,23 @@
         ⚡ Time Lab Exclusive Drop • Free Nationwide Shipping on Pre-paid Orders!
     </div>
 
-    <!-- Header with Logo & Search Bar -->
     <header>
         <a href="index.html" class="logo-container" id="logoWrapper">
             <div class="logo-fallback">TIME LAB.</div>
         </a>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search luxury timepieces..." oninput="handleSearch()">
+            <input type="text" id="searchInput" placeholder="Search watches..." oninput="handleSearch()">
             <i class="fa-solid fa-magnifying-glass"></i>
         </div>
     </header>
 
-    <div class="section-title reveal"><i class="fa-solid fa-camera-retro"></i> Time Lab Lookbook (AI Models)</div>
+    <div class="section-title reveal" id="lookbookHeading" style="display: none;"><i class="fa-solid fa-camera-retro"></i> Time Lab Lookbook</div>
     <div class="lookbook-container reveal" id="lookbookGrid"></div>
 
     <div class="filter-container reveal">
         <button class="filter-btn active" onclick="filterWatches('all', this)">All Watches</button>
         <button class="filter-btn" onclick="filterWatches('Hot Selling', this)">🔥 Hot Selling</button>
+        <button class="filter-btn" onclick="filterWatches('Smart Watch', this)">⌚ Smart Watch</button>
         <button class="filter-btn" onclick="filterWatches('Leather Strap', this)">Leather Strap</button>
         <button class="filter-btn" onclick="filterWatches('Chain Strap', this)">Chain Strap</button>
         <button class="filter-btn" onclick="filterWatches('Silicon Strap', this)">Silicon Strap</button>
@@ -550,14 +421,14 @@
 
     <div class="grid-container reveal" id="watchGrid"></div>
 
-    <!-- Checkout Popup Modal -->
+    <!-- Checkout Popup -->
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal-box">
             <button class="modal-close" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
             <div class="modal-title"><i class="fa-solid fa-bag-shopping"></i> Complete Your Order</div>
             
             <div class="delivery-note" id="deliveryNoteDisplay">
-                📦 Standard Delivery Charges: Rs. 400 apply to all orders.
+                📦 Standard Delivery Charges: Rs. 400 apply.
             </div>
 
             <form id="orderForm" onsubmit="submitOrder(event)">
@@ -580,102 +451,76 @@
 
     <div class="ticker-wrap reveal">
         <div class="ticker">
-            <span>✨ Welcome to Time Lab Official Store • Crafted for Elegance Since 2026 • Limited Edition Stock Available • Order via WhatsApp for Instant Confirmation • </span>
-            <span>✨ Welcome to Time Lab Official Store • Crafted for Elegance Since 2026 • Limited Edition Stock Available • Order via WhatsApp for Instant Confirmation • </span>
+            <span>✨ Welcome to Time Lab Official Store • Crafted for Elegance Since 2026 • Limited Edition Stock Available • </span>
+            <span>✨ Welcome to Time Lab Official Store • Crafted for Elegance Since 2026 • Limited Edition Stock Available • </span>
         </div>
     </div>
 
-    <div class="section-title reveal"><i class="fa-solid fa-shield-heart"></i> How to Save Your Watch (Tips & Care)</div>
-    <div class="blog-section reveal" id="blogContainer"></div>
-
     <div class="about-section reveal">
-        <div class="section-title" style="justify-content: center; padding: 0 0 5px 0;"><i class="fa-solid fa-circle-info"></i> About Time Lab Watches</div>
-        <p id="aboutTextContent">Loading about details...</p>
+        <div class="section-title" style="justify-content: center; padding: 0 0 5px 0;"><i class="fa-solid fa-circle-info"></i> About Time Lab</div>
+        <p id="aboutTextContent">Time Lab represents luxury and precision.</p>
     </div>
 
     <footer>
         <div class="footer-brand" id="footerBrandTitle">TIME LAB</div>
-        <div class="footer-desc" id="footerDescContent">Crafting timeless elegance and modern style for everyday excellence.</div>
+        <div class="footer-desc" id="footerDescContent">Crafting timeless elegance and modern style.</div>
         <div class="footer-copy" id="footerCopyText">© 2026 Time Lab. All Rights Reserved.</div>
     </footer>
-
-    <!-- EmailJS CDN for sending email notifications -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <script>
         let currentOrderWatch = null;
 
-        const defaultModels = [
-            { image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=300&q=80", title: "Classic Look" },
-            { image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=300&q=80", title: "Executive" },
-            { image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80", title: "Minimalist" }
-        ];
-
-        const defaultWatches = [
-            { id: 1, name: "Time Lab Royal Gold", category: "Hot Selling", strap: "Chain Strap", price: 4500, image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=300&q=80" },
-            { id: 2, name: "Time Lab Vintage Brown", category: "Leather Strap", strap: "Leather Strap", price: 3800, image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=300&q=80" },
-            { id: 3, name: "Time Lab Sport Stealth", category: "Silicon Strap", strap: "Silicon Strap", price: 3200, image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?auto=format&fit=crop&w=300&q=80" },
-            { id: 4, name: "Time Lab Silver Mesh", category: "New Arrival", strap: "Chain Strap", price: 4100, image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80" }
-        ];
-
-        const defaultBlogs = [
-            { title: "Avoid Excessive Water Exposure", desc: "Even water-resistant watches should be kept away from hot showers, steam rooms, and prolonged swimming unless rated for diving." },
-            { title: "Protect Leather Straps from Sweat", desc: "Leather breathes like skin. Wipe it gently with a dry microfiber cloth after hot weather usage to prevent cracking and odor." },
-            { title: "Safe Storage", desc: "When not wearing your Time Lab watch, store it in its original luxury box away from direct magnets, speakers, or heavy sunlight." }
-        ];
-
-        const defaultAbout = "Time Lab represents a fusion of modern design and lasting durability. Founded in 2026, our mission is to deliver premium-grade timepieces that complement your unique style without compromising on quality.";
-        const defaultFooterDesc = "Crafting timeless elegance and modern style for everyday excellence. Managed exclusively via direct WhatsApp ordering.";
-        const defaultFooterCopy = "© 2026 Time Lab. All Rights Reserved.";
-
         function loadLogo() {
             const wrapper = document.getElementById("logoWrapper");
             const storedLogo = localStorage.getItem("timelab_logo");
-            if (storedLogo) {
-                wrapper.innerHTML = `<img src="${storedLogo}" alt="Time Lab Logo" class="logo-img">`;
-            }
+            if (storedLogo) wrapper.innerHTML = `<img src="${storedLogo}" alt="Logo" class="logo-img">`;
         }
 
         function loadLookbook() {
             const container = document.getElementById("lookbookGrid");
+            const heading = document.getElementById("lookbookHeading");
             container.innerHTML = "";
-            let storedModels = JSON.parse(localStorage.getItem("timelab_models")) || defaultModels;
-            storedModels.forEach(model => {
-                container.innerHTML += `
-                    <div class="lookbook-card">
-                        <img src="${model.image}" alt="Model">
-                        <div class="lookbook-badge">${model.title || 'Model'}</div>
-                    </div>
-                `;
+            let storedModels = JSON.parse(localStorage.getItem("timelab_models")) || [];
+            
+            if (storedModels.length === 0) {
+                heading.style.display = "none";
+                return;
+            }
+            heading.style.display = "flex";
+            storedModels.forEach(m => {
+                container.innerHTML += `<div class="lookbook-card"><img src="${m.image}"><div class="lookbook-badge">${m.title}</div></div>`;
             });
         }
 
         function loadWatches(filter = "all", searchQuery = "") {
             const grid = document.getElementById("watchGrid");
             grid.innerHTML = "";
-            let storedWatches = JSON.parse(localStorage.getItem("timelab_watches")) || defaultWatches;
-            let allWatches = [...defaultWatches, ...storedWatches];
-            let uniqueWatches = Array.from(new Set(allWatches.map(a => a.id))).map(id => allWatches.find(a => a.id === id));
+            let storedWatches = JSON.parse(localStorage.getItem("timelab_watches")) || [];
 
-            let filtered = filter === "all" ? uniqueWatches : uniqueWatches.filter(w => w.category === filter || w.strap === filter);
+            let filtered = filter === "all" ? storedWatches : storedWatches.filter(w => w.category === filter || w.strap === filter);
 
             if (searchQuery.trim() !== "") {
                 filtered = filtered.filter(w => w.name.toLowerCase().includes(searchQuery.toLowerCase()) || w.strap.toLowerCase().includes(searchQuery.toLowerCase()));
             }
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #737373; padding: 20px; font-size: 13px;">No watches found matching your search.</p>`;
+                grid.innerHTML = `<p style="grid-column: span 2; text-align: center; color: #737373; padding: 20px;">No watches found.</p>`;
                 return;
             }
 
             filtered.forEach(item => {
-                let badgeHTML = item.category === "Hot Selling" ? `<span class="tag-hot">🔥 Hot Selling</span>` : '';
+                let badgeHTML = item.category === "Hot Selling" ? `<span class="tag-hot">🔥 Hot Selling</span>` : (item.category === "Smart Watch" ? `<span class="tag-smart">⌚ Smart Watch</span>` : '');
+                let isSoldOut = item.status === "soldout";
+                
                 grid.innerHTML += `
-                    <div class="product-card">
+                    <div class="product-card ${isSoldOut ? 'sold-out' : ''}">
                         <button class="share-icon-btn" onclick="shareWatch('${item.name}', '${item.price}', '${item.strap}')" title="Share">
                             <i class="fa-solid fa-share-nodes"></i>
                         </button>
-                        <img src="${item.image}" alt="Watch" class="product-img">
+                        <div class="product-img-wrapper">
+                            <img src="${item.image}" alt="Watch" class="product-img">
+                            ${isSoldOut ? '<div class="sold-out-overlay">SOLD OUT</div>' : ''}
+                        </div>
                         <div class="product-details">
                             ${badgeHTML}
                             <div class="item-name">${item.name}</div>
@@ -683,7 +528,7 @@
                         </div>
                         <div class="item-footer">
                             <span class="item-price">Rs. ${item.price}</span>
-                            <button class="buy-btn" onclick="openCheckoutModal('${item.name}', '${item.price}', '${item.strap}')">Buy Now</button>
+                            ${isSoldOut ? '<button class="buy-btn disabled" disabled>Sold Out</button>' : `<button class="buy-btn" onclick="openCheckoutModal('${item.name}', '${item.price}', '${item.strap}')">Buy Now</button>`}
                         </div>
                     </div>
                 `;
@@ -697,30 +542,6 @@
             loadWatches(currentFilter, query);
         }
 
-        function loadBlogs() {
-            const container = document.getElementById("blogContainer");
-            container.innerHTML = "";
-            let storedBlogs = JSON.parse(localStorage.getItem("timelab_blogs")) || defaultBlogs;
-            storedBlogs.forEach((blog, index) => {
-                container.innerHTML += `
-                    <div class="blog-card">
-                        <h4><i class="fa-solid fa-lightbulb"></i> ${index + 1}. ${blog.title}</h4>
-                        <p>${blog.desc}</p>
-                    </div>
-                `;
-            });
-        }
-
-        function loadFooterAndAbout() {
-            document.getElementById("aboutTextContent").innerText = localStorage.getItem("timelab_about") || defaultAbout;
-            document.getElementById("footerDescContent").innerText = localStorage.getItem("timelab_footer_desc") || defaultFooterDesc;
-            document.getElementById("footerCopyText").innerText = localStorage.getItem("timelab_footer_copy") || defaultFooterCopy;
-
-            // Update Dynamic Delivery Note from Admin settings
-            const deliveryFee = localStorage.getItem("timelab_delivery_fee") || "400";
-            document.getElementById("deliveryNoteDisplay").innerHTML = `📦 Standard Delivery Charges: Rs. ${deliveryFee} apply to all orders.`;
-        }
-
         function filterWatches(category, btnElement) {
             document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
             btnElement.classList.add("active");
@@ -729,16 +550,8 @@
         }
 
         function shareWatch(name, price, strap) {
-            const shareData = {
-                title: 'Time Lab Watches',
-                text: `Check out this amazing luxury timepiece from Time Lab!\n\n🕒 Watch: ${name}\n🔗 Strap: ${strap}\n💰 Price: Rs. ${price}\n\nExplore the collection now!`,
-                url: window.location.href
-            };
-            if (navigator.share) {
-                navigator.share(shareData).catch((err) => console.log(err));
-            } else {
-                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + "\n" + shareData.url)}`, '_blank');
-            }
+            const text = `🕒 Watch: ${name}\n🔗 Strap: ${strap}\n💰 Price: Rs. ${price}\nExplore Time Lab collection!`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         function openCheckoutModal(name, price, strap) {
@@ -761,8 +574,6 @@
             const deliveryFee = localStorage.getItem("timelab_delivery_fee") || "400";
             const totalPrice = parseInt(currentOrderWatch.price) + parseInt(deliveryFee);
 
-            // 1. WhatsApp Notification to Shop Owner (03232124734)
-            let ownerPhone = "923232124734";
             let message = `🛒 *NEW ORDER RECEIVED - TIME LAB*\n\n` +
                           `🕒 *Watch:* ${currentOrderWatch.name}\n` +
                           `🔗 *Strap:* ${currentOrderWatch.strap}\n` +
@@ -773,38 +584,19 @@
                           `📞 *Phone Number:* ${phone}\n` +
                           `🏠 *Address:* ${address}`;
 
-            let whatsappUrl = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
-            
-            // 2. Optional Email Notification via EmailJS (Agar configured ho)
-            // emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { name, phone, address, watch: currentOrderWatch.name, total: totalPrice });
-
+            let whatsappUrl = `https://wa.me/923232124734?text=${encodeURIComponent(message)}`;
             alert("Order placed successfully! Redirecting to WhatsApp...");
             window.open(whatsappUrl, '_blank');
             closeCheckoutModal();
             document.getElementById("orderForm").reset();
         }
 
-        function initScrollAnimations() {
-            const observerOptions = { threshold: 0.1 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("active");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-        }
-
         window.onload = () => {
             loadLogo();
             loadLookbook();
             loadWatches("all");
-            loadBlogs();
-            loadFooterAndAbout();
-            initScrollAnimations();
+            document.getElementById("aboutTextContent").innerText = localStorage.getItem("timelab_about") || "Time Lab represents luxury and precision.";
+            document.getElementById("deliveryNoteDisplay").innerHTML = `📦 Standard Delivery Charges: Rs. ${localStorage.getItem("timelab_delivery_fee") || "400"} apply.`;
         };
     </script>
 </body>
